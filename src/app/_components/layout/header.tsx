@@ -93,7 +93,7 @@ export default async function Header() {
               </Button>
             </Link>
           )}
-          <Link href="/book-lesson">
+          <Link href={session ? "/book-lesson" : "/api/auth/signin"}>
             <Button>Book Lesson Now</Button>
           </Link>
         </div>

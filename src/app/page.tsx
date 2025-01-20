@@ -6,8 +6,11 @@ import Header from "./_components/layout/header";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/server/auth";
 
 export default async function Home() {
+  const session = await auth();
+
   return (
     <HydrateClient>
       <Header />
@@ -22,8 +25,8 @@ export default async function Home() {
               <h1 className="text-6xl font-extrabold uppercase">
                 The best way <br /> to learn guitar
               </h1>
-              <Separator className="bg-primary h-[2px] border-dashed" />
-              <div className="mt-8 space-y-4">
+              <Separator className="border-primary border-b border-dashed bg-transparent" />
+              <div className="mt-10 space-y-6">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <TextQuote className="size-4" />
@@ -67,28 +70,42 @@ export default async function Home() {
               Book Your First Lesson And Take Action Now!
             </h1>
             <div className="text-secondary-foreground flex gap-4">
-              <Link href="/api/auth/signin">
-                <Button variant="outline">
-                  <Image
-                    src="/google.webp"
-                    width={24}
-                    height={24}
-                    alt="Login with Google"
-                  />{" "}
-                  Join with Google
-                </Button>
-              </Link>
-              <Link href="/api/auth/signin">
-                <Button variant="outline">
-                  <Image
-                    src="/discord.png"
-                    width={24}
-                    height={24}
-                    alt="Login with Discord"
-                  />{" "}
-                  Join with Discord
-                </Button>
-              </Link>
+              {session ? (
+                <Link href="/book-lesson">
+                  <Button variant="secondary">Book Lesson Now</Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/api/auth/signin">
+                    <Button
+                      className="border-secondary-foreground border-2"
+                      variant="outline"
+                    >
+                      <Image
+                        src="/google.webp"
+                        width={24}
+                        height={24}
+                        alt="Login with Google"
+                      />{" "}
+                      Join with Google
+                    </Button>
+                  </Link>
+                  <Link href="/api/auth/signin">
+                    <Button
+                      className="border-secondary-foreground border-2"
+                      variant="outline"
+                    >
+                      <Image
+                        src="/discord.png"
+                        width={24}
+                        height={24}
+                        alt="Login with Discord"
+                      />{" "}
+                      Join with Discord
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
             <p className="max-w-md text-center text-xs">
               By using our service, signing in, and/or registering for an
