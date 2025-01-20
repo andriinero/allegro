@@ -72,7 +72,12 @@ export default async function Home() {
             <div className="text-secondary-foreground flex gap-4">
               {session ? (
                 <Link href="/book-lesson">
-                  <Button variant="secondary">Book Lesson Now</Button>
+                  <Button
+                    variant="ghost"
+                    className="text-primary-foreground border-2 uppercase"
+                  >
+                    Book Lesson Now
+                  </Button>
                 </Link>
               ) : (
                 <>
