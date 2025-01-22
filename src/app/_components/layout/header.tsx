@@ -1,6 +1,10 @@
 import ContentWrapper from "@/app/_components/general/content-wrapper";
 import Logo from "@/app/_components/general/logo";
-import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -65,6 +69,7 @@ export default async function Header() {
                   <AvatarFallback>{fallbackUsername}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent>
                 <DropdownMenuLabel>
                   <p>{session.user.name}</p>

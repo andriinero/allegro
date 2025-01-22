@@ -17,7 +17,7 @@ export default async function BookCTASection() {
           {session ? (
             <Link href="/book-lesson">
               <Button
-                variant="ghost"
+                variant="hollow"
                 className="text-primary-foreground border-2 uppercase"
               >
                 Book Lesson Now
