@@ -38,8 +38,8 @@ export default async function Header() {
   const fallbackUsername = session?.user.name?.substring(0, 2);
 
   return (
-    <header className="fixed flex w-full items-center justify-center p-4">
-      <ContentWrapper>
+    <header className="fixed flex w-full items-center justify-center p-3 backdrop-blur">
+      <ContentWrapper className="flex items-center">
         <Logo className="flex-1" />
 
         <NavigationMenu className="flex-2">
