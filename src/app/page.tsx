@@ -3,6 +3,7 @@ import Header from "./_components/layout/header";
 import IntroSection from "./intro-section";
 import BookCTASection from "./book-cta-section";
 import Footer from "./_components/layout/footer";
+import ReviewSection from "./review-section";
 
 export default async function Home() {
   return (
@@ -12,6 +13,7 @@ export default async function Home() {
       <main>
         <IntroSection />
         <BookCTASection />
+        <ReviewSection />
       </main>
 
       <Footer />
