@@ -12,7 +12,10 @@ export default function ReviewSection() {
   return (
     <section className="flex flex-col items-center py-20">
       <ContentWrapper className="">
-        <Carousel opts={{ align: "start", loop: true }} className="w-full">
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          className="w-full px-0.5"
+        >
           <CarouselPrevious />
 
           <CarouselContent>

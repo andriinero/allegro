@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Quote, Star } from "lucide-react";
 import type { ReactNode } from "react";
 
 type ReviewCardProps = {
@@ -17,18 +18,19 @@ export default function ReviewCard({
   return (
     <div
       className={cn(
-        "border-border max-w-md space-y-5 rounded-md border p-4 shadow-md",
+        "border-primary max-w-md space-y-2 rounded-md border p-4 shadow-md",
         className,
       )}
     >
+      <Quote className="text-primary size-4" />
       <p className="font-semibold">{children}</p>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-2">
         <p className="text-primary text-sm font-medium">{authorName}</p>
 
-        <div>
+        <div className="flex gap-0.5">
           {[...(Array(score) as [])].map((_, i) => (
-            <span key={i}>*</span>
+            <Star key={i} className="text-primary size-4" />
           ))}
         </div>
       </div>
