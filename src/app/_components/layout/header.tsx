@@ -1,7 +1,7 @@
-import ContentWrapper from "@/components/general/content-wrapper";
-import Logo from "@/components/general/logo";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import ContentWrapper from "@/app/_components/general/content-wrapper";
+import Logo from "@/app/_components/general/logo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
+import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,13 +9,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/app/_components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from "@/app/_components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
 import { LogOut, User } from "lucide-react";
