@@ -1,5 +1,5 @@
 import ContentWrapper from "./_components/general/content-wrapper";
-import ReviewCard from "./_components/general/review-card";
+import ReviewCard from "./review-card";
 import {
   Carousel,
   CarouselContent,
