@@ -19,15 +19,18 @@ export default function Layout({ children }: LayoutProps) {
                 <li>
                   <Link href="/dashboard">Home</Link>
                 </li>
+
                 <li>
                   <Link href="/dashboard/history">History</Link>
                 </li>
+
                 <li>
                   <Link href="/dashboard/book-lesson">Book Lesson</Link>
                 </li>
               </ul>
             </nav>
           </aside>
+
           <section>{children}</section>
         </ContentWrapper>
       </main>

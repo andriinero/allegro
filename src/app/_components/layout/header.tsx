@@ -14,22 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/app/_components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
-
-const navLinks = [
-  { href: "/blog", name: "Blog" },
-  { href: "/about-me", name: "About Me" },
-  { href: "/contact", name: "Contact" },
-] as const;
+import NavMenu from "./nav-menu";
 
 type HeaderProps = {
   variant?: "transparent" | "solid";
@@ -45,7 +34,7 @@ export default async function Header({ variant = "transparent" }: HeaderProps) {
     <header
       className={cn(
         "fixed flex w-full items-center justify-center backdrop-blur",
-        { "bg-accent": isSolidVariant },
+        { "bg-background": isSolidVariant },
       )}
     >
       <ContentWrapper className="flex items-center">
@@ -53,24 +42,7 @@ export default async function Header({ variant = "transparent" }: HeaderProps) {
           className={cn("flex-1", { "text-accent-foreground": isSolidVariant })}
         />
 
-        <NavigationMenu className="flex-2">
-          <NavigationMenuList>
-            {navLinks.map((link) => (
-              <NavigationMenuItem key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "bg-transparent text-primary-foreground",
-                    { "text-accent-foreground": isSolidVariant },
-                  )}
-                >
-                  {link.name}
-                </Link>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+        <NavMenu variant={variant} />
 
         <div className="flex flex-1 items-center justify-end gap-4">
           {session ? (
