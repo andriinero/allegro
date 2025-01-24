@@ -34,7 +34,7 @@ export default async function Header({ variant = "transparent" }: HeaderProps) {
     <header
       className={cn(
         "fixed flex w-full items-center justify-center backdrop-blur",
-        { "bg-background": isSolidVariant },
+        { "bg-background shadow": isSolidVariant },
       )}
     >
       <ContentWrapper className="flex items-center">

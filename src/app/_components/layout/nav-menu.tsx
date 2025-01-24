@@ -33,9 +33,9 @@ export default function NavMenu({ variant = "transparent" }: NavMenuProps) {
               href={link.href}
               className={cn(
                 navigationMenuTriggerStyle(),
-                "bg-transparent text-primary-foreground",
+                "border border-transparent bg-transparent text-primary-foreground",
                 { "text-accent-foreground": isSolidVariant },
-                { "border border-border bg-accent": pathname === link.href },
+                { "bg-accent": pathname === link.href },
               )}
             >
               {link.name}

@@ -27,6 +27,10 @@ export default function Layout({ children }: LayoutProps) {
                 <li>
                   <Link href="/dashboard/book-lesson">Book Lesson</Link>
                 </li>
+
+                <li>
+                  <Link href="/dashboard/profile">Profile</Link>
+                </li>
               </ul>
             </nav>
           </aside>
