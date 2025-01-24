@@ -1,5 +1,4 @@
 import ContentWrapper from "./_components/general/content-wrapper";
-import ReviewCard from "./review-card";
 import {
   Carousel,
   CarouselContent,
@@ -7,11 +6,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./_components/ui/carousel";
+import ReviewCard from "./review-card";
 
 export default function ReviewSection() {
   return (
     <section className="flex flex-col items-center py-20">
-      <ContentWrapper className="">
+      <ContentWrapper>
         <Carousel
           opts={{ align: "start", loop: true }}
           className="w-full px-0.5"

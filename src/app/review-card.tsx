@@ -18,19 +18,20 @@ export default function ReviewCard({
   return (
     <div
       className={cn(
-        "border-primary max-w-md space-y-2 rounded-md border p-4 shadow-md",
+        "max-w-md space-y-2 rounded-md border border-primary p-4 shadow-md",
         className,
       )}
     >
-      <Quote className="text-primary size-4" />
+      <Quote className="size-4 text-primary" />
+
       <p className="font-semibold">{children}</p>
 
       <div className="flex justify-between pt-2">
-        <p className="text-primary text-sm font-medium">{authorName}</p>
+        <p className="text-sm font-medium text-primary">{authorName}</p>
 
         <div className="flex gap-0.5">
           {[...(Array(score) as [])].map((_, i) => (
-            <Star key={i} className="text-primary size-4" />
+            <Star key={i} className="size-4 text-primary" />
           ))}
         </div>
       </div>

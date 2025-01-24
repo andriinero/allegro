@@ -29,18 +29,29 @@ const navLinks = [
   { href: "/blog", name: "Blog" },
   { href: "/about-me", name: "About Me" },
   { href: "/contact", name: "Contact" },
-  { href: "/faq", name: "FAQ" },
-];
+] as const;
 
-export default async function Header() {
+type HeaderProps = {
+  variant?: "transparent" | "solid";
+};
+
+export default async function Header({ variant = "transparent" }: HeaderProps) {
   const session = await auth();
 
+  const isSolidVariant = variant === "solid";
   const fallbackUsername = session?.user.name?.substring(0, 2);
 
   return (
-    <header className="fixed flex w-full items-center justify-center p-3 backdrop-blur">
+    <header
+      className={cn(
+        "fixed flex w-full items-center justify-center backdrop-blur",
+        { "bg-accent": isSolidVariant },
+      )}
+    >
       <ContentWrapper className="flex items-center">
-        <Logo className="flex-1" />
+        <Logo
+          className={cn("flex-1", { "text-accent-foreground": isSolidVariant })}
+        />
 
         <NavigationMenu className="flex-2">
           <NavigationMenuList>
@@ -50,7 +61,8 @@ export default async function Header() {
                   href={link.href}
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "text-primary-foreground bg-transparent",
+                    "bg-transparent text-primary-foreground",
+                    { "text-accent-foreground": isSolidVariant },
                   )}
                 >
                   {link.name}
@@ -73,17 +85,21 @@ export default async function Header() {
               <DropdownMenuContent>
                 <DropdownMenuLabel>
                   <p>{session.user.name}</p>
-                  <p className="font-light text-zinc-500">
+                  <p className="font-light text-secondary-foreground">
                     {session.user.email}
                   </p>
                 </DropdownMenuLabel>
+
                 <DropdownMenuSeparator />
+
                 <Link href="/profile">
                   <DropdownMenuItem>
                     <User /> Profile
                   </DropdownMenuItem>
                 </Link>
+
                 <DropdownMenuSeparator />
+
                 <Link href="/api/auth/signout">
                   <DropdownMenuItem className="text-destructive">
                     <LogOut /> Logout

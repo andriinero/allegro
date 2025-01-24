@@ -8,7 +8,10 @@ export default function ContentWrapper({
   ...props
 }: PageContentWrapperProps) {
   return (
-    <div className={cn("flex w-full max-w-screen-xl", className)} {...props}>
+    <div
+      className={cn("flex w-full max-w-screen-xl p-4", className)}
+      {...props}
+    >
       {children}
     </div>
   );

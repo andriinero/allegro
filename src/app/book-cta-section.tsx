@@ -8,17 +8,17 @@ export default async function BookCTASection() {
   const session = await auth();
 
   return (
-    <section className="bg-primary text-primary-foreground flex items-center justify-center p-6">
+    <section className="flex items-center justify-center bg-primary p-2 text-primary-foreground">
       <ContentWrapper className="flex flex-col items-center justify-between gap-6">
         <h1 className="mt-4 text-center text-4xl font-extrabold">
           Book Your First Lesson And Take Action Now!
         </h1>
-        <div className="text-secondary-foreground flex gap-4">
+        <div className="flex gap-4 text-secondary-foreground">
           {session ? (
             <Link href="/book-lesson">
               <Button
                 variant="hollow"
-                className="text-primary-foreground border-2 uppercase"
+                className="border-2 uppercase text-primary-foreground"
               >
                 Book Lesson Now
               </Button>
@@ -27,7 +27,7 @@ export default async function BookCTASection() {
             <>
               <Link href="/api/auth/signin">
                 <Button
-                  className="border-secondary-foreground border-2"
+                  className="border-2 border-secondary-foreground"
                   variant="outline"
                 >
                   <Image
@@ -41,7 +41,7 @@ export default async function BookCTASection() {
               </Link>
               <Link href="/api/auth/signin">
                 <Button
-                  className="border-secondary-foreground border-2"
+                  className="border-2 border-secondary-foreground"
                   variant="outline"
                 >
                   <Image
