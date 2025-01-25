@@ -1,5 +1,12 @@
 import { auth } from "@/server/auth";
-import { History, House, SquarePlusIcon, User } from "lucide-react";
+import {
+  History,
+  House,
+  MessageSquare,
+  Settings,
+  SquarePlusIcon,
+  User,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import ContentWrapper from "../_components/general/content-wrapper";
@@ -36,6 +43,16 @@ export default async function Layout({ children }: LayoutProps) {
                 <SidebarTab href="/dashboard/book-lesson">
                   <SquarePlusIcon className="size-5" />
                   Book Lesson
+                </SidebarTab>
+
+                <SidebarTab href="/dashboard/chat">
+                  <MessageSquare className="size-5" />
+                  Chat
+                </SidebarTab>
+
+                <SidebarTab href="/dashboard/settings">
+                  <Settings className="size-5" />
+                  Settings
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/profile">

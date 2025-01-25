@@ -1,3 +1,3 @@
 export default function Page() {
-  return <section className=""></section>;
+  return <section className="">past lessons</section>;
 }
