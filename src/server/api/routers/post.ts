@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
@@ -13,11 +12,12 @@ export const postRouter = createTRPCRouter({
   }),
 
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    .input(z.object({ title: z.string().min(1), body: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.post.create({
         data: {
-          name: input.name,
+          title: input.title,
+          body: input.body,
           createdBy: { connect: { id: ctx.session.user.id } },
         },
       });

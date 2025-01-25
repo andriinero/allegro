@@ -101,6 +101,30 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   return result;
 });
 
+const authenticationMiddleware = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+const adminAuthorizationMiddleware = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role !== "ADMIN") {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
 /**
  * Public (unauthenticated) procedure
  *
@@ -120,14 +144,16 @@ export const publicProcedure = t.procedure.use(timingMiddleware);
  */
 export const protectedProcedure = t.procedure
   .use(timingMiddleware)
-  .use(({ ctx, next }) => {
-    if (!ctx.session || !ctx.session.user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    return next({
-      ctx: {
-        // infers the `session` as non-nullable
-        session: { ...ctx.session, user: ctx.session.user },
-      },
-    });
-  });
+  .use(authenticationMiddleware);
+
+/**
+ * Protected (authenticated) admin procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to logged in users, use this. It verifies
+ * the session is valid and guarantees `ctx.session.user` is not null and `UserRole` is ADMIN.
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const adminProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(adminAuthorizationMiddleware);
