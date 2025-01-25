@@ -1,11 +1,14 @@
-import ContentWrapper from "./_components/general/content-wrapper";
+"use client";
+
+import Autoplay from "embla-carousel-autoplay";
+import ContentWrapper from "../_components/general/content-wrapper";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "./_components/ui/carousel";
+} from "../_components/ui/carousel";
 import ReviewCard from "./review-card";
 
 export default function ReviewSection() {
@@ -13,6 +16,11 @@ export default function ReviewSection() {
     <section className="flex flex-col items-center py-20">
       <ContentWrapper>
         <Carousel
+          plugins={[
+            Autoplay({
+              delay: 4000,
+            }),
+          ]}
           opts={{ align: "start", loop: true }}
           className="w-full px-0.5"
         >

@@ -1,8 +1,8 @@
 import { auth } from "@/server/auth";
 import Image from "next/image";
 import Link from "next/link";
-import ContentWrapper from "./_components/general/content-wrapper";
-import { Button } from "./_components/ui/button";
+import ContentWrapper from "../_components/general/content-wrapper";
+import { Button } from "../_components/ui/button";
 
 export default async function BookCTASection() {
   const session = await auth();

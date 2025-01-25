@@ -1,10 +1,10 @@
 import { TextQuote } from "lucide-react";
-import ContentWrapper from "./_components/general/content-wrapper";
-import { Separator } from "./_components/ui/separator";
+import ContentWrapper from "../_components/general/content-wrapper";
+import { Separator } from "../_components/ui/separator";
 
 export default function IntroSection() {
   return (
-    <section className="flex justify-center bg-[url('/guitar-dark.jpg')] bg-cover bg-center p-4 pb-28 pt-12 text-secondary">
+    <section className="flex justify-center bg-[url('/guitar-dark.jpg')] bg-cover bg-center p-4 pb-32 pt-12 text-secondary">
       <ContentWrapper className="mt-32">
         <div className="flex flex-col gap-4">
           <p className="self-start rounded-full border-2 border-primary px-2 py-1 font-semibold">

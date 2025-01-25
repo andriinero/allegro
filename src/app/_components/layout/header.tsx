@@ -22,9 +22,13 @@ import NavMenu from "./nav-menu";
 
 type HeaderProps = {
   variant?: "transparent" | "solid";
+  className?: string;
 };
 
-export default async function Header({ variant = "transparent" }: HeaderProps) {
+export default async function Header({
+  variant = "transparent",
+  className,
+}: HeaderProps) {
   const session = await auth();
 
   const isSolidVariant = variant === "solid";
@@ -35,11 +39,14 @@ export default async function Header({ variant = "transparent" }: HeaderProps) {
       className={cn(
         "fixed flex w-full items-center justify-center backdrop-blur",
         { "bg-background shadow": isSolidVariant },
+        className,
       )}
     >
       <ContentWrapper className="flex items-center">
         <Logo
-          className={cn("flex-1", { "text-accent-foreground": isSolidVariant })}
+          className={cn("flex-1", {
+            "text-accent-foreground": isSolidVariant,
+          })}
         />
 
         <NavMenu variant={variant} />
@@ -86,7 +93,7 @@ export default async function Header({ variant = "transparent" }: HeaderProps) {
               </Button>
             </Link>
           )}
-          <Link href={session ? "/book-lesson" : "/api/auth/signin"}>
+          <Link href={session ? "/dashboard/book-lesson" : "/api/auth/signin"}>
             <Button>Book Lesson Now</Button>
           </Link>
         </div>

@@ -7,7 +7,7 @@ export default function Logo({ className, ...props }: LogoProps) {
   return (
     <h1
       className={cn(
-        "text-primary-foreground text-2xl font-bold tracking-tight",
+        "text-2xl font-bold tracking-tight text-primary-foreground",
         className,
       )}
       {...props}
