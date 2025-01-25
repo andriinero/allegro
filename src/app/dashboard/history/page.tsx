@@ -1,3 +1,3 @@
 export default function Page() {
-  return <section className="">history</section>;
+  return <section className=""></section>;
 }

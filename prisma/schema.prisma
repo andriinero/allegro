@@ -56,41 +56,47 @@ model User {
   posts    Post[]
   bookings Booking[]
   reviews  Review[]
+  Comment  Comment[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   title     String
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
 
   @@index([title])
 }
 
-model Instrument {
-  id   String @id @default(cuid())
-  name String
+model Comment {
+  id        String    @id @default(cuid())
+  body      String
+  rating    Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 
-  lessons Lesson[]
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
 }
 
 model Lesson {
   id          String           @id @default(cuid())
+  assignment  String?
+  notes       String?
   description String?
-  duration    Int
+  duration    Int?
+  guitarType  GuitarType       @default(ACOUSTIC)
   proficiency ProficiencyLevel @default(BEGINNER)
   presence    LessonPresence   @default(ONLINE)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime?
 
-  instrument   Instrument @relation(fields: [instrumentId], references: [id])
-  instrumentId String
-  review       Review?
-  booking      Booking?
+  review  Review?
+  booking Booking?
 }
 
 model Invoice {
@@ -100,6 +106,14 @@ model Invoice {
   currency  Currency
   status    InvoiceStatus @default(PENDING)
   createdAt DateTime      @default(now())
+  updatedAt DateTime?
+}
+
+model LessonTimeSlot {
+  id        String    @id @default(cuid())
+  start     DateTime
+  end       DateTime
+  createdAt DateTime  @default(now())
   updatedAt DateTime?
 }
 
@@ -161,4 +175,13 @@ enum InvoiceStatus {
   PENDING
   COMPLETED
   FAILED
+}
+
+enum GuitarType {
+  ACOUSTIC
+  ELECTRICAL
+  BASS
+  SPECIALTY
+  HYBRID
+  OTHER
 }
