@@ -54,8 +54,8 @@ model User {
   accounts Account[]
   sessions Session[]
   posts    Post[]
-  Booking  Booking[]
-  Review   Review[]
+  bookings Booking[]
+  reviews  Review[]
 }
 
 model Post {
@@ -75,7 +75,7 @@ model Instrument {
   id   String @id @default(cuid())
   name String
 
-  Lesson Lesson[]
+  lessons Lesson[]
 }
 
 model Lesson {
@@ -89,8 +89,8 @@ model Lesson {
 
   instrument   Instrument @relation(fields: [instrumentId], references: [id])
   instrumentId String
-  Booking      Booking[]
-  Review       Review[]
+  review       Review?
+  booking      Booking?
 }
 
 model Invoice {
@@ -101,8 +101,6 @@ model Invoice {
   status    InvoiceStatus @default(PENDING)
   createdAt DateTime      @default(now())
   updatedAt DateTime?
-
-  Booking Booking[]
 }
 
 model Booking {
@@ -112,12 +110,10 @@ model Booking {
   createdAt DateTime      @default(now())
   updatedAt DateTime?
 
-  invoice    Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId  String
-  lesson     Lesson  @relation(fields: [lessonId], references: [id])
-  lessonId   String
-  bookedBy   User    @relation(fields: [bookedById], references: [id])
-  bookedById String
+  lesson     Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId   String @unique
+  bookedBy   User   @relation(fields: [bookedById], references: [id])
+  bookedById String @unique
 }
 
 model Review {
@@ -127,9 +123,9 @@ model Review {
   createdAt DateTime @default(now())
 
   reviewedBy   User   @relation(fields: [reviewedById], references: [id])
-  reviewedById String
+  reviewedById String @unique
   lesson       Lesson @relation(fields: [lessonId], references: [id])
-  lessonId     String
+  lessonId     String @unique
 }
 
 enum UserRole {
