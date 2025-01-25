@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -14,9 +15,19 @@ export const bookingRouter = createTRPCRouter({
       });
     }),
 
-  cancelBookingById: protectedProcedure
+  cancelById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: { id: input.id, bookedById: ctx.session.user.id },
+      });
+      if (!booking) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Booking found or not owned",
+        });
+      }
+
       await ctx.db.booking.delete({ where: { id: input.id } });
     }),
 });

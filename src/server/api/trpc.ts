@@ -115,7 +115,7 @@ const authenticationMiddleware = t.middleware(({ ctx, next }) => {
 
 const adminAuthorizationMiddleware = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user || ctx.session.user.role !== "ADMIN") {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: "FORBIDDEN" });
   }
   return next({
     ctx: {
