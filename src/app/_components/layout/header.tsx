@@ -71,7 +71,7 @@ export default async function Header({
 
                 <DropdownMenuSeparator />
 
-                <Link href="/profile">
+                <Link href="/dashboard/profile">
                   <DropdownMenuItem>
                     <User /> Profile
                   </DropdownMenuItem>

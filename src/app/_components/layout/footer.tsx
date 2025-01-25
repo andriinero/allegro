@@ -63,7 +63,7 @@ export default function Footer() {
           <Logo className="text-secondary" />
 
           <p className="text-sm">
-            © Copyright 2024-2025 Allegro Inc. All Right Reserved.
+            © Copyright 2024-2025 Allegro Inc. All Rights Reserved.
           </p>
         </div>
       </ContentWrapper>

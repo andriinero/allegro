@@ -15,7 +15,7 @@ export default async function BookCTASection() {
         </h1>
         <div className="flex gap-4 text-secondary-foreground">
           {session ? (
-            <Link href="/book-lesson">
+            <Link href="/dashboard/book-lesson">
               <Button
                 variant="hollow"
                 className="border-2 uppercase text-primary-foreground"
