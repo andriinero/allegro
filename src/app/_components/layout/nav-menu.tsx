@@ -14,7 +14,7 @@ const navLinks = [
   { href: "/blog", name: "Blog" },
   { href: "/about-me", name: "About Me" },
   { href: "/contact", name: "Contact" },
-  { href: "/dashboard/book-lesson", name: "Book Lesson" },
+  // { href: "/dashboard/book-lesson", name: "Book Lesson" },
 ] as const;
 
 type NavMenuProps = { variant?: "transparent" | "solid" };

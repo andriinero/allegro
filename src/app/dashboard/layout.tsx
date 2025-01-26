@@ -35,14 +35,14 @@ export default async function Layout({ children }: LayoutProps) {
                   Home
                 </SidebarTab>
 
-                <SidebarTab href="/dashboard/history">
-                  <History className="size-5" />
-                  History
-                </SidebarTab>
-
                 <SidebarTab href="/dashboard/book-lesson">
                   <SquarePlusIcon className="size-5" />
                   Book Lesson
+                </SidebarTab>
+
+                <SidebarTab href="/dashboard/history">
+                  <History className="size-5" />
+                  History
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/chat">

@@ -16,7 +16,7 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import NavMenu from "./nav-menu";
 
@@ -74,6 +74,12 @@ export default async function Header({
                 <Link href="/dashboard/profile">
                   <DropdownMenuItem>
                     <User /> Profile
+                  </DropdownMenuItem>
+                </Link>
+
+                <Link href="/dashboard/settings">
+                  <DropdownMenuItem>
+                    <Settings /> Settings
                   </DropdownMenuItem>
                 </Link>
 
