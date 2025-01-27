@@ -26,7 +26,7 @@ export default async function Layout({ children }: LayoutProps) {
       <Header variant="solid" className="static" />
 
       <main className="flex justify-center">
-        <ContentWrapper className="gap-4 bg-zinc-100">
+        <ContentWrapper className="gap-4 bg-secondary">
           <aside className="w-full max-w-52">
             <nav>
               <ul className="flex flex-col gap-4">

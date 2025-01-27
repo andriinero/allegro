@@ -16,7 +16,7 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
-import { LogOut, Settings, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import NavMenu from "./nav-menu";
 
@@ -42,7 +42,7 @@ export default async function Header({
         className,
       )}
     >
-      <ContentWrapper className="flex items-center">
+      <ContentWrapper className="flex items-center py-3">
         <Logo
           className={cn("flex-1", {
             "text-accent-foreground": isSolidVariant,
@@ -64,7 +64,7 @@ export default async function Header({
               <DropdownMenuContent>
                 <DropdownMenuLabel>
                   <p>{session.user.name}</p>
-                  <p className="font-light text-secondary-foreground">
+                  <p className="text-xs font-light text-secondary-foreground">
                     {session.user.email}
                   </p>
                 </DropdownMenuLabel>
@@ -74,6 +74,12 @@ export default async function Header({
                 <Link href="/dashboard/profile">
                   <DropdownMenuItem>
                     <User /> Profile
+                  </DropdownMenuItem>
+                </Link>
+
+                <Link href="/dashboard">
+                  <DropdownMenuItem>
+                    <LayoutDashboard /> Dashboard
                   </DropdownMenuItem>
                 </Link>
 

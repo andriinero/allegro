@@ -21,7 +21,7 @@ export default function SidebarTab({
       <Link
         href={href}
         className={cn(
-          "flex items-center gap-2 rounded-md border-2 border-transparent bg-background p-3 font-semibold tracking-tight shadow-sm hover:border-primary hover:text-primary",
+          "flex items-center gap-2 rounded-md border-2 border-transparent bg-background p-3 font-semibold tracking-tight shadow hover:border-primary hover:text-primary",
           { "border-primary text-primary": pathname === href },
           className,
         )}
