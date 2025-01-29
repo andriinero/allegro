@@ -2,35 +2,36 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createBookingSchema } from "../schemas/booking";
 import { paginationSchema } from "../schemas/pagination";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
+import { env } from "@/env";
 
 export const bookingRouter = createTRPCRouter({
-  get: protectedProcedure
+  getAll: adminProcedure
     .input(paginationSchema)
     .query(async ({ ctx, input }) => {
       return ctx.db.booking.findMany({
         take: input.take,
-        skip: input.page * 25,
+        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+        include: { bookedBy: true },
+      });
+    }),
+
+  getByUser: protectedProcedure
+    .input(paginationSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.db.booking.findMany({
+        where: { bookedById: ctx.session.user.id },
+        take: input.take,
+        skip: input.page * +env.RESPONSE_PAGE_SIZE,
       });
     }),
 
   create: protectedProcedure
     .input(createBookingSchema)
     .mutation(async ({ ctx, input }) => {
-      const lesson = await ctx.db.lesson.create({
-        data: {
-          description: input.description,
-          duration: input.duration,
-          proficiency: input.poficiency,
-          presence: input.presence,
-          guitarType: input.guitarType,
-        },
-      });
-
       return await ctx.db.booking.create({
         data: {
           date: input.date,
-          lessonId: lesson.id,
           bookedById: ctx.session.user.id,
         },
       });
