@@ -15,7 +15,7 @@ import { api } from "@/trpc/react";
 import PanelHeader from "./panel-header";
 
 export default function Page() {
-  const { data: bookings, isPending } = api.booking.getByCurrentUser.useQuery();
+  const { data: bookings } = api.booking.getByCurrentUser.useQuery();
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,34 +34,28 @@ export default function Page() {
           </TableRow>
         </TableHeader>
 
-        {isPending ? (
-          <p>Loading...</p>
-        ) : bookings ? (
-          <TableBody>
-            {bookings.map((b, index) => (
-              <TableRow
-                key={b.id}
-                className={cn("cursor-pointer", {
-                  "bg-background hover:bg-background": index % 2 === 0,
-                })}
-              >
-                <TableCell className="font-medium">
-                  {b.id.substring(0, 5)}
-                </TableCell>
-                <TableCell>{getNDayMonth(b.date)}</TableCell>
-                <TableCell>
-                  {getNDayNMonthNYearAtShortTime(b.createdAt)}
-                </TableCell>
-                <TableCell>{b.lessonPresence}</TableCell>
-                <TableCell className="text-right font-semibold tracking-tight">
-                  {b.status}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        ) : (
-          <p>Error</p>
-        )}
+        <TableBody>
+          {bookings?.map((b, index) => (
+            <TableRow
+              key={b.id}
+              className={cn("cursor-pointer", {
+                "bg-background hover:bg-background": index % 2 === 0,
+              })}
+            >
+              <TableCell className="font-medium">
+                {b.id.substring(0, 5)}
+              </TableCell>
+              <TableCell>{getNDayMonth(b.date)}</TableCell>
+              <TableCell>
+                {getNDayNMonthNYearAtShortTime(b.createdAt)}
+              </TableCell>
+              <TableCell>{b.lessonPresence}</TableCell>
+              <TableCell className="text-right font-semibold tracking-tight">
+                {b.status}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
     </div>
   );

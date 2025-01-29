@@ -1,3 +1,9 @@
+import PanelHeader from "../(overview)/panel-header";
+
 export default function Settings() {
-  return <div className="">account settings</div>;
+  return (
+    <div className="">
+      <PanelHeader>Settings</PanelHeader>
+    </div>
+  );
 }
