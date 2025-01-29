@@ -26,6 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import PanelHeader from "../(overview)/panel-header";
 
 export default function CreateBookingForm() {
   const form = useForm<CreateBooking>({
@@ -46,7 +47,7 @@ export default function CreateBookingForm() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold tracking-tight">Book Lesson</h2>
+      <PanelHeader>Book Lesson</PanelHeader>
 
       <Form {...form}>
         <form

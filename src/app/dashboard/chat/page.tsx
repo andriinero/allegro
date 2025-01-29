@@ -1,3 +1,9 @@
+import PanelHeader from "../(overview)/panel-header";
+
 export default function Chat() {
-  return <div className="">chat with instructor</div>;
+  return (
+    <div className="">
+      <PanelHeader>Chat With Instructor</PanelHeader>
+    </div>
+  );
 }

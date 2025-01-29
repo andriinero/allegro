@@ -5,43 +5,46 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table";
-import {
-  getNDayMonth,
-  getNDayNMonthNYearAtShortTime,
-  getNDayNMonthTime,
-} from "@/lib/date";
+import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
+import PanelHeader from "./panel-header";
 
 export default function Page() {
-  const { data, isPending } = api.booking.getByCurrentUser.useQuery();
+  const { data: bookings, isPending } = api.booking.getByCurrentUser.useQuery();
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold tracking-tight">Bookings</h2>
+      <PanelHeader>Bookings</PanelHeader>
 
       <Table>
-        <TableCaption>Your recent bookings.</TableCaption>
+        <TableCaption>Your recent lesson bookings.</TableCaption>
 
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Booking</TableHead>
             <TableHead>For</TableHead>
             <TableHead>Placed</TableHead>
+            <TableHead>Lesson Presence</TableHead>
             <TableHead className="text-right">Status</TableHead>
           </TableRow>
         </TableHeader>
 
         {isPending ? (
           <p>Loading...</p>
-        ) : data ? (
+        ) : bookings ? (
           <TableBody>
-            {data.map((b) => (
-              <TableRow key={b.id}>
+            {bookings.map((b, index) => (
+              <TableRow
+                key={b.id}
+                className={cn("cursor-pointer", {
+                  "bg-background hover:bg-background": index % 2 === 0,
+                })}
+              >
                 <TableCell className="font-medium">
                   {b.id.substring(0, 5)}
                 </TableCell>
@@ -49,6 +52,7 @@ export default function Page() {
                 <TableCell>
                   {getNDayNMonthNYearAtShortTime(b.createdAt)}
                 </TableCell>
+                <TableCell>{b.lessonPresence}</TableCell>
                 <TableCell className="text-right font-semibold tracking-tight">
                   {b.status}
                 </TableCell>

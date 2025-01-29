@@ -87,16 +87,17 @@ model Comment {
 }
 
 model Lesson {
-  id          String           @id @default(cuid())
-  assignment  String?
-  notes       String?
-  description String?
-  duration    Int?
-  guitarType  GuitarType       @default(ACOUSTIC)
-  proficiency ProficiencyLevel @default(BEGINNER)
-  presence    LessonPresence   @default(ONLINE)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime?
+  id            String           @id @default(cuid())
+  assignment    String?
+  notes         String?
+  description   String?
+  duration      Int?
+  guitarType    GuitarType       @default(ACOUSTIC)
+  proficiency   ProficiencyLevel @default(BEGINNER)
+  presence      LessonPresence   @default(ONLINE)
+  lessonLinkURL String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime?
 
   review  Review?
   booking Booking?
@@ -121,11 +122,12 @@ model LessonTimeSlot {
 }
 
 model Booking {
-  id        String        @id @default(cuid())
-  date      DateTime
-  status    BookingStatus @default(PENDING)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime?
+  id             String         @id @default(cuid())
+  date           DateTime
+  status         BookingStatus  @default(PENDING)
+  lessonPresence LessonPresence @default(ONLINE)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime?
 
   lesson     Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId   String? @unique
