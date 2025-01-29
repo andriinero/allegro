@@ -1,6 +1,6 @@
-import { GuitarType, LessonPresence, ProficiencyLevel } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { createBookingSchema } from "../schemas/booking";
 import { paginationSchema } from "../schemas/pagination";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -15,20 +15,11 @@ export const bookingRouter = createTRPCRouter({
     }),
 
   create: protectedProcedure
-    .input(
-      z.object({
-        date: z.string().datetime(),
-        descripttion: z.string().optional(),
-        duration: z.number().min(30).max(60),
-        poficiency: z.nativeEnum(ProficiencyLevel),
-        presence: z.nativeEnum(LessonPresence),
-        guitarType: z.nativeEnum(GuitarType),
-      }),
-    )
+    .input(createBookingSchema)
     .mutation(async ({ ctx, input }) => {
       const lesson = await ctx.db.lesson.create({
         data: {
-          description: input.descripttion,
+          description: input.description,
           duration: input.duration,
           proficiency: input.poficiency,
           presence: input.presence,
