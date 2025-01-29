@@ -1,11 +1,11 @@
-import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { z } from "zod";
 
 export const postRouter = createTRPCRouter({
   getLatest: protectedProcedure.query(async ({ ctx }) => {
     const post = await ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
+      where: { author: { id: ctx.session.user.id } },
     });
 
     return post ?? null;
@@ -18,7 +18,7 @@ export const postRouter = createTRPCRouter({
         data: {
           title: input.title,
           body: input.body,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          author: { connect: { id: ctx.session.user.id } },
         },
       });
     }),

@@ -1,13 +1,9 @@
-import { z } from "zod";
+import { paginationSchema } from "../schemas/pagination";
 import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const adminRouter = createTRPCRouter({
   getUsers: adminProcedure
-    .input(
-      z
-        .object({ take: z.number(), page: z.number() })
-        .default({ take: 25, page: 0 }),
-    )
+    .input(paginationSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.user.findMany({
         take: input.take,
