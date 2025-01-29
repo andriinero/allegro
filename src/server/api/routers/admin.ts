@@ -1,4 +1,4 @@
-import { paginationSchema } from "../schemas/pagination";
+import { paginationSchema } from "@/schemas/pagination";
 import { adminProcedure, createTRPCRouter } from "../trpc";
 
 export const adminRouter = createTRPCRouter({

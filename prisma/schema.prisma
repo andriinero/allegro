@@ -59,7 +59,7 @@ model User {
   posts    Post[]
   bookings Booking[]
   reviews  Review[]
-  Comment  Comment[]
+  comments Comment[]
 }
 
 model Post {
@@ -130,7 +130,7 @@ model Booking {
   lesson     Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId   String? @unique
   bookedBy   User    @relation(fields: [bookedById], references: [id])
-  bookedById String  @unique
+  bookedById String
 }
 
 model Review {

@@ -63,7 +63,7 @@ export default async function Layout({ children }: LayoutProps) {
             </nav>
           </aside>
 
-          <section>{children}</section>
+          <section className="w-full">{children}</section>
         </ContentWrapper>
       </main>
 

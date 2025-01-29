@@ -1,9 +1,9 @@
+import { env } from "@/env";
+import { createBookingSchema } from "@/schemas/booking";
+import { paginationSchema } from "@/schemas/pagination";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createBookingSchema } from "../schemas/booking";
-import { paginationSchema } from "../schemas/pagination";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
-import { env } from "@/env";
 
 export const bookingRouter = createTRPCRouter({
   getAll: adminProcedure
@@ -16,7 +16,7 @@ export const bookingRouter = createTRPCRouter({
       });
     }),
 
-  getByUser: protectedProcedure
+  getByCurrentUser: protectedProcedure
     .input(paginationSchema)
     .query(async ({ ctx, input }) => {
       return ctx.db.booking.findMany({

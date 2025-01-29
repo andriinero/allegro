@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/app/_components/ui/button";
+import { Calendar } from "@/app/_components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -10,29 +12,33 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Label } from "@/app/_components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
-import { cn } from "@/lib/utils";
-import type { CreateBooking } from "@/server/api/schemas/booking";
-import { createBookingSchema } from "@/server/api/schemas/booking";
-import { api } from "@/trpc/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { useForm } from "react-hook-form";
-import { Button } from "@/app/_components/ui/button";
-import { Calendar } from "@/app/_components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/app/_components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
+import { cn } from "@/lib/utils";
+import type { CreateBooking } from "@/schemas/booking";
+import { createBookingSchema } from "@/schemas/booking";
+import { api } from "@/trpc/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 export default function CreateBookingForm() {
   const form = useForm<CreateBooking>({
     resolver: zodResolver(createBookingSchema),
     defaultValues: { presence: "ONLINE" },
   });
-  const createBookingMutation = api.booking.create.useMutation();
+
+  const apiUtils = api.useUtils();
+  const createBookingMutation = api.booking.create.useMutation({
+    onSuccess: async () => {
+      await apiUtils.booking.getByCurrentUser.invalidate();
+    },
+  });
 
   function onSubmit(data: CreateBooking) {
     createBookingMutation.mutate(data);
@@ -41,6 +47,7 @@ export default function CreateBookingForm() {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold tracking-tight">Book Lesson</h2>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
