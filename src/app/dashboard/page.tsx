@@ -12,7 +12,7 @@ import {
 import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
-import PanelHeading from "./panel-heading";
+import PanelHeading from "./(overview)/panel-heading";
 
 export default function Page() {
   const { data: bookings } = api.booking.getByCurrentUser.useQuery();
@@ -43,7 +43,7 @@ export default function Page() {
               })}
             >
               <TableCell className="font-medium">
-                {b.id.substring(0, 5)}
+                {b.id.substring(20)}
               </TableCell>
               <TableCell>{getNDayMonth(b.date)}</TableCell>
               <TableCell>

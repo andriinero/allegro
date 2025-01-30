@@ -23,7 +23,7 @@ export default async function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <Header variant="solid" className="static" />
+      <Header session={session} variant="solid" className="static" />
 
       <main className="flex justify-center">
         <ContentWrapper className="gap-6 bg-secondary">

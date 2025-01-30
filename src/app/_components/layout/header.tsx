@@ -1,3 +1,5 @@
+"use client";
+
 import ContentWrapper from "@/app/_components/general/content-wrapper";
 import Logo from "@/app/_components/general/logo";
 import {
@@ -15,24 +17,33 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { auth } from "@/server/auth";
-import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  LogOut,
+  Settings,
+  User,
+} from "lucide-react";
+import type { Session } from "next-auth";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import NavLinks from "./nav-links";
 
 type HeaderProps = {
+  session: Session | null;
   variant?: "transparent" | "solid";
   className?: string;
 };
 
-export default async function Header({
+export default function Header({
+  session,
   variant = "transparent",
   className,
 }: HeaderProps) {
-  const session = await auth();
+  const pathname = usePathname();
 
   const isSolidVariant = variant === "solid";
-  const fallbackUsername = session?.user.name?.substring(0, 2);
+  const fallbackUsername = session?.user?.name?.substring(0, 2);
 
   return (
     <header
@@ -42,30 +53,34 @@ export default async function Header({
         className,
       )}
     >
-      <ContentWrapper className="flex items-center py-3">
+      <ContentWrapper className="flex items-center py-2">
         <Logo
-          className={cn("flex-1", {
-            "text-accent-foreground": isSolidVariant,
-          })}
+          className={cn("flex-1", isSolidVariant && "text-accent-foreground")}
         />
 
         <NavLinks variant={variant} />
 
         <div className="flex flex-1 items-center justify-end gap-4">
-          {session ? (
+          {session?.user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src={session.user.image ?? ""} />
+                  <AvatarImage src={session?.user?.image ?? ""} />
                   <AvatarFallback>{fallbackUsername}</AvatarFallback>
                 </Avatar>
+                <ChevronDown
+                  className={cn(
+                    "size-5 text-background",
+                    isSolidVariant && "text-foreground",
+                  )}
+                />
               </DropdownMenuTrigger>
 
               <DropdownMenuContent>
                 <DropdownMenuLabel>
-                  <p>{session.user.name}</p>
+                  <p>{session.user?.name}</p>
                   <p className="text-xs font-light text-secondary-foreground">
-                    {session.user.email}
+                    {session.user?.email}
                   </p>
                 </DropdownMenuLabel>
 
@@ -106,9 +121,15 @@ export default async function Header({
             </Link>
           )}
 
-          <Link href={session ? "/dashboard/book-lesson" : "/api/auth/signin"}>
-            <Button>Book Lesson Now</Button>
-          </Link>
+          {!pathname.startsWith("/dashboard") && (
+            <Link
+              href={
+                session?.user ? "/dashboard/book-lesson" : "/api/auth/signin"
+              }
+            >
+              <Button>Book Lesson Now</Button>
+            </Link>
+          )}
         </div>
       </ContentWrapper>
     </header>

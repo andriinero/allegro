@@ -1,13 +1,20 @@
 import { auth } from "@/server/auth";
-import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
+import { SidebarInset, SidebarProvider } from "../_components/ui/sidebar";
+import { AdminSidebarar } from "./(overview)/admin-sidebar";
 
 type LayoutProps = { children: ReactNode };
 
 export default async function Layout({ children }: LayoutProps) {
   const session = await auth();
 
-  if (!session || session.user.role !== "ADMIN") return redirect("/");
+  if (!session || session.user.role !== "ADMIN") return;
 
-  return <div className="">{children}</div>;
+  return (
+    <SidebarProvider>
+      <AdminSidebarar user={session.user} />
+
+      <SidebarInset>{children}</SidebarInset>
+    </SidebarProvider>
+  );
 }
