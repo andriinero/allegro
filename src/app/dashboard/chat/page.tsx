@@ -1,9 +1,9 @@
-import PanelHeader from "../(overview)/panel-header";
+import PanelHeading from "../(overview)/panel-heading";
 
 export default function Chat() {
   return (
     <div className="">
-      <PanelHeader>Chat With Instructor</PanelHeader>
+      <PanelHeading>Chat With Instructor</PanelHeading>
     </div>
   );
 }

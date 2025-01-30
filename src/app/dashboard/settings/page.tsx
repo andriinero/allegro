@@ -1,9 +1,9 @@
-import PanelHeader from "../(overview)/panel-header";
+import PanelHeading from "../(overview)/panel-heading";
 
 export default function Settings() {
   return (
     <div className="">
-      <PanelHeader>Settings</PanelHeader>
+      <PanelHeading>Settings</PanelHeading>
     </div>
   );
 }

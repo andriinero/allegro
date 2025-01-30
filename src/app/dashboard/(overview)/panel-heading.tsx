@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 
 type PanelHeaderProps = ComponentPropsWithoutRef<"h2">;
 
-export default function PanelHeader({
+export default function PanelHeading({
   className,
   children,
   ...props

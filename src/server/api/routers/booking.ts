@@ -6,16 +6,6 @@ import { z } from "zod";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const bookingRouter = createTRPCRouter({
-  getAll: adminProcedure
-    .input(paginationSchema)
-    .query(async ({ ctx, input }) => {
-      return ctx.db.booking.findMany({
-        take: input.take,
-        skip: input.page * +env.RESPONSE_PAGE_SIZE,
-        include: { bookedBy: true },
-      });
-    }),
-
   getByCurrentUser: protectedProcedure
     .input(paginationSchema)
     .query(async ({ ctx, input }) => {
@@ -32,6 +22,7 @@ export const bookingRouter = createTRPCRouter({
       return await ctx.db.booking.create({
         data: {
           date: input.date,
+          lessonPresence: input.presence,
           bookedById: ctx.session.user.id,
         },
       });
@@ -50,6 +41,38 @@ export const bookingRouter = createTRPCRouter({
         });
       }
 
-      await ctx.db.booking.delete({ where: { id: input.id } });
+      await ctx.db.booking.update({
+        where: { id: input.id },
+        data: { status: "CANCELLED" },
+      });
+    }),
+
+  getAny: adminProcedure
+    .input(paginationSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.db.booking.findMany({
+        take: input.take,
+        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+        include: { bookedBy: true },
+      });
+    }),
+
+  cancelAnyById: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: { id: input.id },
+      });
+      if (!booking) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Booking not found",
+        });
+      }
+
+      await ctx.db.booking.update({
+        where: { id: input.id },
+        data: { status: "CANCELLED" },
+      });
     }),
 });

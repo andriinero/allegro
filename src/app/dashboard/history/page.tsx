@@ -1,9 +1,9 @@
-import PanelHeader from "../(overview)/panel-header";
+import PanelHeading from "../(overview)/panel-heading";
 
 export default function Page() {
   return (
     <section>
-      <PanelHeader>Lesson History</PanelHeader>
+      <PanelHeading>Lesson History</PanelHeading>
     </section>
   );
 }

@@ -3,14 +3,14 @@
 import { api } from "@/trpc/react";
 
 export default function Page() {
-  const { data, isPending } = api.booking.getAll.useQuery();
+  const { data, isPending } = api.booking.getAny.useQuery();
 
   return (
     <div className="">
       {isPending ? (
         <p>Loading...</p>
       ) : data ? (
-        <ul className="flex gap-4">
+        <ul className="flex flex-wrap gap-4">
           {data.map((booking) => (
             <li key={booking.id} className="flex flex-col">
               <p>

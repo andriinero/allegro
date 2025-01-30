@@ -12,14 +12,14 @@ import {
 import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
-import PanelHeader from "./panel-header";
+import PanelHeading from "./panel-heading";
 
 export default function Page() {
   const { data: bookings } = api.booking.getByCurrentUser.useQuery();
 
   return (
     <div className="flex flex-col gap-4">
-      <PanelHeader>Bookings</PanelHeader>
+      <PanelHeading>Bookings</PanelHeading>
 
       <Table>
         <TableCaption>Your recent lesson bookings.</TableCaption>

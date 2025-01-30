@@ -1,9 +1,9 @@
-import PanelHeader from "../(overview)/panel-header";
+import PanelHeading from "../(overview)/panel-heading";
 
 export default function Page() {
   return (
     <div>
-      <PanelHeader>Profile</PanelHeader>
+      <PanelHeading>Profile</PanelHeading>
     </div>
   );
 }

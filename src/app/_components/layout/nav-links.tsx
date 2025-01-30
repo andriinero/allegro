@@ -14,12 +14,11 @@ const navLinks = [
   { href: "/blog", name: "Blog" },
   { href: "/about-me", name: "About Me" },
   { href: "/contact", name: "Contact" },
-  // { href: "/dashboard/book-lesson", name: "Book Lesson" },
 ] as const;
 
 type NavMenuProps = { variant?: "transparent" | "solid" };
 
-export default function NavMenu({ variant = "transparent" }: NavMenuProps) {
+export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
   const pathname = usePathname();
 
   const isSolidVariant = variant === "solid";
@@ -28,12 +27,12 @@ export default function NavMenu({ variant = "transparent" }: NavMenuProps) {
     <NavigationMenu className="flex-2">
       <NavigationMenuList>
         {navLinks.map((link) => (
-          <NavigationMenuItem key={link.href}>
+          <NavigationMenuItem key={link.href} className="">
             <Link
               href={link.href}
               className={cn(
                 navigationMenuTriggerStyle(),
-                "border border-transparent bg-transparent text-primary-foreground",
+                "border border-transparent bg-transparent font-semibold text-primary-foreground hover:bg-transparent hover:text-primary",
                 { "text-accent-foreground": isSolidVariant },
                 { "bg-accent": pathname === link.href },
               )}

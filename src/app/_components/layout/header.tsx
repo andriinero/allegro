@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
 import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
-import NavMenu from "./nav-menu";
+import NavLinks from "./nav-links";
 
 type HeaderProps = {
   variant?: "transparent" | "solid";
@@ -49,7 +49,7 @@ export default async function Header({
           })}
         />
 
-        <NavMenu variant={variant} />
+        <NavLinks variant={variant} />
 
         <div className="flex flex-1 items-center justify-end gap-4">
           {session ? (
