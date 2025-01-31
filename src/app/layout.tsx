@@ -1,7 +1,8 @@
 import "@/styles/globals.css";
+import { TRPCReactProvider } from "@/trpc/react";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { TRPCReactProvider } from "@/trpc/react";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Allegro",
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} antialiased`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

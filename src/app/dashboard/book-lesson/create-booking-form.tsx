@@ -26,6 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import PanelHeading from "../(overview)/panel-heading";
 
 export default function CreateBookingForm() {
@@ -33,7 +34,6 @@ export default function CreateBookingForm() {
     resolver: zodResolver(createBookingSchema),
     defaultValues: { presence: "ONLINE" },
   });
-
   const apiUtils = api.useUtils();
   const createBookingMutation = api.booking.create.useMutation({
     onSuccess: async () => {
@@ -41,8 +41,9 @@ export default function CreateBookingForm() {
     },
   });
 
-  function onSubmit(data: CreateBooking) {
-    createBookingMutation.mutate(data);
+  async function onSubmit(data: CreateBooking) {
+    const result = await createBookingMutation.mutateAsync(data);
+    if (result) toast.success("Booking has been created");
   }
 
   return (
@@ -126,7 +127,11 @@ export default function CreateBookingForm() {
             )}
           />
 
-          <Button type="submit" className="mt-2 self-start">
+          <Button
+            type="submit"
+            disabled={createBookingMutation.isPending}
+            className="mt-2 self-start"
+          >
             Book Lesson
           </Button>
         </form>
