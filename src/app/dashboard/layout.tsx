@@ -31,39 +31,41 @@ export default async function Layout({ children }: LayoutProps) {
             <nav>
               <ul className="flex flex-col gap-4">
                 <SidebarTab href="/dashboard">
-                  <House className="size-5" />
+                  <House className="size-4" />
                   Home
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/book-lesson">
-                  <SquarePlusIcon className="size-5" />
+                  <SquarePlusIcon className="size-4" />
                   Book Lesson
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/history">
-                  <History className="size-5" />
+                  <History className="size-4" />
                   History
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/chat">
-                  <MessageSquare className="size-5" />
+                  <MessageSquare className="size-4" />
                   Chat
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/settings">
-                  <Settings className="size-5" />
+                  <Settings className="size-4" />
                   Settings
                 </SidebarTab>
 
                 <SidebarTab href="/dashboard/profile">
-                  <User className="size-5" />
+                  <User className="size-4" />
                   Profile
                 </SidebarTab>
               </ul>
             </nav>
           </aside>
 
-          <section className="w-full">{children}</section>
+          <section className="min-h-[460px] w-full rounded-lg bg-background p-4 shadow">
+            {children}
+          </section>
         </ContentWrapper>
       </main>
 

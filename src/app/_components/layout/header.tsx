@@ -50,7 +50,7 @@ export default function Header({
     <header
       className={cn(
         "fixed flex w-full items-center justify-center backdrop-blur",
-        isSolidVariant && "bg-background shadow",
+        isSolidVariant && "border-b border-border bg-background",
         className,
       )}
     >
