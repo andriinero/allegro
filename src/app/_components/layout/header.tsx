@@ -22,6 +22,7 @@ import {
   LayoutDashboard,
   LogOut,
   Settings,
+  Shield,
   User,
 } from "lucide-react";
 import type { Session } from "next-auth";
@@ -49,7 +50,7 @@ export default function Header({
     <header
       className={cn(
         "fixed flex w-full items-center justify-center backdrop-blur",
-        { "bg-background shadow": isSolidVariant },
+        isSolidVariant && "bg-background shadow",
         className,
       )}
     >
@@ -68,6 +69,7 @@ export default function Header({
                   <AvatarImage src={session?.user?.image ?? ""} />
                   <AvatarFallback>{fallbackUsername}</AvatarFallback>
                 </Avatar>
+
                 <ChevronDown
                   className={cn(
                     "size-5 text-background",
@@ -97,6 +99,14 @@ export default function Header({
                     <LayoutDashboard /> Dashboard
                   </DropdownMenuItem>
                 </Link>
+
+                {session.user.role === "ADMIN" && (
+                  <Link href="/admin">
+                    <DropdownMenuItem>
+                      <Shield /> Admin Dashboard
+                    </DropdownMenuItem>
+                  </Link>
+                )}
 
                 <Link href="/dashboard/settings">
                   <DropdownMenuItem>

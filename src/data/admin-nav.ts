@@ -35,6 +35,11 @@ export const tabs = {
       icon: SquarePlusIcon,
     },
     {
+      name: "Lessons",
+      url: "/admin/lessons",
+      icon: BookOpen,
+    },
+    {
       name: "Chats",
       url: "/admin/chats",
       icon: MessageSquare,
@@ -127,4 +132,4 @@ export const tabs = {
       ],
     },
   ],
-};
+} as const;

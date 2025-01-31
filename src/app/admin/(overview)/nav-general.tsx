@@ -13,7 +13,7 @@ import Link from "next/link";
 
 type NavGeneral = {
   pathname: string;
-  general: {
+  general: readonly {
     name: string;
     url: string;
     icon: LucideIcon;
@@ -23,7 +23,7 @@ type NavGeneral = {
 export default function NavGeneral({ general }: NavGeneral) {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+      <SidebarGroupLabel>General</SidebarGroupLabel>
       <SidebarMenu>
         {general.map((item) => (
           <SidebarMenuItem key={item.name} className={cn("")}>

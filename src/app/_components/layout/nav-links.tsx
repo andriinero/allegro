@@ -1,5 +1,6 @@
 "use client";
 
+import { navLinks } from "@/data/user-nav";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,12 +10,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-
-const navLinks = [
-  { href: "/blog", name: "Blog" },
-  { href: "/about-me", name: "About Me" },
-  { href: "/contact", name: "Contact" },
-] as const;
 
 type NavMenuProps = { variant?: "transparent" | "solid" };
 
@@ -33,8 +28,8 @@ export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "border border-transparent bg-transparent font-semibold text-primary-foreground hover:bg-transparent hover:text-primary",
-                { "text-accent-foreground": isSolidVariant },
-                { "bg-accent": pathname === link.href },
+                isSolidVariant && "text-accent-foreground",
+                pathname === link.href && "bg-accent",
               )}
             >
               {link.name}

@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronsUpDown, LogOut } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -20,6 +19,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/app/_components/ui/sidebar";
+import { ChevronsUpDown, Home, LayoutDashboard, LogOut } from "lucide-react";
 import Link from "next/link";
 
 type NavUserProps = {
@@ -30,7 +30,7 @@ type NavUserProps = {
   };
 };
 
-export default function NavUser({ user }: NavUserProps) {
+export default function NavAdmin({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
 
   const fallbackUsername = user?.name?.substring(0, 2);
@@ -57,6 +57,7 @@ export default function NavUser({ user }: NavUserProps) {
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
@@ -80,7 +81,23 @@ export default function NavUser({ user }: NavUserProps) {
 
             <DropdownMenuSeparator />
 
-            <Link href="/api/auth/signout">
+            <Link href="/">
+              <DropdownMenuItem>
+                <Home />
+                Home
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/dashboard">
+              <DropdownMenuItem>
+                <LayoutDashboard />
+                User Dashboard
+              </DropdownMenuItem>
+            </Link>
+
+            <DropdownMenuSeparator />
+
+            <Link href="/api/auth/signout" className="text-destructive">
               <DropdownMenuItem>
                 <LogOut />
                 Log out

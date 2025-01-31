@@ -10,7 +10,7 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 
 type NavSecondaryProps = ComponentPropsWithoutRef<typeof SidebarGroup> & {
-  items: {
+  items: readonly {
     title: string;
     url: string;
     icon: LucideIcon;
