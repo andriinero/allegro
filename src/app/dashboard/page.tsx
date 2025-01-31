@@ -12,14 +12,22 @@ import {
 import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
+import PanelDescription from "./(overview)/panel-description";
+import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
 import PanelHeading from "./(overview)/panel-heading";
+import { Separator } from "../_components/ui/separator";
 
 export default function Page() {
   const { data: bookings } = api.booking.getByCurrentUser.useQuery();
 
   return (
-    <div className="flex flex-col gap-4">
-      <PanelHeading>Bookings</PanelHeading>
+    <>
+      <PanelHeaderWrapper>
+        <PanelHeading>Dashboard</PanelHeading>
+        <PanelDescription>Your personalized dashboard</PanelDescription>
+      </PanelHeaderWrapper>
+
+      <Separator />
 
       <Table>
         <TableCaption>Your recent lesson bookings.</TableCaption>
@@ -38,9 +46,10 @@ export default function Page() {
           {bookings?.map((b, index) => (
             <TableRow
               key={b.id}
-              className={cn("cursor-pointer", {
-                "bg-background hover:bg-background": index % 2 === 0,
-              })}
+              className={cn(
+                "bg-accent hover:bg-accent",
+                index % 2 === 0 && "bg-background hover:bg-background",
+              )}
             >
               <TableCell className="font-medium">
                 {b.id.substring(20)}
@@ -57,6 +66,6 @@ export default function Page() {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 }

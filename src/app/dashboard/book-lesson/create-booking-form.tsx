@@ -27,7 +27,6 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import PanelHeading from "../(overview)/panel-heading";
 
 export default function CreateBookingForm() {
   const form = useForm<CreateBooking>({
@@ -47,95 +46,91 @@ export default function CreateBookingForm() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <PanelHeading>Book Lesson</PanelHeading>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-3"
+      >
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground",
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-3"
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>Desired lesson date</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="presence"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Presence</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="ONLINE" id="online-presence" />
+                    <Label htmlFor="online-presence">Online</Label>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="OFFLINE" id="offline-presence" />
+                    <Label htmlFor="offline-presence">Offline</Label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormDescription>Select lesson presence type</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          disabled={createBookingMutation.isPending}
+          className="mt-2 self-start"
         >
-          <FormField
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>Desired lesson date</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="presence"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Presence</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="ONLINE" id="online-presence" />
-                      <Label htmlFor="online-presence">Online</Label>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="OFFLINE" id="offline-presence" />
-                      <Label htmlFor="offline-presence">Offline</Label>
-                    </div>
-                  </RadioGroup>
-                </FormControl>
-                <FormDescription>Select lesson presence type</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button
-            type="submit"
-            disabled={createBookingMutation.isPending}
-            className="mt-2 self-start"
-          >
-            Book Lesson
-          </Button>
-        </form>
-      </Form>
-    </div>
+          Book Lesson
+        </Button>
+      </form>
+    </Form>
   );
 }

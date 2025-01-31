@@ -63,7 +63,7 @@ export default async function Layout({ children }: LayoutProps) {
             </nav>
           </aside>
 
-          <section className="min-h-[460px] w-full rounded-lg bg-background p-4 shadow">
+          <section className="flex min-h-[460px] w-full flex-col gap-4 rounded-lg bg-background p-4 shadow">
             {children}
           </section>
         </ContentWrapper>
