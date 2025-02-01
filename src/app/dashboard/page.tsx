@@ -16,9 +16,10 @@ import PanelDescription from "./(overview)/panel-description";
 import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
 import PanelHeading from "./(overview)/panel-heading";
 import { Separator } from "../_components/ui/separator";
+import Spinner from "../_components/general/spinner";
 
 export default function Page() {
-  const { data: bookings } = api.booking.getByCurrentUser.useQuery();
+  const { data: bookings, isPending } = api.booking.getByCurrentUser.useQuery();
 
   return (
     <>
@@ -29,43 +30,47 @@ export default function Page() {
 
       <Separator />
 
-      <Table>
-        <TableCaption>Your recent lesson bookings.</TableCaption>
+      {isPending ? (
+        <Spinner />
+      ) : (
+        <Table>
+          <TableCaption>Your recent lesson bookings.</TableCaption>
 
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Booking</TableHead>
-            <TableHead>For</TableHead>
-            <TableHead>Placed</TableHead>
-            <TableHead>Lesson Presence</TableHead>
-            <TableHead className="text-right">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {bookings?.map((b, index) => (
-            <TableRow
-              key={b.id}
-              className={cn(
-                "bg-accent hover:bg-accent",
-                index % 2 === 0 && "bg-background hover:bg-background",
-              )}
-            >
-              <TableCell className="font-medium">
-                {b.id.substring(20)}
-              </TableCell>
-              <TableCell>{getNDayMonth(b.date)}</TableCell>
-              <TableCell>
-                {getNDayNMonthNYearAtShortTime(b.createdAt)}
-              </TableCell>
-              <TableCell>{b.lessonPresence}</TableCell>
-              <TableCell className="text-right font-semibold tracking-tight">
-                {b.status}
-              </TableCell>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Booking</TableHead>
+              <TableHead>For</TableHead>
+              <TableHead>Placed</TableHead>
+              <TableHead>Lesson Presence</TableHead>
+              <TableHead className="text-right">Status</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+
+          <TableBody>
+            {bookings?.map((b, index) => (
+              <TableRow
+                key={b.id}
+                className={cn(
+                  "bg-accent hover:bg-accent",
+                  index % 2 === 0 && "bg-background hover:bg-background",
+                )}
+              >
+                <TableCell className="font-medium">
+                  {b.id.substring(20)}
+                </TableCell>
+                <TableCell>{getNDayMonth(b.date)}</TableCell>
+                <TableCell>
+                  {getNDayNMonthNYearAtShortTime(b.createdAt)}
+                </TableCell>
+                <TableCell>{b.lessonPresence}</TableCell>
+                <TableCell className="text-right font-semibold tracking-tight">
+                  {b.status}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </>
   );
 }
