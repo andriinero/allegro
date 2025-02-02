@@ -12,11 +12,11 @@ import {
 import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
+import Spinner from "../_components/general/spinner";
+import { Separator } from "../_components/ui/separator";
 import PanelDescription from "./(overview)/panel-description";
 import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
 import PanelHeading from "./(overview)/panel-heading";
-import { Separator } from "../_components/ui/separator";
-import Spinner from "../_components/general/spinner";
 
 export default function Page() {
   const { data: bookings, isPending } = api.booking.getByCurrentUser.useQuery();

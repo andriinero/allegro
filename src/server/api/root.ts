@@ -2,6 +2,7 @@ import { postRouter } from "@/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
 import { bookingRouter } from "./routers/booking";
+import { profileRouter } from "./routers/profile";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +12,7 @@ import { bookingRouter } from "./routers/booking";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   booking: bookingRouter,
+  profile: profileRouter,
   admin: adminRouter,
 });
 

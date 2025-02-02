@@ -6,11 +6,8 @@ type SpinnerProps = ComponentProps<typeof LoaderCircle>;
 
 export default function Spinner({ className, ...props }: SpinnerProps) {
   return (
-    <div className="flex h-full w-full items-center justify-center gap-4 font-medium">
-      <LoaderCircle
-        className={cn("size-8 animate-spin", className)}
-        {...props}
-      />
+    <div className="flex h-full w-full items-center justify-center gap-3 font-medium">
+      <LoaderCircle className={cn("animate-spin", className)} {...props} />
       Loading...
     </div>
   );
