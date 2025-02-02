@@ -7,8 +7,6 @@
   <p align="center">
     Fullstack Next.js Web Application written in TypeScript
     <br />
-    <a href="https://github.com/andriinero/allegro">Backend</a>
-    ·
     <a href="https://github.com/andriinero/allegro/issues/new">Report Bug</a>
     ·
     <a href="https://github.com/andriinero/allegro/issues/new">Suggestion</a>
