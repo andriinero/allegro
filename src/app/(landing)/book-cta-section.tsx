@@ -9,7 +9,7 @@ export default async function BookCTASection() {
 
   return (
     <section className="flex items-center justify-center bg-primary text-primary-foreground sm:py-0">
-      <ContentWrapper className="flex flex-col items-center justify-between gap-6 py-6">
+      <ContentWrapper className="flex flex-col items-center justify-between gap-6 py-8">
         <h1 className="text-center text-4xl font-extrabold">
           Book Your First Lesson And Take Action Now!
         </h1>
