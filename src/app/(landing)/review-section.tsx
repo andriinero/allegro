@@ -24,10 +24,10 @@ export default function ReviewSection() {
           opts={{ align: "start", loop: true }}
           className="w-full px-0.5"
         >
-          <CarouselPrevious />
+          <CarouselPrevious className="hidden sm:block" />
 
           <CarouselContent>
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="sm:basis-1/3">
               <ReviewCard authorName="Hank" score={5}>
                 After frustration from looking for a path through YouTube and
                 seeing the ads I decided to give it a try and I am so glad I
@@ -35,7 +35,7 @@ export default function ReviewSection() {
               </ReviewCard>
             </CarouselItem>
 
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="sm:basis-1/3">
               <ReviewCard authorName="Hank" score={5}>
                 After frustration from looking for a path through YouTube and
                 seeing the ads I decided to give it a try and I am so glad I
@@ -43,7 +43,7 @@ export default function ReviewSection() {
               </ReviewCard>
             </CarouselItem>
 
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="sm:basis-1/3">
               <ReviewCard authorName="Hank" score={5}>
                 After frustration from looking for a path through YouTube and
                 seeing the ads I decided to give it a try and I am so glad I
@@ -51,7 +51,7 @@ export default function ReviewSection() {
               </ReviewCard>
             </CarouselItem>
 
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="sm:basis-1/3">
               <ReviewCard authorName="Hank" score={5}>
                 After frustration from looking for a path through YouTube and
                 seeing the ads I decided to give it a try and I am so glad I
@@ -59,7 +59,7 @@ export default function ReviewSection() {
               </ReviewCard>
             </CarouselItem>
 
-            <CarouselItem className="basis-1/3">
+            <CarouselItem className="sm:basis-1/3">
               <ReviewCard authorName="Hank" score={5}>
                 After frustration from looking for a path through YouTube and
                 seeing the ads I decided to give it a try and I am so glad I
@@ -68,7 +68,7 @@ export default function ReviewSection() {
             </CarouselItem>
           </CarouselContent>
 
-          <CarouselNext />
+          <CarouselNext className="hidden sm:block" />
         </Carousel>
       </ContentWrapper>
     </section>

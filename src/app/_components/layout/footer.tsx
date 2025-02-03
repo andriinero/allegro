@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="flex justify-center bg-foreground p-4 text-secondary">
       <ContentWrapper className="flex flex-col gap-16">
-        <div className="flex gap-16">
+        <div className="flex gap-8 sm:gap-16">
           <div className="space-y-6">
             <h4 className="text-lg font-extrabold uppercase text-background">
               Support
@@ -59,10 +59,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-between gap-16">
           <Logo className="text-secondary" />
 
-          <p className="text-sm">
+          <p className="text-end text-sm sm:text-start">
             © Copyright 2024-2025 Allegro Inc. All Rights Reserved.
           </p>
         </div>

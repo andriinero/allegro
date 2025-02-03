@@ -19,7 +19,7 @@ export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
   const isSolidVariant = variant === "solid";
 
   return (
-    <NavigationMenu className="flex-2">
+    <NavigationMenu className="flex-2 hidden sm:block">
       <NavigationMenuList>
         {navLinks.map((link) => (
           <NavigationMenuItem key={link.href} className="">

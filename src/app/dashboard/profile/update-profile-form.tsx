@@ -26,7 +26,6 @@ import { GuitarType, ProficiencyLevel } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-//TODO: finish form
 export default function UpdateProfileForm() {
   const form = useForm<UpdateProfile>({
     resolver: zodResolver(updateProfileSchema),
@@ -51,7 +50,7 @@ export default function UpdateProfileForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex max-w-xl flex-col gap-4"
+        className="flex max-w-lg flex-col gap-4"
       >
         <FormField
           control={form.control}

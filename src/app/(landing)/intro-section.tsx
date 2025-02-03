@@ -1,6 +1,6 @@
-import { TextQuote } from "lucide-react";
 import ContentWrapper from "../_components/general/content-wrapper";
 import { Separator } from "../_components/ui/separator";
+import IntroQuote from "./intro-quote";
 
 export default function IntroSection() {
   return (
@@ -11,39 +11,23 @@ export default function IntroSection() {
             Over 1 Thousand Satisfied Customers
           </p>
 
-          <h1 className="text-6xl font-extrabold uppercase">
+          <h1 className="text-5xl font-extrabold uppercase sm:text-6xl">
             The best way <br /> to learn guitar
           </h1>
 
           <Separator className="border-b border-dashed border-primary bg-transparent" />
 
           <div className="mt-10 space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <TextQuote className="size-4" />
-                <Separator className="h-4 bg-primary" orientation="vertical" />
-                <h4 className="text-lg uppercase">Andrew</h4>
-              </div>
+            <IntroQuote author="Andrew">
+              It&#39;s exciting to be discovering a new & long put off hobby
+              with teacher that is making it FUN.
+            </IntroQuote>
 
-              <p className="max-w-sm text-sm">
-                It&#39;s exciting to be discovering a new & long put off hobby
-                with teacher that is making it FUN.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <TextQuote className="size-4" />
-                <Separator className="h-4 bg-primary" orientation="vertical" />
-                <h4 className="text-lg uppercase">Sam</h4>
-              </div>
-
-              <p className="max-w-sm text-sm">
-                Absolutely amazing guitar lesson! 🎸 The instructor was super
-                knowledgeable, patient, and made every concept so easy to
-                understand.
-              </p>
-            </div>
+            <IntroQuote author="Sam">
+              Absolutely amazing guitar lesson! 🎸 The instructor was super
+              knowledgeable, patient, and made every concept so easy to
+              understand.
+            </IntroQuote>
           </div>
         </div>
       </ContentWrapper>

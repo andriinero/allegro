@@ -63,7 +63,7 @@ export default function Header({
 
         <div className="flex flex-1 items-center justify-end gap-4">
           {session?.user ? (
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger className="flex items-center gap-2">
                 <Avatar>
                   <AvatarImage src={session?.user?.image ?? ""} />
@@ -136,6 +136,7 @@ export default function Header({
               href={
                 session?.user ? "/dashboard/book-lesson" : "/api/auth/signin"
               }
+              className="hidden sm:block"
             >
               <Button>Book Lesson Now</Button>
             </Link>
