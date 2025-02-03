@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Quote, Star } from "lucide-react";
 import type { ReactNode } from "react";
+import { Card } from "../_components/ui/card";
 
 type ReviewCardProps = {
   authorName: string;
@@ -16,12 +17,7 @@ export default function ReviewCard({
   className,
 }: ReviewCardProps) {
   return (
-    <div
-      className={cn(
-        "my-2 max-w-md space-y-2 rounded-md border border-border p-4 shadow-md",
-        className,
-      )}
-    >
+    <Card className={cn("my-2 space-y-2 rounded-md p-4", className)}>
       <Quote className="size-4 text-primary" />
 
       <p className="font-semibold">{children}</p>
@@ -35,6 +31,6 @@ export default function ReviewCard({
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
