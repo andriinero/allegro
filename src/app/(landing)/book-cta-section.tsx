@@ -8,11 +8,12 @@ export default async function BookCTASection() {
   const session = await auth();
 
   return (
-    <section className="flex items-center justify-center bg-primary p-2 text-primary-foreground">
+    <section className="flex items-center justify-center bg-primary p-2 py-4 text-primary-foreground sm:py-0">
       <ContentWrapper className="flex flex-col items-center justify-between gap-6">
-        <h1 className="mt-4 text-center text-4xl font-extrabold">
+        <h1 className="mt-0 text-center text-4xl font-extrabold sm:mt-4">
           Book Your First Lesson And Take Action Now!
         </h1>
+
         <div className="flex gap-4 text-secondary-foreground">
           {session ? (
             <Link href="/dashboard/book-lesson">
@@ -56,6 +57,7 @@ export default async function BookCTASection() {
             </>
           )}
         </div>
+
         <p className="max-w-md text-center text-xs">
           By using our service, signing in, and/or registering for an account in
           any way, you agree to our Terms of Service and Privacy Policy which
