@@ -1,18 +1,20 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import type { ComponentProps } from "react";
 
-type LogoProps = ComponentProps<"h1">;
+type LogoProps = ComponentProps<"a">;
 
 export default function Logo({ className, ...props }: LogoProps) {
   return (
-    <h1
+    <Link
+      href="/"
       className={cn(
         "text-2xl font-bold tracking-tight text-primary-foreground",
         className,
       )}
       {...props}
     >
-      Allegro
-    </h1>
+      <h1>Allegro</h1>
+    </Link>
   );
 }

@@ -18,7 +18,7 @@ export default function ReviewCard({
   return (
     <div
       className={cn(
-        "max-w-md space-y-2 rounded-md border border-primary p-4 shadow-md",
+        "my-2 max-w-md space-y-2 rounded-md border border-border p-4 shadow-md",
         className,
       )}
     >

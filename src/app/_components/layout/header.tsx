@@ -49,7 +49,7 @@ export default function Header({
   return (
     <header
       className={cn(
-        "fixed flex w-full items-center justify-center backdrop-blur",
+        "fixed z-20 flex w-full items-center justify-center backdrop-blur",
         isSolidVariant && "border-b border-border bg-background",
         className,
       )}

@@ -7,7 +7,7 @@ type IntroQuoteProps = { author: string; children: ReactNode };
 
 export default function IntroQuote({ author, children }: IntroQuoteProps) {
   return (
-    <div className="space-y-2 rounded-xl bg-foreground/60 p-3 sm:bg-transparent sm:p-0">
+    <div className="space-y-2 rounded-xl bg-foreground/30 p-4 backdrop-blur sm:bg-transparent sm:p-0 sm:backdrop-blur-0">
       <div className="flex items-center gap-2">
         <TextQuote className="size-4" />
         <Separator className="h-4 bg-primary" orientation="vertical" />

@@ -13,7 +13,7 @@ import ReviewCard from "./review-card";
 
 export default function ReviewSection() {
   return (
-    <section className="flex flex-col items-center py-20">
+    <section className="flex flex-col items-center py-12">
       <ContentWrapper>
         <Carousel
           plugins={[
@@ -24,7 +24,7 @@ export default function ReviewSection() {
           opts={{ align: "start", loop: true }}
           className="w-full px-0.5"
         >
-          <CarouselPrevious className="hidden sm:block" />
+          <CarouselPrevious className="hidden sm:flex" />
 
           <CarouselContent>
             <CarouselItem className="sm:basis-1/3">
@@ -68,7 +68,7 @@ export default function ReviewSection() {
             </CarouselItem>
           </CarouselContent>
 
-          <CarouselNext className="hidden sm:block" />
+          <CarouselNext className="hidden sm:flex" />
         </Carousel>
       </ContentWrapper>
     </section>
