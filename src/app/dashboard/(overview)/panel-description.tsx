@@ -10,7 +10,7 @@ export default function PanelDescription({
   ...props
 }: PanelDescriptionProps) {
   return (
-    <p className={cn("text-muted-foreground", className)} {...props}>
+    <p className={cn("text-sm text-muted-foreground", className)} {...props}>
       {children}
     </p>
   );

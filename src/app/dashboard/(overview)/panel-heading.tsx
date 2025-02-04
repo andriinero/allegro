@@ -11,7 +11,7 @@ export default function PanelHeading({
 }: PanelHeaderProps) {
   return (
     <h2
-      className={cn("text-2xl font-semibold tracking-tight", className)}
+      className={cn("text-xl font-semibold tracking-tight", className)}
       {...props}
     >
       {children}
