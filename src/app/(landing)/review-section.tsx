@@ -74,16 +74,16 @@ export default function ReviewSection() {
 
         <div className="flex items-center gap-2 text-sm">
           <span className="text-base font-semibold">Excellent</span>
-          <div className="flex gap-0.5 text-primary">
-            <Star className="size-4" />
-            <Star className="size-4" />
-            <Star className="size-4" />
-            <Star className="size-4" />
-            <StarHalf className="size-4" />
+          <div className="flex gap-0.5 text-green-600">
+            <Star className="size-5" fill="#16a34a" strokeWidth={0} />
+            <Star className="size-5" fill="#16a34a" strokeWidth={0} />
+            <Star className="size-5" fill="#16a34a" strokeWidth={0} />
+            <Star className="size-5" fill="#16a34a" strokeWidth={0} />
+            <StarHalf className="size-5" fill="#16a34a" strokeWidth={0} />
           </div>
           <span>
-            <span className="font-semibold">512</span> reviews from satisfied
-            students
+            <span className="mr-0.5 font-semibold">512</span> reviews from
+            satisfied students
           </span>
         </div>
       </ContentWrapper>
