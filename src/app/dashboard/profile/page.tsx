@@ -1,13 +1,13 @@
-"use client";
-
 import { Separator } from "@/app/_components/ui/separator";
 import PanelDescription from "../(overview)/panel-description";
 import PanelHeaderWrapper from "../(overview)/panel-header-wrapper";
 import PanelHeading from "../(overview)/panel-heading";
 import UpdateProfileForm from "./update-profile-form";
+import { auth } from "@/server/auth";
 
-//TODO: remove toast test
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+
   return (
     <>
       <PanelHeaderWrapper>
@@ -19,7 +19,7 @@ export default function Page() {
 
       <Separator />
 
-      <UpdateProfileForm />
+      <UpdateProfileForm sessionUser={session?.user} />
     </>
   );
 }

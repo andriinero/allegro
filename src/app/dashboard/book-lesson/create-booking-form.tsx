@@ -41,8 +41,12 @@ export default function CreateBookingForm() {
   });
 
   async function onSubmit(data: CreateBooking) {
-    const result = await createBookingMutation.mutateAsync(data);
-    if (result) toast.success("Booking has been created");
+    try {
+      await createBookingMutation.mutateAsync(data);
+      toast.success("Booking has been created");
+    } catch (e) {
+      toast.error("Error has occurred when booking");
+    }
   }
 
   return (
@@ -82,9 +86,8 @@ export default function CreateBookingForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    onMonthChange={() => console.log("ping")}
+                    disabled={(date) => date < new Date()}
                     initialFocus
                   />
                 </PopoverContent>

@@ -22,13 +22,24 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { type UpdateProfile, updateProfileSchema } from "@/schemas/profile";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GuitarType, ProficiencyLevel } from "@prisma/client";
+import { GuitarType, ProficiencyLevel, type User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function UpdateProfileForm() {
+type UpdateProfileProps = { sessionUser?: User };
+
+export default function UpdateProfileForm({ sessionUser }: UpdateProfileProps) {
   const form = useForm<UpdateProfile>({
     resolver: zodResolver(updateProfileSchema),
+    defaultValues: {
+      name: sessionUser?.name ?? "",
+      email: sessionUser?.email ?? "",
+      guitarType: sessionUser?.guitarType ?? "ACOUSTIC",
+      proficiency: sessionUser?.proficiency ?? "BEGINNER",
+      phone: sessionUser?.phone ?? "",
+      location: sessionUser?.location ?? "",
+      bio: sessionUser?.bio ?? "",
+    },
   });
   const apiUtils = api.useUtils();
   const updateProfileMutation = api.profile.update.useMutation({
@@ -104,6 +115,9 @@ export default function UpdateProfileForm() {
                   ))}
                 </SelectContent>
               </Select>
+              <FormDescription>
+                Select the type of guitar you primarily use
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -129,6 +143,10 @@ export default function UpdateProfileForm() {
                   ))}
                 </SelectContent>
               </Select>
+              <FormDescription>
+                Choose the option that best describes your guitar playing
+                ability
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
