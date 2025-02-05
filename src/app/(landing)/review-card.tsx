@@ -18,7 +18,7 @@ export default function ReviewCard({
 }: ReviewCardProps) {
   return (
     <Card className={cn("my-2 space-y-2 rounded-md p-4", className)}>
-      <Quote className="size-5 text-green-600" fill="#16a34a" strokeWidth={0} />
+      <Quote className="size-5 text-green-600" />
 
       <p className="font-semibold">{children}</p>
 

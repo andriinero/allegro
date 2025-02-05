@@ -55,6 +55,7 @@ model User {
   location      String?
   guitarType    GuitarType       @default(ACOUSTIC)
   proficiency   ProficiencyLevel @default(BEGINNER)
+  createdAt     DateTime?        @default(now())
 
   accounts Account[]
   sessions Session[]

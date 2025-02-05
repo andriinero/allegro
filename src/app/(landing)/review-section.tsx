@@ -73,7 +73,7 @@ export default function ReviewSection() {
         </Carousel>
 
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-base font-semibold">Excellent</span>
+          <span className="text-base font-bold">Excellent</span>
           <div className="flex gap-0.5 text-green-600">
             <Star className="size-5" fill="#16a34a" strokeWidth={0} />
             <Star className="size-5" fill="#16a34a" strokeWidth={0} />

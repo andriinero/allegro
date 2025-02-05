@@ -10,4 +10,12 @@ export const adminRouter = createTRPCRouter({
         skip: input.page * 25,
       });
     }),
+
+  //NOTE: for testing purposes
+  // setAdminRole: protectedProcedure.mutation(async ({ ctx, input }) => {
+  //   return ctx.db.user.update({
+  //     where: { id: ctx.session.user.id },
+  //     data: { role: "ADMIN" },
+  //   });
+  // }),
 });

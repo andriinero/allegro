@@ -15,13 +15,14 @@ import {
   SidebarTrigger,
 } from "../_components/ui/sidebar";
 import { AdminSidebarar } from "./(overview)/admin-sidebar";
+import { redirect } from "next/navigation";
 
 type LayoutProps = { children: ReactNode };
 
 export default async function Layout({ children }: LayoutProps) {
   const session = await auth();
 
-  if (!session || session.user.role !== "ADMIN") return;
+  if (!session || session.user.role !== "ADMIN") return redirect("/");
 
   return (
     <SidebarProvider>
@@ -52,7 +53,7 @@ export default async function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        <section className="flex-1">{children}</section>
+        <section className="flex-1 p-6">{children}</section>
       </SidebarInset>
     </SidebarProvider>
   );
