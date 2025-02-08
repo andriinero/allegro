@@ -1,13 +1,13 @@
 export const getDateRangeWhereClause = (
   fieldName: string,
-  dateStart?: string,
-  dateEnd?: string,
+  dateStart?: Date,
+  dateEnd?: Date,
 ) =>
   dateStart && dateEnd
     ? {
         [fieldName]: {
-          lte: new Date(dateEnd),
-          gte: new Date(dateStart),
+          lte: dateEnd,
+          gte: dateStart,
         },
       }
     : {};

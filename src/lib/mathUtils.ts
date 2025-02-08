@@ -1,6 +1,4 @@
-export const getPercentageIncrease = (prev?: number, cur?: number) => {
-  if (!prev || !cur) return "+0%";
-
+export const getPercentageIncrease = (prev: number, cur: number) => {
   let percentage;
   const trendSign = cur >= prev ? "+" : "-";
 

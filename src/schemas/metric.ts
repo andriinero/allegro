@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const dateRangeSchema = z
   .object({
-    dateStart: z.string().optional(),
-    dateEnd: z.string().optional(),
+    dateStart: z.date().optional(),
+    dateEnd: z.date().optional(),
   })
   .optional();
 

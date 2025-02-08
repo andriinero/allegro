@@ -12,8 +12,27 @@ export const getNDayNMonthNYearAtShortTime = (date: Date) =>
 
 export const getCurrentDateNoTime = () => getYearMonthDay(new Date());
 
-export const getPreviousMonthDateNoTime = () => {
-  const previousMonth = sub(new Date(), { months: 1 });
+export const getCurrentMonthRange = () => {
+  const dateEnd = new Date();
 
-  return getYearMonthDay(previousMonth);
+  const dateStart = new Date(dateEnd);
+  dateStart.setDate(1);
+
+  return {
+    dateStart: new Date(dateStart.toDateString()),
+    dateEnd: new Date(dateEnd.toDateString()),
+  };
+};
+
+export const getPreviousMonthRange = () => {
+  const dateEnd = new Date();
+  dateEnd.setDate(0);
+
+  const dateStart = new Date(dateEnd);
+  dateStart.setDate(1);
+
+  return {
+    dateStart: new Date(dateStart.toDateString()),
+    dateEnd: new Date(dateEnd.toDateString()),
+  };
 };

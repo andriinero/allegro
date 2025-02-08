@@ -17,7 +17,10 @@ export default function MetricCard({
   previousMonth,
   currentMonth,
 }: MetricCardProps) {
-  const increase = getPercentageIncrease(previousMonth, currentMonth);
+  const increase =
+    previousMonth !== undefined && currentMonth !== undefined
+      ? getPercentageIncrease(previousMonth, currentMonth)
+      : "+0%";
 
   return (
     <Card className="basis-1/4">
