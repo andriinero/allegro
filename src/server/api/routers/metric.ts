@@ -1,6 +1,6 @@
 import { dateRangeSchema } from "@/schemas/metric";
 import { adminProcedure, createTRPCRouter } from "../trpc";
-import { getDateRangeWhereClause } from "@/lib/prismaUtils";
+import { getDateRangeWhereClause } from "@/lib/prisma-utils";
 
 export const metricRouter = createTRPCRouter({
   getUserCount: adminProcedure

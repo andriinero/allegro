@@ -4,6 +4,14 @@ import LessonReviewsMetric from "./(overview)/lesson-reviews-metric";
 import LessonsTakenMetric from "./(overview)/lessons-taken-metric";
 import TotalBookingsMetric from "./(overview)/total-bookings-metric";
 import UserCountMetric from "./(overview)/user-count-metric";
+import SalesChart from "./(overview)/sales-chart";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../_components/ui/card";
 
 export default async function Page() {
   return (
@@ -29,6 +37,17 @@ export default async function Page() {
           <LessonReviewsMetric />
         </Suspense>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Overview</CardTitle>
+          <CardDescription>Revenue for the past 12 months</CardDescription>
+        </CardHeader>
+
+        <CardContent className="pl-2">
+          <SalesChart />
+        </CardContent>
+      </Card>
     </div>
   );
 }
