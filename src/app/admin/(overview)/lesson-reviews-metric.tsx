@@ -1,24 +1,29 @@
-import { getCurrentMonthRange, getPreviousMonthRange } from "@/lib/date";
+"use client";
+
+import {
+  getCurrentMonthDateRangeange,
+  getPreviousMonthDateRange,
+} from "@/lib/date";
 import { api } from "@/trpc/react";
-import { BookOpen } from "lucide-react";
+import { Star } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function LessonReviewsMetric() {
-  const total = api.metric.getReviewCount.useQuery();
-  const currentMonth = api.metric.getLessonCount.useQuery(
-    getCurrentMonthRange(),
+  const [total] = api.metric.getReviewCount.useSuspenseQuery();
+  const [currentMonth] = api.metric.getLessonCount.useSuspenseQuery(
+    getCurrentMonthDateRangeange(),
   );
-  const previousMonth = api.metric.getReviewCount.useQuery(
-    getPreviousMonthRange(),
+  const [previousMonth] = api.metric.getReviewCount.useSuspenseQuery(
+    getPreviousMonthDateRange(),
   );
 
   return (
     <MetricCard
       heading="Lesson Reviews"
-      value={total.data}
-      previousMonth={previousMonth.data}
-      currentMonth={currentMonth.data}
-      icon={<BookOpen />}
+      value={total}
+      previousMonth={previousMonth}
+      currentMonth={currentMonth}
+      icon={<Star />}
     />
   );
 }
