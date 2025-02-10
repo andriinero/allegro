@@ -28,7 +28,7 @@ export default function MetricCard({
       : "+0%";
 
   return (
-    <Card className="basis-1/4">
+    <Card className="col-span-1">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium tracking-tight">
           {heading}
@@ -38,7 +38,7 @@ export default function MetricCard({
       </CardHeader>
 
       <CardContent>
-        <div className="text-2xl font-bold">{value ? value : "-"}</div>
+        <div className="text-2xl font-bold">{value ? `+${value}` : "-"}</div>
         <p className="text-xs text-muted-foreground">
           {increase} from the last month
         </p>
