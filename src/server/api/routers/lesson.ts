@@ -1,13 +1,20 @@
+import { env } from "@/env";
 import { createLessonSchema } from "@/schemas/lesson";
+import { paginationSchema } from "@/schemas/pagination";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const lessonRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.lesson.findMany({
-      where: { booking: { bookedById: ctx.session.user.id } },
-    });
-  }),
+  getAll: protectedProcedure
+    .input(paginationSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.lesson.findMany({
+        where: { studentId: ctx.session.user.id },
+        include: { student: true },
+        take: input.take,
+        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+      });
+    }),
 
   create: adminProcedure
     .input(createLessonSchema)
