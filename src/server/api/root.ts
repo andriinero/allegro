@@ -2,9 +2,10 @@ import { postRouter } from "@/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { adminRouter } from "./routers/admin";
 import { bookingRouter } from "./routers/booking";
+import { lessonRouter } from "./routers/lesson";
+import { metricRouter } from "./routers/metric";
 import { profileRouter } from "./routers/profile";
 import { reviewRouter } from "./routers/review";
-import { metricRouter } from "./routers/metric";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ import { metricRouter } from "./routers/metric";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   booking: bookingRouter,
+  lesson: lessonRouter,
   profile: profileRouter,
   admin: adminRouter,
   review: reviewRouter,

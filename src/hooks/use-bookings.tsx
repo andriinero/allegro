@@ -19,11 +19,11 @@ type BookingsContextType = {
 };
 const BookingsContext = createContext<BookingsContextType | null>(null);
 
-type Props = {
+type BookingsProviderProps = {
   children: ReactNode;
 };
 
-export default function BookingsProvider({ children }: Props) {
+export default function BookingsProvider({ children }: BookingsProviderProps) {
   const [open, setOpen] = useDialogState<BookingDialogType>(null);
   const [currentRow, setCurrentRow] = useState<Booking | null>(null);
 

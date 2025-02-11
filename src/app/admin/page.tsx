@@ -9,7 +9,7 @@ import {
 } from "../_components/ui/card";
 import { Skeleton } from "../_components/ui/skeleton";
 import LessonReviewsMetric from "./(overview)/lesson-reviews-metric";
-import LessonsTakenMetric from "./(overview)/lessons-taken-metric";
+import LessonsCompletedMetric from "./(overview)/lessons-taken-metric";
 import SalesChart from "./(overview)/sales-chart";
 import TotalBookingsMetric from "./(overview)/total-bookings-metric";
 import UserCountMetric from "./(overview)/user-count-metric";
@@ -34,7 +34,7 @@ export default async function Page() {
 
           <TotalBookingsMetric />
 
-          <LessonsTakenMetric />
+          <LessonsCompletedMetric />
 
           <LessonReviewsMetric />
         </Suspense>
@@ -56,7 +56,7 @@ export default async function Page() {
           <CardHeader>
             <CardTitle>Recent Lessons</CardTitle>
             <CardDescription>
-              You've taught 1 student(s) this month
+              You&apos;ve taught 1 student(s) this month
             </CardDescription>
           </CardHeader>
 

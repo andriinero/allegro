@@ -27,7 +27,7 @@ export const metricRouter = createTRPCRouter({
       return await ctx.db.booking.count({ where: whereClause });
     }),
 
-  getLessonCount: adminProcedure
+  getCompletedLessonCount: adminProcedure
     .input(dateRangeSchema)
     .query(async ({ ctx, input }) => {
       const whereClause = getDateRangeWhereClause(
@@ -36,7 +36,9 @@ export const metricRouter = createTRPCRouter({
         input?.dateEnd,
       );
 
-      return await ctx.db.lesson.count({ where: whereClause });
+      return await ctx.db.lesson.count({
+        where: { ...whereClause, booking: { status: "COMPLETED" } },
+      });
     }),
 
   getReviewCount: adminProcedure

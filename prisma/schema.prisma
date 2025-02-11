@@ -63,6 +63,7 @@ model User {
   bookings Booking[]
   reviews  Review[]
   comments Comment[]
+  lessons  Lesson[]
 }
 
 model Post {
@@ -90,14 +91,17 @@ model Comment {
 }
 
 model Lesson {
-  id            String    @id @default(cuid())
-  assignment    String?
-  notes         String?
-  description   String?
-  duration      Int?
-  lessonLinkURL String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime?
+  id          String    @id @default(cuid())
+  title       String
+  assignment  String?
+  description String?
+  duration    Int?
+  lessonLink  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+
+  student   User   @relation(fields: [studentId], references: [id])
+  studentId String
 
   review  Review?
   booking Booking?

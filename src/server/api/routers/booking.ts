@@ -11,6 +11,7 @@ export const bookingRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.booking.findMany({
         where: { bookedById: ctx.session.user.id },
+        orderBy: { date: "asc" },
         take: input.take,
         skip: input.page * +env.RESPONSE_PAGE_SIZE,
       });

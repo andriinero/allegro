@@ -10,7 +10,7 @@ import MetricCard from "./metric-card";
 
 export default function LessonReviewsMetric() {
   const [total] = api.metric.getReviewCount.useSuspenseQuery();
-  const [currentMonth] = api.metric.getLessonCount.useSuspenseQuery(
+  const [currentMonth] = api.metric.getReviewCount.useSuspenseQuery(
     getCurrentMonthDateRangeange(),
   );
   const [previousMonth] = api.metric.getReviewCount.useSuspenseQuery(

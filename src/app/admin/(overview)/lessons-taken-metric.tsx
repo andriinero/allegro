@@ -8,18 +8,18 @@ import { api } from "@/trpc/react";
 import { BookOpen } from "lucide-react";
 import MetricCard from "./metric-card";
 
-export default function LessonsTakenMetric() {
-  const [total] = api.metric.getLessonCount.useSuspenseQuery();
-  const [currentMonth] = api.metric.getLessonCount.useSuspenseQuery(
+export default function LessonsCompletedMetric() {
+  const [total] = api.metric.getCompletedLessonCount.useSuspenseQuery();
+  const [currentMonth] = api.metric.getCompletedLessonCount.useSuspenseQuery(
     getCurrentMonthDateRangeange(),
   );
-  const [previousMonth] = api.metric.getLessonCount.useSuspenseQuery(
+  const [previousMonth] = api.metric.getCompletedLessonCount.useSuspenseQuery(
     getPreviousMonthDateRange(),
   );
 
   return (
     <MetricCard
-      heading="Lessons Taken"
+      heading="Lessons Completed"
       value={total}
       previousMonth={previousMonth}
       currentMonth={currentMonth}
