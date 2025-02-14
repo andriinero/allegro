@@ -11,7 +11,6 @@ import { api } from "@/trpc/react";
 import RecentlyTaughtStudent from "./recently-taught-student";
 
 export default function RecentLessonsCard() {
-  //NOTE: only completed lessons
   const { data } = api.lesson.getAll.useQuery({ take: 5, page: 0 });
 
   return (

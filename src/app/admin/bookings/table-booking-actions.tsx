@@ -37,7 +37,14 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
               Create Lesson
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              setOpen("edit");
+              setCurrentRow(row.original);
+            }}
+          >
+            Edit
+          </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 

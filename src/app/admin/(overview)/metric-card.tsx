@@ -33,7 +33,6 @@ export default function MetricCard({
         <CardTitle className="text-sm font-medium tracking-tight">
           {heading}
         </CardTitle>
-
         <div className="opacity-60 [&_svg]:size-4">{icon}</div>
       </CardHeader>
 
