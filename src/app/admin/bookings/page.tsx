@@ -5,21 +5,41 @@ import { api } from "@/trpc/react";
 import BookingDialogs from "./booking-dialogs";
 import { booking } from "./columns";
 import { DataTable } from "./data-table";
+import DataTableSkeleton from "./data-table-skeleton";
+import AdminPanelHeading from "../(overview)/admin-panel-heading";
 
-export default function DemoPage() {
-  const { data } = api.booking.getAny.useQuery({ take: 100, page: 0 });
+export default function Page() {
+  const { data, isLoading, isSuccess, isError, error, isRefetching } =
+    api.booking.getAny.useQuery({ take: 100, page: 0 });
+
+  if (isError) {
+    return (
+      <div className="flex h-[400px] items-center justify-center">
+        <div className="text-center">
+          <h3 className="text-lg font-semibold text-destructive">
+            Error loading bookings
+          </h3>
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <BookingsProvider>
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight">Bookings</h2>
-        <p className="text-muted-foreground">
-          Here&apos;s a list of your Bookings for this month!
-        </p>
-      </div>
+      <AdminPanelHeading
+        title="Bookings"
+        description="A list of bookings for this month"
+      />
 
       <div className="py-4">
-        {data && <DataTable columns={booking} data={data} />}
+        {isLoading || isRefetching ? (
+          <DataTableSkeleton />
+        ) : isSuccess ? (
+          <DataTable columns={booking} data={data} />
+        ) : (
+          <></>
+        )}
         <BookingDialogs />
       </div>
     </BookingsProvider>

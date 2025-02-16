@@ -22,7 +22,7 @@ type AppSidebarProps = ComponentProps<typeof Sidebar> & {
   user: Session["user"];
 };
 
-export function AdminSidebarar({ user, ...props }: AppSidebarProps) {
+export function AdminSidebar({ user, ...props }: AppSidebarProps) {
   const pathname = usePathname();
 
   return (

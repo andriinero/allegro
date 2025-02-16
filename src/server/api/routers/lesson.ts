@@ -1,18 +1,49 @@
 import { env } from "@/env";
-import { createLessonSchema } from "@/schemas/lesson";
-import { paginationSchema } from "@/schemas/pagination";
+import {
+  createLessonSchema,
+  getAllLessonsSchema,
+  lessonCountSchema,
+} from "@/schemas/lesson";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const lessonRouter = createTRPCRouter({
   getAll: protectedProcedure
-    .input(paginationSchema)
+    .input(getAllLessonsSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.findMany({
-        where: { studentId: ctx.session.user.id },
-        include: { student: true },
-        take: input.take,
-        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+        where: {
+          studentId: ctx.session.user.id,
+          booking: { status: input.lesson.status },
+        },
+        include: { student: true, booking: true },
+        take: input.pagination.take,
+        skip: input.pagination.page * +env.RESPONSE_PAGE_SIZE,
+      });
+    }),
+
+  getAnyCount: adminProcedure
+    .input(lessonCountSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.lesson.count({
+        where: {
+          studentId: ctx.session.user.id,
+          booking: input?.status ? { status: input.status } : undefined,
+        },
+      });
+    }),
+
+  getAny: protectedProcedure
+    .input(getAllLessonsSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.lesson.findMany({
+        where: {
+          studentId: ctx.session.user.id,
+          booking: { status: input.lesson.status },
+        },
+        include: { student: true, booking: true },
+        take: input.pagination.take,
+        skip: input.pagination.page * +env.RESPONSE_PAGE_SIZE,
       });
     }),
 

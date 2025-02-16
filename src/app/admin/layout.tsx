@@ -14,7 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "../_components/ui/sidebar";
-import { AdminSidebarar } from "./(overview)/admin-sidebar";
+import { AdminSidebar } from "./(overview)/admin-sidebar";
 import { redirect } from "next/navigation";
 
 type LayoutProps = { children: ReactNode };
@@ -26,7 +26,7 @@ export default async function Layout({ children }: LayoutProps) {
 
   return (
     <SidebarProvider>
-      <AdminSidebarar user={session.user} />
+      <AdminSidebar user={session.user} />
 
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2">

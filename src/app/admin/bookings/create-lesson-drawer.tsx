@@ -22,7 +22,7 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { getNDayMonth } from "@/lib/date";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { Booking } from "@prisma/client";
+import { LessonPresence, type Booking } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -35,12 +35,12 @@ type CreateLessonDrawerProps = {
 
 const createLessonFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  lessonLink: z.string().url().optional().or(z.literal("")),
-  assignment: z.string().optional().or(z.literal("")),
-  description: z.string().optional().or(z.literal("")),
+  lessonLink: z.string().url().or(z.literal("")),
+  assignment: z.string().optional(),
+  description: z.string().optional(),
   duration: z
     .number()
-    .min(30, "Minimum duration is 30 minutes")
+    .min(30, "Minimum lesson duration is 30 minutes")
     .max(90, "Maximum duration is 90 minutes"),
 });
 type CreateLessonForm = z.infer<typeof createLessonFormSchema>;
@@ -77,6 +77,15 @@ export default function CreateLessonDrawer({
     if (!currentRow?.bookedById) {
       toast.error("There was a problem submitting the form", {
         description: "StudentId not specified",
+      });
+      return;
+    }
+    if (
+      currentRow.lessonPresence === LessonPresence.ONLINE &&
+      !data.lessonLink
+    ) {
+      form.setError("lessonLink", {
+        message: "Lesson link is required",
       });
       return;
     }
