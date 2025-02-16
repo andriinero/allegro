@@ -34,11 +34,14 @@ type CreateLessonDrawerProps = {
 };
 
 const createLessonFormSchema = z.object({
-  title: z.string().optional(),
-  lessonLink: z.string().optional(),
-  assignment: z.string().optional(),
-  description: z.string().optional(),
-  duration: z.number().min(30).max(90),
+  title: z.string().min(1, "Title is required"),
+  lessonLink: z.string().url().optional().or(z.literal("")),
+  assignment: z.string().optional().or(z.literal("")),
+  description: z.string().optional().or(z.literal("")),
+  duration: z
+    .number()
+    .min(30, "Minimum duration is 30 minutes")
+    .max(90, "Maximum duration is 90 minutes"),
 });
 type CreateLessonForm = z.infer<typeof createLessonFormSchema>;
 
@@ -49,33 +52,43 @@ export default function CreateLessonDrawer({
 }: CreateLessonDrawerProps) {
   const form = useForm<CreateLessonForm>({
     resolver: zodResolver(createLessonFormSchema),
-    defaultValues: { duration: 45 },
+    defaultValues: {
+      duration: 45,
+      title: "",
+      lessonLink: "",
+      assignment: "",
+      description: "",
+    },
   });
   const utils = api.useUtils();
   const createLessonMutation = api.lesson.create.useMutation({
     onSuccess: async () => {
       await utils.booking.getAny.invalidate();
+      toast.success("The lesson has been created");
+    },
+    onError: (error) => {
+      toast.error("There was a problem creating the lesson", {
+        description: error.message,
+      });
     },
   });
 
   async function onSubmit(data: CreateLessonForm) {
-    onOpenChange(false);
-    form.reset();
-
-    if (currentRow?.bookedById) {
-      const lesson = await createLessonMutation.mutateAsync({
-        ...data,
-        bookingId: currentRow?.id,
-        studentId: currentRow?.bookedById,
-      });
-
-      if (lesson) toast.success("The lesson has been created");
-      else toast.error("There was a problem submitting the form");
-    } else {
+    if (!currentRow?.bookedById) {
       toast.error("There was a problem submitting the form", {
         description: "StudentId not specified",
       });
+      return;
     }
+
+    createLessonMutation.mutate({
+      ...data,
+      bookingId: currentRow.id,
+      studentId: currentRow.bookedById,
+    });
+
+    onOpenChange(false);
+    form.reset();
   }
 
   return (

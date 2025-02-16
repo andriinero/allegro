@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-
 import type { ComponentPropsWithoutRef } from "react";
 
 type PanelHeadingWrapperProps = ComponentPropsWithoutRef<"div">;

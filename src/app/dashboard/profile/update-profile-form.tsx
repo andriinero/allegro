@@ -34,27 +34,29 @@ export default function UpdateProfileForm({ sessionUser }: UpdateProfileProps) {
     defaultValues: {
       name: sessionUser?.name ?? "",
       email: sessionUser?.email ?? "",
-      guitarType: sessionUser?.guitarType ?? "ACOUSTIC",
-      proficiency: sessionUser?.proficiency ?? "BEGINNER",
+      guitarType: sessionUser?.guitarType ?? GuitarType.ACOUSTIC,
+      proficiency: sessionUser?.proficiency ?? ProficiencyLevel.BEGINNER,
       phone: sessionUser?.phone ?? "",
       location: sessionUser?.location ?? "",
       bio: sessionUser?.bio ?? "",
     },
   });
+
   const apiUtils = api.useUtils();
   const updateProfileMutation = api.profile.update.useMutation({
     onSuccess: async () => {
       await apiUtils.booking.getByCurrentUser.invalidate();
+      toast.success("Profile has been updated");
+    },
+    onError: (error) => {
+      toast.error("Error updating profile", {
+        description: error.message,
+      });
     },
   });
 
-  async function onSubmit(data: UpdateProfile) {
-    try {
-      await updateProfileMutation.mutateAsync(data);
-      toast.success("Profile has been updated");
-    } catch (e) {
-      toast.error("Error has occurred when updating profile");
-    }
+  function onSubmit(data: UpdateProfile) {
+    updateProfileMutation.mutate(data);
   }
 
   return (

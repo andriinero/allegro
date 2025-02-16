@@ -19,7 +19,6 @@ export default function DemoPage() {
       </div>
 
       <div className="py-4">
-        {/* NOTE: add loader and placeholder */}
         {data && <DataTable columns={booking} data={data} />}
         <BookingDialogs />
       </div>

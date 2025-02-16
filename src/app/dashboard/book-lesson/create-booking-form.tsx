@@ -33,20 +33,23 @@ export default function CreateBookingForm() {
     resolver: zodResolver(createBookingSchema),
     defaultValues: { presence: "ONLINE" },
   });
+
   const apiUtils = api.useUtils();
   const createBookingMutation = api.booking.create.useMutation({
     onSuccess: async () => {
       await apiUtils.booking.getByCurrentUser.invalidate();
+      toast.success("Booking has been created");
+      form.reset();
+    },
+    onError: (error) => {
+      toast.error("Error creating booking", {
+        description: error.message,
+      });
     },
   });
 
-  async function onSubmit(data: CreateBooking) {
-    try {
-      await createBookingMutation.mutateAsync(data);
-      toast.success("Booking has been created");
-    } catch (e) {
-      toast.error("Error has occurred when booking");
-    }
+  function onSubmit(data: CreateBooking) {
+    createBookingMutation.mutate(data);
   }
 
   return (
@@ -54,6 +57,7 @@ export default function CreateBookingForm() {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
+        aria-label="Create booking form"
       >
         <FormField
           control={form.control}
@@ -86,7 +90,6 @@ export default function CreateBookingForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    onMonthChange={() => console.log("ping")}
                     disabled={(date) => date < new Date()}
                     initialFocus
                   />

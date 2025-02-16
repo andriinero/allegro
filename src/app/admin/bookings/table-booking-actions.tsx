@@ -27,6 +27,15 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => {
+              setOpen("edit");
+              setCurrentRow(row.original);
+            }}
+          >
+            Edit
+          </DropdownMenuItem>
+
           {row.original.status === "PENDING" && (
             <DropdownMenuItem
               onClick={() => {
@@ -37,15 +46,6 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
               Create Lesson
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem
-            onClick={() => {
-              setOpen("edit");
-              setCurrentRow(row.original);
-            }}
-          >
-            Edit
-          </DropdownMenuItem>
-
           <DropdownMenuSeparator />
 
           <DropdownMenuItem className="text-destructive">
