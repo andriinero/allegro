@@ -42,12 +42,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-type EditBookingDrawerProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  currentRow: Booking | null;
-};
-
 const editBookingFormSchema = z.object({
   date: z.date({
     required_error: "Please select a date",
@@ -60,6 +54,12 @@ const editBookingFormSchema = z.object({
   }),
 });
 type EditBookingForm = z.infer<typeof editBookingFormSchema>;
+
+type EditBookingDrawerProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  currentRow: Booking | null;
+};
 
 export default function EditBookingDrawer({
   open,

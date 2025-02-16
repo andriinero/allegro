@@ -2,7 +2,7 @@ import { env } from "@/env";
 import {
   createLessonSchema,
   getAllLessonsSchema,
-  lessonCountSchema,
+  lessonStatusSchema,
 } from "@/schemas/lesson";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
@@ -23,7 +23,7 @@ export const lessonRouter = createTRPCRouter({
     }),
 
   getAnyCount: adminProcedure
-    .input(lessonCountSchema)
+    .input(lessonStatusSchema)
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.count({
         where: {

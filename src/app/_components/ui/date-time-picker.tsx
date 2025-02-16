@@ -13,12 +13,14 @@ import { FormField } from "./form";
 import { FormLabel } from "./form";
 import { FormControl, FormDescription, FormItem, FormMessage } from "./form";
 import { UseFormReturn } from "react-hook-form";
+import { getNDayNMonthNYearAtShortTime } from "@/lib/date";
 
 type DateTimePicker24hProps = {
   form: UseFormReturn<any>;
   name: string;
   label: string;
   description?: string;
+  disabled?: (date: Date) => boolean;
 };
 
 export default function DateTimePicker24h({
@@ -26,6 +28,7 @@ export default function DateTimePicker24h({
   name,
   label,
   description,
+  disabled,
 }: DateTimePicker24hProps) {
   const [date, setDate] = useState<Date>(form.getValues(name));
   const [isOpen, setIsOpen] = useState(false);
@@ -64,16 +67,16 @@ export default function DateTimePicker24h({
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full justify-start text-left font-normal",
+                    "flex w-full justify-between text-left font-normal",
                     !date && "text-muted-foreground",
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {date ? (
-                    format(date, "MM/dd/yyyy hh:mm")
+                    getNDayNMonthNYearAtShortTime(date)
                   ) : (
                     <span>MM/DD/YYYY hh:mm</span>
                   )}
+                  <CalendarIcon className="size-4" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -81,6 +84,7 @@ export default function DateTimePicker24h({
                   <Calendar
                     mode="single"
                     selected={date}
+                    disabled={disabled}
                     onSelect={handleDateSelect}
                     initialFocus
                   />

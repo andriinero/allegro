@@ -9,7 +9,7 @@ import {
 import { useBookings } from "@/hooks/use-bookings";
 import { type Booking } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
-import { MoreHorizontal, Trash } from "lucide-react";
+import { BookOpen, MoreHorizontal, Pencil, Trash } from "lucide-react";
 
 type TableBookingActionsProps = { row: Row<Booking> };
 
@@ -48,7 +48,13 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
           )}
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="text-destructive">
+          <DropdownMenuItem
+            className="text-destructive"
+            onClick={() => {
+              setOpen("delete");
+              setCurrentRow(row.original);
+            }}
+          >
             <Trash />
             Delete
           </DropdownMenuItem>

@@ -12,13 +12,13 @@ export const createLessonSchema = z.object({
 });
 export type CreateLesson = z.infer<typeof createLessonSchema>;
 
-export const lessonCountSchema = z.object({
+export const lessonStatusSchema = z.object({
   status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"]).optional(),
 });
-export type LessonCount = z.infer<typeof lessonCountSchema>;
+export type LessonCount = z.infer<typeof lessonStatusSchema>;
 
 export const getAllLessonsSchema = z.object({
   pagination: paginationSchema,
-  lesson: lessonCountSchema,
+  lesson: lessonStatusSchema,
 });
 export type LessonPagination = z.infer<typeof getAllLessonsSchema>;

@@ -100,4 +100,22 @@ export const bookingRouter = createTRPCRouter({
         },
       });
     }),
+
+  deleteAnyById: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: { id: input.id },
+      });
+      if (!booking) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Booking not found",
+        });
+      }
+
+      return await ctx.db.booking.delete({
+        where: { id: input.id },
+      });
+    }),
 });

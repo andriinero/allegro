@@ -1,6 +1,7 @@
 import { useBookings } from "@/hooks/use-bookings";
 import CreateLessonDrawer from "./create-lesson-drawer";
 import EditBookingDrawer from "./edit-booking-drawer";
+import DeleteBookingDialog from "./delete-booking-dialog";
 
 export default function BookingDialogs() {
   const { open, setOpen, currentRow } = useBookings();
@@ -18,6 +19,13 @@ export default function BookingDialogs() {
         key="edit-booking"
         open={open === "edit"}
         onOpenChange={() => setOpen("edit")}
+        currentRow={currentRow}
+      />
+
+      <DeleteBookingDialog
+        key="delete-booking"
+        open={open === "delete"}
+        onOpenChange={() => setOpen("delete")}
         currentRow={currentRow}
       />
     </>

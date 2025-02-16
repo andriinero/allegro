@@ -9,12 +9,13 @@ import {
 } from "@/app/_components/ui/card";
 import { api } from "@/trpc/react";
 import RecentlyTaughtStudent from "./recently-taught-student";
+import Spinner from "@/app/_components/general/spinner";
 
 export default function RecentLessonsCard() {
   const { data: count } = api.lesson.getAnyCount.useQuery({
     status: "COMPLETED",
   });
-  const { data: lessons } = api.lesson.getAll.useQuery({
+  const { data: lessons, isPending } = api.lesson.getAll.useQuery({
     pagination: { take: 5, page: 0 },
     lesson: { status: "COMPLETED" },
   });
@@ -28,17 +29,21 @@ export default function RecentLessonsCard() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-1">
-        <div className="flex flex-col justify-between gap-8">
-          {lessons?.map((l) => (
+      <CardContent className="flex h-full flex-col gap-8">
+        {isPending ? (
+          <div className="flex h-full items-center justify-center">
+            <Spinner />
+          </div>
+        ) : (
+          lessons?.map((l) => (
             <RecentlyTaughtStudent
               key={l.id}
               avatar={l.student.image ?? ""}
               name={l.student.name ?? ""}
               email={l.student.email ?? ""}
             />
-          ))}
-        </div>
+          ))
+        )}
       </CardContent>
     </Card>
   );
