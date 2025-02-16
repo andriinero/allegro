@@ -31,10 +31,12 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BookingStatus, LessonPresence, type Booking } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -46,9 +48,15 @@ type EditBookingDrawerProps = {
 };
 
 const editBookingFormSchema = z.object({
-  date: z.date(),
-  bookingStatus: z.nativeEnum(BookingStatus),
-  lessonPresence: z.nativeEnum(LessonPresence),
+  date: z.date({
+    required_error: "Please select a date",
+  }),
+  status: z.nativeEnum(BookingStatus, {
+    required_error: "Please select a booking status",
+  }),
+  lessonPresence: z.nativeEnum(LessonPresence, {
+    required_error: "Please select a lesson presence",
+  }),
 });
 type EditBookingForm = z.infer<typeof editBookingFormSchema>;
 
@@ -60,13 +68,37 @@ export default function EditBookingDrawer({
   const form = useForm<EditBookingForm>({
     resolver: zodResolver(editBookingFormSchema),
     defaultValues: {
-      bookingStatus: currentRow?.status,
+      date: currentRow?.date,
+      status: currentRow?.status,
       lessonPresence: currentRow?.lessonPresence,
     },
   });
 
-  async function onSubmit(data: EditBookingForm) {
-    toast.success("The lesson has been created");
+  const apiUtils = api.useUtils();
+  const editBookingMutation = api.booking.updateAnyById.useMutation({
+    onSuccess: async () => {
+      await apiUtils.booking.getAny.invalidate();
+      toast.success("Booking has been updated");
+      onOpenChange(false);
+    },
+    onError: (error) => {
+      toast.error("Error updating booking", {
+        description: error.message,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (currentRow) form.reset(currentRow);
+  }, [form, currentRow]);
+
+  function onSubmit(data: EditBookingForm) {
+    if (!currentRow?.id) return;
+
+    editBookingMutation.mutate({
+      id: currentRow.id,
+      ...data,
+    });
   }
 
   return (
@@ -80,7 +112,10 @@ export default function EditBookingDrawer({
       <SheetContent className="flex flex-col overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Edit Booking</SheetTitle>
-          <SheetDescription>Edit booking</SheetDescription>
+          <SheetDescription>
+            Make changes to the booking details. Click save when you&apos;re
+            done.
+          </SheetDescription>
         </SheetHeader>
 
         <Form {...form}>
@@ -95,7 +130,7 @@ export default function EditBookingDrawer({
               render={({ field }) => {
                 return (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Lesson Date</FormLabel>
+                    <FormLabel>Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -106,9 +141,7 @@ export default function EditBookingDrawer({
                               !field.value && "text-muted-foreground",
                             )}
                           >
-                            {field.value
-                              ? format(field.value, "PPP")
-                              : format(currentRow?.date ?? "", "PPP")}
+                            {format(field.value, "PPP")}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -119,13 +152,15 @@ export default function EditBookingDrawer({
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          onMonthChange={() => console.log("ping")}
+                          disabled={(date) => date < new Date()}
                           initialFocus
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription>Desired lesson date</FormDescription>
                     <FormMessage />
+                    <FormDescription>
+                      The date and time when the lesson will take place
+                    </FormDescription>
                   </FormItem>
                 );
               }}
@@ -133,10 +168,10 @@ export default function EditBookingDrawer({
 
             <FormField
               control={form.control}
-              name="bookingStatus"
+              name="status"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Booking Status</FormLabel>
+                  <FormLabel>Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -155,6 +190,9 @@ export default function EditBookingDrawer({
                     </SelectContent>
                   </Select>
                   <FormMessage />
+                  <FormDescription>
+                    Current status of the booking
+                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -164,7 +202,7 @@ export default function EditBookingDrawer({
               name="lessonPresence"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Lesson Presence</FormLabel>
+                  <FormLabel>Presence</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -183,6 +221,9 @@ export default function EditBookingDrawer({
                     </SelectContent>
                   </Select>
                   <FormMessage />
+                  <FormDescription>
+                    Whether the lesson will be online or in-person
+                  </FormDescription>
                 </FormItem>
               )}
             />
@@ -193,7 +234,7 @@ export default function EditBookingDrawer({
           <SheetClose asChild>
             <Button variant="outline">Close</Button>
           </SheetClose>
-          <Button form="create-lesson-form" type="submit">
+          <Button form="edit-booking-form" type="submit">
             Save Changes
           </Button>
         </SheetFooter>

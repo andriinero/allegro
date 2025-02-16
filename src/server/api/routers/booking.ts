@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { createBookingSchema } from "@/schemas/booking";
+import { createBookingSchema, updateBookingSchema } from "@/schemas/booking";
 import { paginationSchema } from "@/schemas/pagination";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -74,6 +74,30 @@ export const bookingRouter = createTRPCRouter({
       await ctx.db.booking.update({
         where: { id: input.id },
         data: { status: "CANCELLED" },
+      });
+    }),
+
+  updateAnyById: adminProcedure
+    .input(updateBookingSchema)
+    .mutation(async ({ ctx, input }) => {
+      const booking = await ctx.db.booking.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!booking) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Booking not found",
+        });
+      }
+
+      return await ctx.db.booking.update({
+        where: { id: input.id },
+        data: {
+          date: input.date,
+          status: input.status,
+          lessonPresence: input.lessonPresence,
+        },
       });
     }),
 });
