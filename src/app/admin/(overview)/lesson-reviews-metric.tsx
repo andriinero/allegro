@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  getCurrentMonthDateRangeange,
+  getCurrentMonthDateRange,
   getPreviousMonthDateRange,
 } from "@/lib/date";
 import { api } from "@/trpc/react";
@@ -11,7 +11,7 @@ import MetricCard from "./metric-card";
 export default function LessonReviewsMetric() {
   const [total] = api.metric.getReviewCount.useSuspenseQuery();
   const [currentMonth] = api.metric.getReviewCount.useSuspenseQuery(
-    getCurrentMonthDateRangeange(),
+    getCurrentMonthDateRange(),
   );
   const [previousMonth] = api.metric.getReviewCount.useSuspenseQuery(
     getPreviousMonthDateRange(),

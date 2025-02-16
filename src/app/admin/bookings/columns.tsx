@@ -1,11 +1,15 @@
 "use client";
 
-import { getNDayMonth, getNDayNMonthNYearAtShortTime } from "@/lib/date";
+import {
+  getWeekdayDayMonthShortTime,
+  getDayMonthYearShortTime,
+} from "@/lib/date";
 import { type Booking, BookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Circle, CircleCheck, CircleX, Timer } from "lucide-react";
 import type { ReactNode } from "react";
 import TableBookingActions from "./table-booking-actions";
+import { getShortUppercaseUUID } from "@/lib/utils";
 
 const statusIconMap: Record<BookingStatus, ReactNode> = {
   PENDING: <Timer />,
@@ -20,7 +24,8 @@ export const booking: ColumnDef<Booking>[] = [
     header: "Booking",
     cell: ({ row }) => {
       const id = row.getValue("id");
-      const result = typeof id === "string" ? id.substring(20) : "UKWN";
+      const result =
+        typeof id === "string" ? getShortUppercaseUUID(id) : "UKWN";
 
       return <p className="uppercase">{result}</p>;
     },
@@ -29,7 +34,7 @@ export const booking: ColumnDef<Booking>[] = [
     accessorKey: "date",
     header: "For",
     cell: ({ row }) => {
-      const date = getNDayMonth(row.getValue("date"));
+      const date = getWeekdayDayMonthShortTime(row.getValue("date"));
 
       return <p className="font-medium">{date}</p>;
     },
@@ -38,9 +43,7 @@ export const booking: ColumnDef<Booking>[] = [
     accessorKey: "createdAt",
     header: "Placed",
     cell: ({ row }) => {
-      const createdAt = getNDayNMonthNYearAtShortTime(
-        row.getValue("createdAt"),
-      );
+      const createdAt = getDayMonthYearShortTime(row.getValue("createdAt"));
 
       return <p>{createdAt}</p>;
     },

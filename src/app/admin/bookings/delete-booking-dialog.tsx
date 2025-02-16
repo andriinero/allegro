@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/app/_components/ui/dialog";
+import { getShortUppercaseUUID } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import type { Booking } from "@prisma/client";
 import { toast } from "sonner";
@@ -50,7 +51,7 @@ export default function DeleteBookingDialog({
             <span className="font-bold text-destructive">delete</span> a booking
             with the ID{" "}
             <span className="font-bold">
-              {currentRow?.id.substring(20).toUpperCase()}
+              {getShortUppercaseUUID(currentRow?.id ?? "")}
             </span>
             .
             <br />

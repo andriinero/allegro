@@ -7,8 +7,8 @@ import {
   TableBody,
   TableCell,
 } from "@/app/_components/ui/table";
-import { getNDayNMonthNYearAtShortTime } from "@/lib/date";
-import { getNDayMonth } from "@/lib/date";
+import { getDayMonthYearShortTime } from "@/lib/date";
+import { getWeekdayDayMonthShortTime } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import type { Booking } from "@prisma/client";
 
@@ -43,8 +43,8 @@ export default function UserBookingsTable({
             )}
           >
             <TableCell className="font-medium">{b.id.substring(20)}</TableCell>
-            <TableCell>{getNDayMonth(b.date)}</TableCell>
-            <TableCell>{getNDayNMonthNYearAtShortTime(b.createdAt)}</TableCell>
+            <TableCell>{getWeekdayDayMonthShortTime(b.date)}</TableCell>
+            <TableCell>{getDayMonthYearShortTime(b.createdAt)}</TableCell>
             <TableCell>{b.lessonPresence}</TableCell>
             <TableCell className="text-right font-semibold tracking-tight">
               {b.status}

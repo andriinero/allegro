@@ -19,7 +19,7 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { Textarea } from "@/app/_components/ui/textarea";
-import { getNDayMonth } from "@/lib/date";
+import { getWeekdayDayMonthShortTime } from "@/lib/date";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LessonPresence, type Booking } from "@prisma/client";
@@ -116,7 +116,9 @@ export default function CreateLessonDrawer({
             <span className="font-medium">
               {currentRow?.lessonPresence.toLowerCase()}
             </span>{" "}
-            lesson {currentRow?.date && `for ${getNDayMonth(currentRow.date)}`}
+            lesson{" "}
+            {currentRow?.date &&
+              `for ${getWeekdayDayMonthShortTime(currentRow.date)}`}
           </SheetDescription>
         </SheetHeader>
 
