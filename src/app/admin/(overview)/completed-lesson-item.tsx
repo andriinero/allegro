@@ -10,7 +10,7 @@ type RecentlyTaughtStudentProps = {
   email: string;
 };
 
-export default function RecentlyTaughtStudent({
+export default function CompletedLessonItem({
   avatar,
   name,
   email,

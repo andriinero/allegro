@@ -9,7 +9,7 @@ import {
 import { useBookings } from "@/hooks/use-bookings";
 import { type Booking } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
-import { BookOpen, MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 
 type TableBookingActionsProps = { row: Row<Booking> };
 
@@ -17,7 +17,7 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
   const { setOpen, setCurrentRow } = useBookings();
 
   return (
-    <div className="sizw-10 flex justify-end">
+    <div className="flex justify-end">
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">

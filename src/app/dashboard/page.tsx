@@ -23,7 +23,7 @@ export default function Page() {
       {isPending ? (
         <Spinner />
       ) : bookings ? (
-        <UserBookingsTable bookings={bookings} />
+        <UserBookingsTable data={bookings} />
       ) : (
         <></>
       )}

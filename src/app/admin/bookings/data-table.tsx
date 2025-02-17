@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/app/_components/general/spinner";
 import {
   Table,
   TableBody,
@@ -19,15 +20,19 @@ import { DataTablePagination } from "./table-pagination";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data?: TData[];
+  isLoading: boolean;
+  isError: boolean;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isLoading,
+  isError,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -57,7 +62,16 @@ export function DataTable<TData, TValue>({
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  <Spinner />
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -73,7 +87,7 @@ export function DataTable<TData, TValue>({
                   ))}
                 </TableRow>
               ))
-            ) : (
+            ) : isError ? (
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
@@ -82,6 +96,8 @@ export function DataTable<TData, TValue>({
                   No results.
                 </TableCell>
               </TableRow>
+            ) : (
+              <></>
             )}
           </TableBody>
         </Table>

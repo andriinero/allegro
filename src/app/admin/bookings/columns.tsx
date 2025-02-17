@@ -1,15 +1,15 @@
 "use client";
 
 import {
-  getWeekdayDayMonthShortTime,
   getDayMonthYearShortTime,
+  getWeekdayDayMonthShortTime,
 } from "@/lib/date";
+import { getShortUppercaseUUID } from "@/lib/utils";
 import { type Booking, BookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Circle, CircleCheck, CircleX, Timer } from "lucide-react";
 import type { ReactNode } from "react";
 import TableBookingActions from "./table-booking-actions";
-import { getShortUppercaseUUID } from "@/lib/utils";
 
 const statusIconMap: Record<BookingStatus, ReactNode> = {
   PENDING: <Timer />,
@@ -27,7 +27,7 @@ export const booking: ColumnDef<Booking>[] = [
       const result =
         typeof id === "string" ? getShortUppercaseUUID(id) : "UKWN";
 
-      return <p className="uppercase">{result}</p>;
+      return <p className="w-10 uppercase">{result}</p>;
     },
   },
   {
@@ -36,7 +36,7 @@ export const booking: ColumnDef<Booking>[] = [
     cell: ({ row }) => {
       const date = getWeekdayDayMonthShortTime(row.getValue("date"));
 
-      return <p className="font-medium">{date}</p>;
+      return <p className="w-42 font-medium">{date}</p>;
     },
   },
   {
@@ -45,7 +45,7 @@ export const booking: ColumnDef<Booking>[] = [
     cell: ({ row }) => {
       const createdAt = getDayMonthYearShortTime(row.getValue("createdAt"));
 
-      return <p>{createdAt}</p>;
+      return <p className="w-42">{createdAt}</p>;
     },
   },
   {
@@ -56,7 +56,7 @@ export const booking: ColumnDef<Booking>[] = [
       const result =
         typeof lessonPresence === "string" ? lessonPresence : "UKWN";
 
-      return <span>{result}</span>;
+      return <p className="w-16">{result}</p>;
     },
   },
   {
@@ -68,7 +68,7 @@ export const booking: ColumnDef<Booking>[] = [
       );
 
       return (
-        <div>
+        <div className="w-16">
           {status && (
             <div className="flex items-center gap-2">
               <div className="[&_svg]:size-4">{statusIconMap[status]}</div>
