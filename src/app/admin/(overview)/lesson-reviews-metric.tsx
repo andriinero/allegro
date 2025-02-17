@@ -1,28 +1,18 @@
 "use client";
 
-import {
-  getCurrentMonthDateRange,
-  getPreviousMonthDateRange,
-} from "@/lib/date";
 import { api } from "@/trpc/react";
 import { Star } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function LessonReviewsMetric() {
-  const [total] = api.metric.getReviewCount.useSuspenseQuery();
-  const [currentMonth] = api.metric.getReviewCount.useSuspenseQuery(
-    getCurrentMonthDateRange(),
-  );
-  const [previousMonth] = api.metric.getReviewCount.useSuspenseQuery(
-    getPreviousMonthDateRange(),
-  );
+  const [metrics] = api.metric.reviews.useSuspenseQuery();
 
   return (
     <MetricCard
       heading="Lesson Reviews"
-      value={total}
-      previousMonth={previousMonth}
-      currentMonth={currentMonth}
+      value={metrics.total}
+      previousMonth={metrics.previousMonth}
+      currentMonth={metrics.currentMonth}
       icon={<Star />}
     />
   );

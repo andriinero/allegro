@@ -1,28 +1,18 @@
 "use client";
 
-import {
-  getCurrentMonthDateRange,
-  getPreviousMonthDateRange,
-} from "@/lib/date";
 import { api } from "@/trpc/react";
 import { User } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function UserCountMetric() {
-  const [total] = api.metric.getUserCount.useSuspenseQuery();
-  const [currentMonth] = api.metric.getUserCount.useSuspenseQuery(
-    getCurrentMonthDateRange(),
-  );
-  const [previousMonth] = api.metric.getUserCount.useSuspenseQuery(
-    getPreviousMonthDateRange(),
-  );
+  const [metrics] = api.metric.users.useSuspenseQuery();
 
   return (
     <MetricCard
       heading="Total Users"
-      value={total}
-      previousMonth={previousMonth}
-      currentMonth={currentMonth}
+      value={metrics.total}
+      previousMonth={metrics.previousMonth}
+      currentMonth={metrics.currentMonth}
       icon={<User />}
     />
   );

@@ -4,6 +4,7 @@ import {
   getDayMonthYearShortTime,
   getWeekdayDayMonthShortTime,
 } from "@/lib/date";
+
 import { getShortUppercaseUUID } from "@/lib/utils";
 import { type Booking, BookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -18,7 +19,7 @@ const statusIconMap: Record<BookingStatus, ReactNode> = {
   CANCELLED: <CircleX />,
 };
 
-export const booking: ColumnDef<Booking>[] = [
+export const bookingColumns: ColumnDef<Booking>[] = [
   {
     accessorKey: "id",
     header: "Booking",

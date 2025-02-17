@@ -38,6 +38,7 @@ export default function DeleteBookingDialog({
 
   function handleDelete() {
     if (!currentRow?.id) return;
+
     deleteBooking({ id: currentRow.id });
     onOpenChange(false);
   }

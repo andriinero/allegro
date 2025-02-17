@@ -1,55 +1,20 @@
-import { dateRangeSchema } from "@/schemas/metric";
+import { calculateMetrics } from "@/lib/prisma-utils";
 import { adminProcedure, createTRPCRouter } from "../trpc";
-import { getDateRangeWhereClause } from "@/lib/prisma-utils";
 
 export const metricRouter = createTRPCRouter({
-  getUserCount: adminProcedure
-    .input(dateRangeSchema)
-    .query(async ({ ctx, input }) => {
-      const whereClause = getDateRangeWhereClause(
-        "createdAt",
-        input?.dateStart,
-        input?.dateEnd,
-      );
+  users: adminProcedure.query(async ({ ctx }) =>
+    calculateMetrics("user", ctx.db),
+  ),
 
-      return await ctx.db.user.count({ where: whereClause });
-    }),
+  bookings: adminProcedure.query(async ({ ctx }) =>
+    calculateMetrics("booking", ctx.db),
+  ),
 
-  getBookingCount: adminProcedure
-    .input(dateRangeSchema)
-    .query(async ({ ctx, input }) => {
-      const whereClause = getDateRangeWhereClause(
-        "createdAt",
-        input?.dateStart,
-        input?.dateEnd,
-      );
+  completedLessons: adminProcedure.query(async ({ ctx }) =>
+    calculateMetrics("lesson", ctx.db),
+  ),
 
-      return await ctx.db.booking.count({ where: whereClause });
-    }),
-
-  getCompletedLessonCount: adminProcedure
-    .input(dateRangeSchema)
-    .query(async ({ ctx, input }) => {
-      const whereClause = getDateRangeWhereClause(
-        "createdAt",
-        input?.dateStart,
-        input?.dateEnd,
-      );
-
-      return await ctx.db.lesson.count({
-        where: { ...whereClause, booking: { status: "COMPLETED" } },
-      });
-    }),
-
-  getReviewCount: adminProcedure
-    .input(dateRangeSchema)
-    .query(async ({ ctx, input }) => {
-      const whereClause = getDateRangeWhereClause(
-        "createdAt",
-        input?.dateStart,
-        input?.dateEnd,
-      );
-
-      return await ctx.db.review.count({ where: whereClause });
-    }),
+  reviews: adminProcedure.query(async ({ ctx }) =>
+    calculateMetrics("review", ctx.db),
+  ),
 });

@@ -9,7 +9,12 @@ import PanelHeading from "./(overview)/panel-heading";
 import UserBookingsTable from "./(overview)/user-bookings-table";
 
 export default function Page() {
-  const { data: bookings, isPending } = api.booking.getByCurrentUser.useQuery();
+  const {
+    data: bookings,
+    isPending,
+    isRefetching,
+    isError,
+  } = api.booking.getByCurrentUser.useQuery();
 
   return (
     <>
@@ -23,7 +28,11 @@ export default function Page() {
       {isPending ? (
         <Spinner />
       ) : bookings ? (
-        <UserBookingsTable data={bookings} />
+        <UserBookingsTable
+          data={bookings}
+          isLoading={isPending || isRefetching}
+          isError={isError}
+        />
       ) : (
         <></>
       )}

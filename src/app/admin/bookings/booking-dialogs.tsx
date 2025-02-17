@@ -11,21 +11,21 @@ export default function BookingDialogs() {
       <CreateLessonDrawer
         key="create-lesson"
         open={open === "createLesson"}
-        onOpenChange={() => setOpen("createLesson")}
+        onOpenChange={(open) => setOpen(open ? "createLesson" : null)}
         currentRow={currentRow}
       />
 
       <EditBookingDrawer
         key="edit-booking"
         open={open === "edit"}
-        onOpenChange={() => setOpen("edit")}
+        onOpenChange={(open) => setOpen(open ? "edit" : null)}
         currentRow={currentRow}
       />
 
       <DeleteBookingDialog
         key="delete-booking"
         open={open === "delete"}
-        onOpenChange={() => setOpen("delete")}
+        onOpenChange={(open) => setOpen(open ? "delete" : null)}
         currentRow={currentRow}
       />
     </>
