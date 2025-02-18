@@ -7,35 +7,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { useDashboard } from "@/hooks/use-dashboard";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
 import { formatShortUppercaseUUID } from "@/lib/utils";
-import { api, type RouterOutputs } from "@/trpc/react";
+import { type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
   CircleDashed,
   ClockIcon,
   PresentationIcon,
 } from "lucide-react";
-import { toast } from "sonner";
 
 type UserBookingCardProps = {
   booking: RouterOutputs["booking"]["getByCurrentUser"][number];
 };
 
 export default function UserBookingCard({ booking }: UserBookingCardProps) {
-  const utils = api.useUtils();
-  const cancelBooking = api.booking.cancelById.useMutation({
-    onSuccess: async () => {
-      await utils.booking.getByCurrentUser.invalidate();
-    },
-    onError: () => {
-      toast.error("Failed to cancel booking");
-    },
-  });
-
-  function handleCancel() {
-    cancelBooking.mutate({ id: booking.id });
-  }
+  const { setOpen, setId } = useDashboard();
 
   return (
     <Card>
@@ -68,8 +56,15 @@ export default function UserBookingCard({ booking }: UserBookingCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleCancel} variant="destructive" className="w-full">
-          {cancelBooking.isPending ? "Cancelling..." : "Cancel"}
+        <Button
+          onClick={() => {
+            setOpen("cancelBooking");
+            setId(booking.id);
+          }}
+          variant="destructive"
+          className="w-full"
+        >
+          Cancel
         </Button>
       </CardFooter>
     </Card>

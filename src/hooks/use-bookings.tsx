@@ -1,3 +1,5 @@
+"use client";
+
 import useDialogState from "@/hooks/use-dialog-state";
 import type { Booking } from "@prisma/client";
 import {

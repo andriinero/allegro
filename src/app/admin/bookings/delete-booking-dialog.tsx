@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
+import { Button } from "@/app/_components/ui/button";
 import { formatShortUppercaseUUID } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import type { Booking } from "@prisma/client";
@@ -62,13 +63,13 @@ export default function DeleteBookingDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             onClick={handleDelete}
             disabled={isPending}
             className="bg-destructive hover:bg-destructive/90"
           >
             Delete
-          </AlertDialogAction>
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

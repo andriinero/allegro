@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import MetricsSkeleton from "../_components/placeholders/metrics-skeleton";
 import {
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import AdminPanelHeading from "./(overview)/admin-panel-heading";
 import CompletedLessonsCard from "./(overview)/completed-lessons-card";
 import LessonReviewsMetric from "./(overview)/lesson-reviews-metric";
 import LessonsCompletedMetric from "./(overview)/lessons-taken-metric";
-import MetricsSkeleton from "./(overview)/metrics-skeleton";
 import SalesChart from "./(overview)/sales-chart";
 import TotalBookingsMetric from "./(overview)/total-bookings-metric";
 import UserCountMetric from "./(overview)/user-count-metric";

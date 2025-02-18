@@ -11,9 +11,9 @@ export default function Page() {
   return (
     <>
       <PanelHeaderWrapper>
-        <PanelHeading>Upcoming Lessons</PanelHeading>
+        <PanelHeading>Upcoming Lessons and Bookings</PanelHeading>
         <PanelDescription>
-          Here you can see all your upcoming lessons
+          Here you can see all your upcoming lessons and bookings
         </PanelDescription>
       </PanelHeaderWrapper>
 

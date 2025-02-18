@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/app/_components/ui/button";
 import {
   Card,
@@ -7,9 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { useDashboard } from "@/hooks/use-dashboard";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { api, type RouterOutputs } from "@/trpc/react";
+import { type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
   ClockIcon,
@@ -18,27 +21,13 @@ import {
   LinkIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 
 type UserLessonCardProps = {
   lesson: RouterOutputs["lesson"]["getAll"][number];
 };
 
 export default function UserLessonCard({ lesson }: UserLessonCardProps) {
-  const utils = api.useUtils();
-  const cancelLesson = api.lesson.cancelById.useMutation({
-    onSuccess: async () => {
-      toast.success("Lesson cancelled");
-      await utils.lesson.getAll.invalidate();
-    },
-    onError: () => {
-      toast.error("Failed to cancel lesson");
-    },
-  });
-
-  function handleCancel() {
-    cancelLesson.mutate({ id: lesson.id });
-  }
+  const { setOpen, setId } = useDashboard();
 
   return (
     <Card
@@ -104,12 +93,14 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
       {lesson.booking?.status === "CONFIRMED" && (
         <CardFooter className="flex flex-col justify-between gap-2">
           <Button
-            onClick={handleCancel}
-            disabled={cancelLesson.isPending}
+            onClick={() => {
+              setOpen("cancelLesson");
+              setId(lesson.id);
+            }}
             variant="destructive"
             className="w-full"
           >
-            {cancelLesson.isPending ? "Cancelling..." : "Cancel"}
+            Cancel
           </Button>
         </CardFooter>
       )}

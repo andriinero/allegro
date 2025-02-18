@@ -10,7 +10,7 @@ import {
 import { api } from "@/trpc/react";
 import CompletedLessonItem from "./completed-lesson-item";
 import Spinner from "@/app/_components/general/spinner";
-import CompletedLessonsPlaceholder from "./completed-lessons-placeholder";
+import CompletedLessonsPlaceholder from "../../_components/placeholders/completed-lessons-placeholder";
 
 export default function CompletedLessonsCard() {
   const { data: count } = api.lesson.getAnyCount.useQuery({
@@ -18,7 +18,7 @@ export default function CompletedLessonsCard() {
   });
   const { data: lessons, isPending } = api.lesson.getAll.useQuery({
     pagination: { take: 5, page: 0 },
-    where: { booking: { status: "COMPLETED" } },
+    where: { booking: { status: ["COMPLETED"] } },
   });
 
   return (

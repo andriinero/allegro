@@ -27,6 +27,16 @@ export const bookingRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createBookingSchema)
     .mutation(async ({ ctx, input }) => {
+      const userBookingCount = await ctx.db.booking.count({
+        where: { bookedById: ctx.session.user.id },
+      });
+      if (userBookingCount >= 4) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You have reached the maximum number of bookings",
+        });
+      }
+
       return await ctx.db.booking.create({
         data: {
           date: input.date,
