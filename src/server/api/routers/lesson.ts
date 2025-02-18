@@ -27,8 +27,7 @@ export const lessonRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.count({
         where: {
-          studentId: ctx.session.user.id,
-          booking: input?.status ? { status: input.status } : undefined,
+          booking: { status: input.status },
         },
       });
     }),
@@ -38,7 +37,6 @@ export const lessonRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.findMany({
         where: {
-          studentId: ctx.session.user.id,
           booking: { status: input.lesson.status },
         },
         include: { student: true, booking: true },

@@ -114,6 +114,9 @@ export const bookingRouter = createTRPCRouter({
         });
       }
 
+      await ctx.db.lesson.deleteMany({
+        where: { booking: { id: input.id } },
+      });
       return await ctx.db.booking.delete({
         where: { id: input.id },
       });

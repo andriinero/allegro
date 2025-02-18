@@ -10,13 +10,13 @@ import {
   SidebarMenuItem,
 } from "@/app/_components/ui/sidebar";
 import { tabs } from "@/data/admin-nav";
-import { Command } from "lucide-react";
+import { Sparkle } from "lucide-react";
 import type { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
+import NavAdmin from "./nav-admin";
 import NavGeneral from "./nav-general";
 import NavSecondary from "./nav-secondary";
-import NavAdmin from "./nav-admin";
 
 type AppSidebarProps = ComponentProps<typeof Sidebar> & {
   user: Session["user"];
@@ -33,7 +33,7 @@ export function AdminSidebar({ user, ...props }: AppSidebarProps) {
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                  <Sparkle className="size-4" />
                 </div>
 
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -104,7 +104,7 @@ model Lesson {
   studentId String
 
   review  Review?
-  booking Booking?
+  booking Booking? 
 }
 
 model Invoice {
@@ -133,7 +133,7 @@ model Booking {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime?
 
-  lesson     Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lesson     Lesson? @relation(fields: [lessonId], references: [id])
   lessonId   String? @unique
   bookedBy   User    @relation(fields: [bookedById], references: [id])
   bookedById String

@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@prisma/client";
+import type { Prisma, PrismaClient } from "@prisma/client";
 import { getCurrentMonthDateRange, getPreviousMonthDateRange } from "./date";
 
 export const getDateRangeWhereClause = (
@@ -18,6 +18,7 @@ export const getDateRangeWhereClause = (
 export async function calculateMetrics<T extends keyof PrismaClient>(
   model: T,
   db: PrismaClient,
+  where?: object,
 ) {
   const { dateStart: currStart, dateEnd: currEnd } = getCurrentMonthDateRange();
   const { dateStart: prevStart, dateEnd: prevEnd } =
@@ -27,12 +28,18 @@ export async function calculateMetrics<T extends keyof PrismaClient>(
   };
 
   const [total, currentMonth, previousMonth] = await Promise.all([
-    modelAccess.count(),
+    modelAccess.count({ where }),
     modelAccess.count({
-      where: getDateRangeWhereClause("createdAt", currStart, currEnd),
+      where: {
+        ...getDateRangeWhereClause("createdAt", currStart, currEnd),
+        ...where,
+      },
     }),
     modelAccess.count({
-      where: getDateRangeWhereClause("createdAt", prevStart, prevEnd),
+      where: {
+        ...getDateRangeWhereClause("createdAt", prevStart, prevEnd),
+        ...where,
+      },
     }),
   ]);
 

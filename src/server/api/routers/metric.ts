@@ -11,7 +11,9 @@ export const metricRouter = createTRPCRouter({
   ),
 
   completedLessons: adminProcedure.query(async ({ ctx }) =>
-    calculateMetrics("lesson", ctx.db),
+    calculateMetrics("lesson", ctx.db, {
+      booking: { status: "COMPLETED" },
+    }),
   ),
 
   reviews: adminProcedure.query(async ({ ctx }) =>
