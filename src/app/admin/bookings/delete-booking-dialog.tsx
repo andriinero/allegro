@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
-import { formatShortUppercaseUUID } from "@/lib/utils";
+import { formatUUID } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import type { Booking } from "@prisma/client";
 import { toast } from "sonner";
@@ -54,7 +54,7 @@ export default function DeleteBookingDialog({
             <span className="font-bold text-destructive">delete</span> a booking
             with the ID{" "}
             <span className="font-bold">
-              {formatShortUppercaseUUID(currentRow?.id ?? "")}
+              {formatUUID(currentRow?.id ?? "")}
             </span>
             .
             <br />

@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
-import { formatShortUppercaseUUID } from "@/lib/utils";
+import { formatUUID } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
 
@@ -49,10 +49,7 @@ export default function CancelBookingDialog({
           <AlertDialogDescription>
             Are you sure you want to{" "}
             <span className="font-bold text-destructive">cancel</span> booking
-            with ID{" "}
-            <span className="font-bold">
-              {formatShortUppercaseUUID(id ?? "")}
-            </span>
+            with ID <span className="font-bold">{formatUUID(id ?? "")}</span>
             ? <br /> This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>

@@ -9,7 +9,7 @@ import {
 } from "@/app/_components/ui/card";
 import { useDashboard } from "@/hooks/use-dashboard";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
-import { formatShortUppercaseUUID } from "@/lib/utils";
+import { capitalize, formatUUID } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
@@ -29,20 +29,18 @@ export default function UserBookingCard({ booking }: UserBookingCardProps) {
     <Card>
       <CardHeader>
         <CardTitle>Booking</CardTitle>
-        <CardDescription>
-          {formatShortUppercaseUUID(booking.id)}
-        </CardDescription>
+        <CardDescription>{formatUUID(booking.id)}</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-1 text-sm">
-        <div className="flex items-center gap-2 font-semibold">
+        <div className="flex items-center gap-2">
           <CircleDashed className="size-4 text-muted-foreground" />
-          {booking.status}
+          <span className="font-semibold">{capitalize(booking.status)}</span>
         </div>
 
-        <div className="flex items-center gap-2 font-semibold">
+        <div className="flex items-center gap-2">
           <PresentationIcon className="size-4 text-muted-foreground" />
-          {booking.lessonPresence}
+          {capitalize(booking.lessonPresence)}
         </div>
 
         <div className="flex items-center gap-2">
@@ -55,6 +53,7 @@ export default function UserBookingCard({ booking }: UserBookingCardProps) {
           {booking.date ? formatTime(booking.date) : "No time"}
         </div>
       </CardContent>
+
       <CardFooter>
         <Button
           onClick={() => {

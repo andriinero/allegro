@@ -25,5 +25,12 @@ export const getAllLessonsSchema = z.object({
       status: z.array(z.nativeEnum(BookingStatus)).optional(),
     }),
   }),
+  orderBy: z
+    .object({
+      booking: z.object({
+        date: z.enum(["asc", "desc"]).optional(),
+      }),
+    })
+    .optional(),
 });
 export type LessonPagination = z.infer<typeof getAllLessonsSchema>;
