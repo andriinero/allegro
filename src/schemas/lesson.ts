@@ -22,7 +22,7 @@ export const getAllLessonsSchema = z.object({
   pagination: paginationSchema,
   where: z.object({
     booking: z.object({
-      status: z.nativeEnum(BookingStatus).optional(),
+      status: z.array(z.nativeEnum(BookingStatus)).optional(),
     }),
   }),
 });

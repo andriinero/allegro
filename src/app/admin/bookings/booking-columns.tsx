@@ -2,7 +2,7 @@
 
 import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 
-import { getShortUppercaseUUID } from "@/lib/utils";
+import { formatShortUppercaseUUID } from "@/lib/utils";
 import { type Booking, BookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Circle, CircleCheck, CircleX, Timer } from "lucide-react";
@@ -23,7 +23,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     cell: ({ row }) => {
       const id = row.getValue("id");
       const result =
-        typeof id === "string" ? getShortUppercaseUUID(id) : "UKWN";
+        typeof id === "string" ? formatShortUppercaseUUID(id) : "UKWN";
 
       return <p className="w-10 uppercase">{result}</p>;
     },

@@ -1,5 +1,9 @@
 import { env } from "@/env";
-import { createBookingSchema, updateBookingSchema } from "@/schemas/booking";
+import {
+  createBookingSchema,
+  getBookingsSchema,
+  updateBookingSchema,
+} from "@/schemas/booking";
 import { paginationSchema } from "@/schemas/pagination";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -7,13 +11,16 @@ import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const bookingRouter = createTRPCRouter({
   getByCurrentUser: protectedProcedure
-    .input(paginationSchema)
+    .input(getBookingsSchema)
     .query(async ({ ctx, input }) => {
       return ctx.db.booking.findMany({
-        where: { bookedById: ctx.session.user.id },
+        where: {
+          bookedById: ctx.session.user.id,
+          status: input.where.status,
+        },
         orderBy: { date: "asc" },
-        take: input.take,
-        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+        take: input.pagination.take,
+        skip: input.pagination.page * +env.RESPONSE_PAGE_SIZE,
       });
     }),
 

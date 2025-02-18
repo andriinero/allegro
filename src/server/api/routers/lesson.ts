@@ -15,7 +15,7 @@ export const lessonRouter = createTRPCRouter({
       return await ctx.db.lesson.findMany({
         where: {
           studentId: ctx.session.user.id,
-          booking: { status: input.where.booking.status },
+          booking: { status: { in: input.where.booking.status } },
         },
         include: { student: true, booking: true },
         take: input.pagination.take,
@@ -51,7 +51,7 @@ export const lessonRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.findMany({
         where: {
-          booking: { status: input.where.booking.status },
+          booking: { status: { in: input.where.booking.status } },
         },
         include: { student: true, booking: true },
         take: input.pagination.take,

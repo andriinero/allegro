@@ -5,6 +5,6 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
-export const getShortUppercaseUUID = (uuid: string) => {
+export const formatShortUppercaseUUID = (uuid: string) => {
   return uuid.substring(20).toUpperCase();
 };

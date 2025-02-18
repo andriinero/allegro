@@ -4,7 +4,7 @@ import UserLessonCard from "./user-lesson-card";
 export default function UserLessons() {
   const { data: lessons } = api.lesson.getAll.useQuery({
     pagination: { take: 10, page: 0 },
-    where: { booking: { status: "CONFIRMED" } },
+    where: { booking: { status: ["CONFIRMED"] } },
   });
 
   return (

@@ -1,5 +1,14 @@
 import { z } from "zod";
 import { BookingStatus, LessonPresence } from "@prisma/client";
+import { paginationSchema } from "./pagination";
+
+export const getBookingsSchema = z.object({
+  pagination: paginationSchema,
+  where: z.object({
+    status: z.nativeEnum(BookingStatus).optional(),
+  }),
+});
+export type GetBookings = z.infer<typeof getBookingsSchema>;
 
 export const createBookingSchema = z.object({
   date: z.date(),

@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { api, type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
@@ -40,13 +41,23 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
   }
 
   return (
-    <Card key={lesson.id} className="flex flex-col">
+    <Card
+      key={lesson.id}
+      className={cn(
+        "flex flex-col",
+        lesson.booking?.status === "CANCELLED" && "opacity-50",
+      )}
+    >
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-2">
           {lesson.title}
           <GuitarIcon className="size-5" />
         </CardTitle>
-        <CardDescription>{lesson.booking?.lessonPresence}</CardDescription>
+        <CardDescription>
+          {lesson.booking?.lessonPresence}
+          {lesson.booking?.status === "CANCELLED" && " (Cancelled)"}
+          {lesson.booking?.status === "COMPLETED" && " (Completed)"}
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="flex-1 space-y-1 text-sm">
@@ -90,16 +101,18 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
         )}
       </CardContent>
 
-      <CardFooter className="flex flex-col justify-between gap-2">
-        <Button
-          onClick={handleCancel}
-          disabled={cancelLesson.isPending}
-          variant="destructive"
-          className="w-full"
-        >
-          {cancelLesson.isPending ? "Cancelling..." : "Cancel"}
-        </Button>
-      </CardFooter>
+      {lesson.booking?.status === "CONFIRMED" && (
+        <CardFooter className="flex flex-col justify-between gap-2">
+          <Button
+            onClick={handleCancel}
+            disabled={cancelLesson.isPending}
+            variant="destructive"
+            className="w-full"
+          >
+            {cancelLesson.isPending ? "Cancelling..." : "Cancel"}
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 }
