@@ -1,3 +1,4 @@
+import { BookingStatus } from "@prisma/client";
 import { z } from "zod";
 import { paginationSchema } from "./pagination";
 
@@ -13,12 +14,16 @@ export const createLessonSchema = z.object({
 export type CreateLesson = z.infer<typeof createLessonSchema>;
 
 export const lessonStatusSchema = z.object({
-  status: z.enum(["PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"]).optional(),
+  status: z.nativeEnum(BookingStatus).optional(),
 });
 export type LessonCount = z.infer<typeof lessonStatusSchema>;
 
 export const getAllLessonsSchema = z.object({
   pagination: paginationSchema,
-  lesson: lessonStatusSchema,
+  where: z.object({
+    booking: z.object({
+      status: z.nativeEnum(BookingStatus).optional(),
+    }),
+  }),
 });
 export type LessonPagination = z.infer<typeof getAllLessonsSchema>;

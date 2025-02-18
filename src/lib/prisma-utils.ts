@@ -1,5 +1,8 @@
 import type { Prisma, PrismaClient } from "@prisma/client";
-import { getCurrentMonthDateRange, getPreviousMonthDateRange } from "./date";
+import {
+  formatCurrentMonthDateRange,
+  formatPreviousMonthDateRange,
+} from "./date";
 
 export const getDateRangeWhereClause = (
   fieldName: string,
@@ -20,9 +23,10 @@ export async function calculateMetrics<T extends keyof PrismaClient>(
   db: PrismaClient,
   where?: object,
 ) {
-  const { dateStart: currStart, dateEnd: currEnd } = getCurrentMonthDateRange();
+  const { dateStart: currStart, dateEnd: currEnd } =
+    formatCurrentMonthDateRange();
   const { dateStart: prevStart, dateEnd: prevEnd } =
-    getPreviousMonthDateRange();
+    formatPreviousMonthDateRange();
   const modelAccess = db[model] as {
     count: (args?: { where: unknown }) => Promise<number>;
   };

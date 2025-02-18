@@ -6,6 +6,7 @@ import {
 } from "@/schemas/lesson";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
+import { z } from "zod";
 
 export const lessonRouter = createTRPCRouter({
   getAll: protectedProcedure
@@ -14,11 +15,24 @@ export const lessonRouter = createTRPCRouter({
       return await ctx.db.lesson.findMany({
         where: {
           studentId: ctx.session.user.id,
-          booking: { status: input.lesson.status },
+          booking: { status: input.where.booking.status },
         },
         include: { student: true, booking: true },
         take: input.pagination.take,
         skip: input.pagination.page * +env.RESPONSE_PAGE_SIZE,
+      });
+    }),
+
+  cancelById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.lesson.update({
+        where: {
+          id: input.id,
+          studentId: ctx.session.user.id,
+          booking: { status: "CONFIRMED" },
+        },
+        data: { booking: { update: { status: "CANCELLED" } } },
       });
     }),
 
@@ -37,7 +51,7 @@ export const lessonRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.lesson.findMany({
         where: {
-          booking: { status: input.lesson.status },
+          booking: { status: input.where.booking.status },
         },
         include: { student: true, booking: true },
         take: input.pagination.take,

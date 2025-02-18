@@ -13,7 +13,7 @@ import { FormField } from "./form";
 import { FormLabel } from "./form";
 import { FormControl, FormDescription, FormItem, FormMessage } from "./form";
 import { UseFormReturn } from "react-hook-form";
-import { getDayMonthYearShortTime } from "@/lib/date";
+import { formatDayMonthYearTime } from "@/lib/date";
 
 type DateTimePicker24hProps = {
   form: UseFormReturn<any>;
@@ -72,7 +72,7 @@ export default function DateTimePicker24h({
                   )}
                 >
                   {date ? (
-                    getDayMonthYearShortTime(date)
+                    formatDayMonthYearTime(date)
                   ) : (
                     <span>MM/DD/YYYY hh:mm</span>
                   )}

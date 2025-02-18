@@ -1,21 +1,12 @@
 "use client";
 
-import { api } from "@/trpc/react";
-import Spinner from "../_components/general/spinner";
 import { Separator } from "../_components/ui/separator";
 import PanelDescription from "./(overview)/panel-description";
 import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
 import PanelHeading from "./(overview)/panel-heading";
-import UserBookingsTable from "./(overview)/user-bookings-table";
+import UserLessons from "./(overview)/user-lessons";
 
 export default function Page() {
-  const {
-    data: bookings,
-    isPending,
-    isRefetching,
-    isError,
-  } = api.booking.getByCurrentUser.useQuery();
-
   return (
     <>
       <PanelHeaderWrapper>
@@ -25,17 +16,7 @@ export default function Page() {
 
       <Separator />
 
-      {isPending ? (
-        <Spinner />
-      ) : bookings ? (
-        <UserBookingsTable
-          data={bookings}
-          isLoading={isPending || isRefetching}
-          isError={isError}
-        />
-      ) : (
-        <></>
-      )}
+      <UserLessons />
     </>
   );
 }

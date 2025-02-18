@@ -18,7 +18,7 @@ export default function CompletedLessonsCard() {
   });
   const { data: lessons, isPending } = api.lesson.getAll.useQuery({
     pagination: { take: 5, page: 0 },
-    lesson: { status: "COMPLETED" },
+    where: { booking: { status: "COMPLETED" } },
   });
 
   return (

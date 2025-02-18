@@ -19,7 +19,7 @@ import {
   SheetTitle,
 } from "@/app/_components/ui/sheet";
 import { Textarea } from "@/app/_components/ui/textarea";
-import { getWeekdayDayMonthShortTime } from "@/lib/date";
+import { formatWeekdayDayMonthTime } from "@/lib/date";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LessonPresence, type Booking } from "@prisma/client";
@@ -118,7 +118,7 @@ export default function CreateLessonDrawer({
             </span>{" "}
             lesson{" "}
             {currentRow?.date &&
-              `for ${getWeekdayDayMonthShortTime(currentRow.date)}`}
+              `for ${formatWeekdayDayMonthTime(currentRow.date)}`}
           </SheetDescription>
         </SheetHeader>
 

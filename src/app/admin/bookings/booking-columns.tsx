@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  getDayMonthYearShortTime,
-  getWeekdayDayMonthShortTime,
-} from "@/lib/date";
+import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 
 import { getShortUppercaseUUID } from "@/lib/utils";
 import { type Booking, BookingStatus } from "@prisma/client";
@@ -35,7 +32,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "date",
     header: "For",
     cell: ({ row }) => {
-      const date = getWeekdayDayMonthShortTime(row.getValue("date"));
+      const date = formatWeekdayDayMonthTime(row.getValue("date"));
 
       return <p className="w-42 font-medium">{date}</p>;
     },
@@ -44,7 +41,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "createdAt",
     header: "Placed",
     cell: ({ row }) => {
-      const createdAt = getDayMonthYearShortTime(row.getValue("createdAt"));
+      const createdAt = formatDayMonthYearTime(row.getValue("createdAt"));
 
       return <p className="w-42">{createdAt}</p>;
     },
