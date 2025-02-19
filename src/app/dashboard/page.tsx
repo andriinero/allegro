@@ -2,8 +2,8 @@
 
 import { Tabs } from "@radix-ui/react-tabs";
 import { Suspense } from "react";
-import UserRecentBookingsPlaceholder from "../_components/placeholders/user-recent-bookings-placeholder";
-import UserUpcomingLessonsPlaceholder from "../_components/placeholders/user-upcoming-lessons-placeholder";
+import UserRecentBookingsSkeleton from "../_components/placeholders/user-recent-bookings-skeleton";
+import UserUpcomingLessonsSkeleton from "../_components/placeholders/user-upcoming-lessons-skeleton";
 import { TabsContent, TabsList, TabsTrigger } from "../_components/ui/tabs";
 import PanelDescription from "./(overview)/panel-description";
 import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
@@ -28,13 +28,13 @@ export default function Page() {
         </TabsList>
 
         <TabsContent value="upcoming-lessons">
-          <Suspense fallback={<UserUpcomingLessonsPlaceholder />}>
+          <Suspense fallback={<UserUpcomingLessonsSkeleton />}>
             <UserUpcomingLessons />
           </Suspense>
         </TabsContent>
 
         <TabsContent value="recent-bookings">
-          <Suspense fallback={<UserRecentBookingsPlaceholder />}>
+          <Suspense fallback={<UserRecentBookingsSkeleton />}>
             <UserRecentBookings />
           </Suspense>
         </TabsContent>

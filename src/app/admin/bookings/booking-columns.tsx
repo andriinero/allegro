@@ -5,12 +5,12 @@ import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 import { formatUUID } from "@/lib/utils";
 import { type Booking, BookingStatus } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Circle, CircleCheck, CircleX, Timer } from "lucide-react";
+import { Circle, CircleCheck, CircleDashed, CircleX } from "lucide-react";
 import type { ReactNode } from "react";
 import TableBookingActions from "./table-booking-actions";
 
 const statusIconMap: Record<BookingStatus, ReactNode> = {
-  PENDING: <Timer />,
+  PENDING: <CircleDashed />,
   CONFIRMED: <Circle />,
   COMPLETED: <CircleCheck />,
   CANCELLED: <CircleX />,
