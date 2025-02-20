@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { getPaginationArgs } from "@/lib/prisma-utils";
 import {
   createBookingSchema,
   getBookingsSchema,
@@ -13,15 +14,22 @@ export const bookingRouter = createTRPCRouter({
   getByCurrentUser: protectedProcedure
     .input(getBookingsSchema)
     .query(async ({ ctx, input }) => {
-      return ctx.db.booking.findMany({
-        where: {
-          bookedById: ctx.session.user.id,
-          status: input.where.status,
-        },
-        orderBy: { date: "asc" },
-        take: input.pagination.take,
-        skip: input.pagination.page * +env.RESPONSE_PAGE_SIZE,
-      });
+      const { where, pagination } = input;
+      const { take, skip, cursor } = getPaginationArgs(pagination);
+
+      const [totalCount, items] = await Promise.all([
+        ctx.db.booking.count({
+          where: { bookedById: ctx.session.user.id, status: where?.status },
+        }),
+        ctx.db.booking.findMany({
+          where: { bookedById: ctx.session.user.id, status: where?.status },
+          take,
+          skip,
+          cursor,
+        }),
+      ]);
+
+      return { items, totalCount };
     }),
 
   create: protectedProcedure
@@ -30,12 +38,11 @@ export const bookingRouter = createTRPCRouter({
       const userBookingCount = await ctx.db.booking.count({
         where: { bookedById: ctx.session.user.id },
       });
-      if (userBookingCount >= 4) {
+      if (userBookingCount >= 4)
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "You have reached the maximum number of bookings",
         });
-      }
 
       return await ctx.db.booking.create({
         data: {
@@ -52,12 +59,11 @@ export const bookingRouter = createTRPCRouter({
       const booking = await ctx.db.booking.findUnique({
         where: { id: input.id, bookedById: ctx.session.user.id },
       });
-      if (!booking) {
+      if (!booking)
         throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "Booking found or not owned",
+          code: "NOT_FOUND",
+          message: "Booking found",
         });
-      }
 
       await ctx.db.booking.update({
         where: { id: input.id },
@@ -100,13 +106,11 @@ export const bookingRouter = createTRPCRouter({
       const booking = await ctx.db.booking.findUnique({
         where: { id: input.id },
       });
-
-      if (!booking) {
+      if (!booking)
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Booking not found",
         });
-      }
 
       return await ctx.db.booking.update({
         where: { id: input.id },
@@ -124,12 +128,11 @@ export const bookingRouter = createTRPCRouter({
       const booking = await ctx.db.booking.findUnique({
         where: { id: input.id },
       });
-      if (!booking) {
+      if (!booking)
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Booking not found",
         });
-      }
 
       await ctx.db.lesson.deleteMany({
         where: { booking: { id: input.id } },

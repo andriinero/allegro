@@ -16,11 +16,14 @@ import { type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
   ClockIcon,
+  FileIcon,
   GuitarIcon,
   HourglassIcon,
   LinkIcon,
+  TextIcon,
 } from "lucide-react";
 import Link from "next/link";
+import InfoField from "./info-field";
 
 type UserLessonCardProps = {
   lesson: RouterOutputs["lesson"]["getAll"][number];
@@ -28,6 +31,11 @@ type UserLessonCardProps = {
 
 export default function UserLessonCard({ lesson }: UserLessonCardProps) {
   const { setOpen, setId } = useDashboard();
+
+  function handleOpenCancelLessonDialog() {
+    setOpen("cancelLesson");
+    setId(lesson.id);
+  }
 
   return (
     <Card
@@ -50,22 +58,23 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
       </CardHeader>
 
       <CardContent className="flex-1 space-y-1 text-sm">
-        <div className="flex items-center gap-2">
-          <HourglassIcon className="size-4 text-muted-foreground" />
-          {lesson.duration} minutes
-        </div>
+        <InfoField icon={HourglassIcon} value={`${lesson?.duration} minutes`} />
 
-        <div className="flex items-center gap-2">
-          <CalendarIcon className="size-4 text-muted-foreground" />
-          {lesson.booking?.date
-            ? formatWeekdayDayMonth(lesson.booking.date)
-            : "No date"}
-        </div>
+        <InfoField
+          icon={CalendarIcon}
+          value={
+            lesson.booking?.date
+              ? formatWeekdayDayMonth(lesson.booking.date)
+              : "No date"
+          }
+        />
 
-        <div className="flex items-center gap-2">
-          <ClockIcon className="size-4 text-muted-foreground" />
-          {lesson.booking?.date ? formatTime(lesson.booking.date) : "No time"}
-        </div>
+        <InfoField
+          icon={ClockIcon}
+          value={
+            lesson.booking?.date ? formatTime(lesson.booking.date) : "No time"
+          }
+        />
 
         <Link
           href={lesson.lessonLink ?? ""}
@@ -77,14 +86,22 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
 
         {lesson.description && (
           <div className="pt-2 text-sm">
-            <p className="font-medium">Description:</p>
+            <InfoField
+              icon={TextIcon}
+              value="Description"
+              className="font-medium"
+            />
             {lesson.description}
           </div>
         )}
 
         {lesson.assignment && (
           <div className="pt-2 text-sm">
-            <p className="font-medium">Assignment:</p>
+            <InfoField
+              icon={FileIcon}
+              value="Assignment"
+              className="font-medium"
+            />
             {lesson.assignment}
           </div>
         )}
@@ -93,10 +110,7 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
       {lesson.booking?.status === "CONFIRMED" && (
         <CardFooter className="flex flex-col justify-between gap-2">
           <Button
-            onClick={() => {
-              setOpen("cancelLesson");
-              setId(lesson.id);
-            }}
+            onClick={handleOpenCancelLessonDialog}
             variant="destructive"
             className="w-full"
           >

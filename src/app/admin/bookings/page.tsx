@@ -1,15 +1,11 @@
 "use client";
 
-import { DataTable } from "@/app/_components/table/data-table";
 import BookingsProvider from "@/hooks/use-bookings";
-import { api } from "@/trpc/react";
 import AdminPanelHeading from "../(overview)/admin-panel-heading";
-import { bookingColumns } from "./booking-columns";
 import BookingDialogs from "./booking-dialogs";
+import BookingsDataTable from "./bookings-data-table";
 
 export default function Page() {
-  const { data, isLoading, isError } = api.booking.getAny.useQuery();
-
   return (
     <BookingsProvider>
       <BookingDialogs />
@@ -20,12 +16,7 @@ export default function Page() {
       />
 
       <div className="py-4">
-        <DataTable
-          columns={bookingColumns}
-          data={data}
-          isLoading={isLoading}
-          isError={isError}
-        />
+        <BookingsDataTable />
       </div>
     </BookingsProvider>
   );

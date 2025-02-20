@@ -5,8 +5,8 @@ import {
   lessonStatusSchema,
 } from "@/schemas/lesson";
 import { TRPCError } from "@trpc/server";
-import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
+import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const lessonRouter = createTRPCRouter({
   getAll: protectedProcedure
@@ -26,6 +26,18 @@ export const lessonRouter = createTRPCRouter({
   cancelById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const lesson = await ctx.db.lesson.findUnique({
+        where: {
+          id: input.id,
+          studentId: ctx.session.user.id,
+        },
+      });
+      if (!lesson)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Lesson not found",
+        });
+
       return await ctx.db.lesson.update({
         where: {
           id: input.id,

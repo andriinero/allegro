@@ -11,7 +11,7 @@ export default function UserRecentBookings() {
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {bookings.map((booking) => (
+      {bookings.items.map((booking) => (
         <UserBookingCard key={booking.id} booking={booking} />
       ))}
     </div>

@@ -1,4 +1,5 @@
-import type { Prisma, PrismaClient } from "@prisma/client";
+import type { CursorPagination } from "@/schemas/pagination";
+import type { PrismaClient } from "@prisma/client";
 import {
   formatCurrentMonthDateRange,
   formatPreviousMonthDateRange,
@@ -49,3 +50,11 @@ export async function calculateMetrics<T extends keyof PrismaClient>(
 
   return { total, currentMonth, previousMonth };
 }
+
+export const getPaginationArgs = (pagination: CursorPagination) => {
+  const take = pagination.take;
+  const cursor = pagination.cursor ? pagination.cursor : undefined;
+  const skip = cursor ? pagination.take * pagination.page + 1 : 0;
+
+  return { take, skip, cursor };
+};

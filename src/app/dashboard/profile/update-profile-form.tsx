@@ -76,8 +76,7 @@ export default function UpdateProfileForm({ sessionUser }: UpdateProfileProps) {
               </FormControl>
               <FormMessage />
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym.
+                This is your public display name.
               </FormDescription>
             </FormItem>
           )}
@@ -93,6 +92,10 @@ export default function UpdateProfileForm({ sessionUser }: UpdateProfileProps) {
                 <Input placeholder="Enter your email" {...field} />
               </FormControl>
               <FormMessage />
+              <FormDescription>
+                This is your email address. It will be used to send you
+                notifications and updates.
+              </FormDescription>
             </FormItem>
           )}
         />

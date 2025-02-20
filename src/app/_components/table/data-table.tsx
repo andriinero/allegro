@@ -9,35 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table";
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
 import { DataTablePagination } from "./table-pagination";
 
-type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
-  data?: TData[];
+type DataTableProps<TData> = {
+  table: ReactTable<TData>;
   isLoading: boolean;
   isError: boolean;
 };
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
+export function DataTable<TData>({
+  table,
   isLoading,
   isError,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data: data ?? [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  });
-
+}: DataTableProps<TData>) {
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-border">
@@ -65,7 +50,7 @@ export function DataTable<TData, TValue>({
             {isLoading ? (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getVisibleFlatColumns().length}
                   className="h-24 text-center"
                 >
                   <Spinner />
@@ -90,7 +75,7 @@ export function DataTable<TData, TValue>({
             ) : isError ? (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getVisibleFlatColumns().length}
                   className="h-24 text-center"
                 >
                   No results.
