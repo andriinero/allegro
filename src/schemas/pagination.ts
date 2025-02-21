@@ -11,6 +11,9 @@ export const cursorPaginationSchema = z
 export type CursorPagination = z.infer<typeof cursorPaginationSchema>;
 
 export const paginationSchema = z
-  .object({ take: z.number(), page: z.number(), cursor: z.string().optional() })
-  .default({ take: 10, page: 0, cursor: undefined });
+  .object({
+    take: z.number().default(10),
+    page: z.number().default(0),
+  })
+  .default({ take: 10, page: 0 });
 export type Pagination = z.infer<typeof paginationSchema>;

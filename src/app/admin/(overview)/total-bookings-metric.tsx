@@ -5,7 +5,7 @@ import { CalendarArrowUp } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function TotalBookingsMetric() {
-  const [metrics] = api.metric.bookings.useSuspenseQuery();
+  const [metrics] = api.metric.admin.bookings.useSuspenseQuery();
 
   return (
     <MetricCard

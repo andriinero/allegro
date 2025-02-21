@@ -1,6 +1,5 @@
-import { env } from "@/env";
-import { getPaginationArgs } from "@/lib/prisma-utils";
 import {
+  bookingCountSchema,
   createBookingSchema,
   getBookingsSchema,
   updateBookingSchema,
@@ -11,25 +10,24 @@ import { z } from "zod";
 import { adminProcedure, createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const bookingRouter = createTRPCRouter({
+  getCountByCurrentUser: protectedProcedure
+    .input(bookingCountSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.db.booking.count({
+        where: { bookedById: ctx.session.user.id, status: input?.status },
+      });
+    }),
+
   getByCurrentUser: protectedProcedure
     .input(getBookingsSchema)
     .query(async ({ ctx, input }) => {
       const { where, pagination } = input;
-      const { take, skip, cursor } = getPaginationArgs(pagination);
 
-      const [totalCount, items] = await Promise.all([
-        ctx.db.booking.count({
-          where: { bookedById: ctx.session.user.id, status: where?.status },
-        }),
-        ctx.db.booking.findMany({
-          where: { bookedById: ctx.session.user.id, status: where?.status },
-          take,
-          skip,
-          cursor,
-        }),
-      ]);
-
-      return { items, totalCount };
+      return await ctx.db.booking.findMany({
+        where: { bookedById: ctx.session.user.id, status: where?.status },
+        take: pagination.take,
+        skip: pagination.page * pagination.take,
+      });
     }),
 
   create: protectedProcedure
@@ -71,74 +69,82 @@ export const bookingRouter = createTRPCRouter({
       });
     }),
 
-  getAny: adminProcedure
-    .input(paginationSchema)
-    .query(async ({ ctx, input }) => {
-      return ctx.db.booking.findMany({
-        take: input.take,
-        skip: input.page * +env.RESPONSE_PAGE_SIZE,
+  admin: {
+    getAll: adminProcedure.query(async ({ ctx }) => {
+      return await ctx.db.booking.findMany({
         include: { bookedBy: true },
       });
     }),
 
-  cancelAnyById: adminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const booking = await ctx.db.booking.findUnique({
-        where: { id: input.id },
-      });
-      if (!booking) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Booking not found",
+    getAny: adminProcedure
+      .input(paginationSchema)
+      .query(async ({ ctx, input }) => {
+        return ctx.db.booking.findMany({
+          take: input.take,
+          skip: input.page * input.take,
+          include: { bookedBy: true },
         });
-      }
+      }),
 
-      await ctx.db.booking.update({
-        where: { id: input.id },
-        data: { status: "CANCELLED" },
-      });
-    }),
-
-  updateAnyById: adminProcedure
-    .input(updateBookingSchema)
-    .mutation(async ({ ctx, input }) => {
-      const booking = await ctx.db.booking.findUnique({
-        where: { id: input.id },
-      });
-      if (!booking)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Booking not found",
+    cancelById: adminProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const booking = await ctx.db.booking.findUnique({
+          where: { id: input.id },
         });
+        if (!booking) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Booking not found",
+          });
+        }
 
-      return await ctx.db.booking.update({
-        where: { id: input.id },
-        data: {
-          date: input.date,
-          status: input.status,
-          lessonPresence: input.lessonPresence,
-        },
-      });
-    }),
-
-  deleteAnyById: adminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const booking = await ctx.db.booking.findUnique({
-        where: { id: input.id },
-      });
-      if (!booking)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Booking not found",
+        await ctx.db.booking.update({
+          where: { id: input.id },
+          data: { status: "CANCELLED" },
         });
+      }),
 
-      await ctx.db.lesson.deleteMany({
-        where: { booking: { id: input.id } },
-      });
-      return await ctx.db.booking.delete({
-        where: { id: input.id },
-      });
-    }),
+    updateById: adminProcedure
+      .input(updateBookingSchema)
+      .mutation(async ({ ctx, input }) => {
+        const booking = await ctx.db.booking.findUnique({
+          where: { id: input.id },
+        });
+        if (!booking)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Booking not found",
+          });
+
+        return await ctx.db.booking.update({
+          where: { id: input.id },
+          data: {
+            date: input.date,
+            status: input.status,
+            lessonPresence: input.lessonPresence,
+          },
+        });
+      }),
+
+    deleteById: adminProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const booking = await ctx.db.booking.findUnique({
+          where: { id: input.id },
+        });
+        if (!booking)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Booking not found",
+          });
+
+        await ctx.db.lesson.deleteMany({
+          where: { booking: { id: input.id } },
+        });
+        return await ctx.db.booking.delete({
+          where: { id: input.id },
+        });
+      }),
+  },
 });

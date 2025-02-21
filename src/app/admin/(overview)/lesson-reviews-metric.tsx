@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function LessonReviewsMetric() {
-  const [metrics] = api.metric.reviews.useSuspenseQuery();
+  const [metrics] = api.metric.admin.reviews.useSuspenseQuery();
 
   return (
     <MetricCard

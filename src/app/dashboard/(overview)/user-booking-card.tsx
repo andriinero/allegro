@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 type UserBookingCardProps = {
-  booking: RouterOutputs["booking"]["getByCurrentUser"]["items"][number];
+  booking: RouterOutputs["booking"]["getByCurrentUser"][number];
 };
 
 export default function UserBookingCard({ booking }: UserBookingCardProps) {

@@ -28,7 +28,7 @@ export default function CancelLessonDialog({
   const { mutate: cancelLesson } = api.lesson.cancelById.useMutation({
     onSuccess: async () => {
       toast.success("Lesson cancelled");
-      await utils.lesson.getAll.invalidate();
+      await utils.lesson.getByCurrentUser.invalidate();
       onOpenChange(null);
     },
     onError: () => {

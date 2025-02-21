@@ -4,9 +4,9 @@ import { api } from "@/trpc/react";
 import UserLessonCard from "./user-lesson-card";
 
 export default function UserUpcomingLessons() {
-  const [lessons] = api.lesson.getAll.useSuspenseQuery({
+  const [lessons] = api.lesson.getByCurrentUser.useSuspenseQuery({
     pagination: { take: 10, page: 0 },
-    where: { booking: { status: ["CONFIRMED"] } },
+    status: ["CONFIRMED"],
     orderBy: { booking: { date: "desc" } },
   });
 

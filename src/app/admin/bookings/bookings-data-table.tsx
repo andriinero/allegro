@@ -7,19 +7,12 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useRef } from "react";
 import { bookingColumns } from "./booking-columns";
 
 export default function BookingsDataTable() {
-  const cursorRef = useRef<{ id: string } | undefined>();
-  const { data, isLoading, isError } = api.booking.getByCurrentUser.useQuery({
-    pagination: {
-      cursor: cursorRef.current,
-      take: 10,
-    },
-  });
+  const { data, isLoading, isError } = api.booking.admin.getAll.useQuery();
   const table = useReactTable({
-    data: data?.items ?? [],
+    data: data ?? [],
     columns: bookingColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

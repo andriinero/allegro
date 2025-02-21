@@ -2,6 +2,13 @@ import { BookingStatus, LessonPresence } from "@prisma/client";
 import { z } from "zod";
 import { cursorPaginationSchema } from "./pagination";
 
+export const bookingCountSchema = z
+  .object({
+    status: z.nativeEnum(BookingStatus).optional(),
+  })
+  .optional();
+export type BookingCount = z.infer<typeof bookingCountSchema>;
+
 //TODO: change pagination to paginationSchema
 export const getBookingsSchema = z.object({
   pagination: cursorPaginationSchema,

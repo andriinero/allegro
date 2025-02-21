@@ -5,7 +5,7 @@ import { BookOpen } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function LessonsCompletedMetric() {
-  const [metrics] = api.metric.completedLessons.useSuspenseQuery();
+  const [metrics] = api.metric.admin.completedLessons.useSuspenseQuery();
 
   return (
     <MetricCard

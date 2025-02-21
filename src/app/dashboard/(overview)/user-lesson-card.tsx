@@ -26,7 +26,7 @@ import Link from "next/link";
 import InfoField from "./info-field";
 
 type UserLessonCardProps = {
-  lesson: RouterOutputs["lesson"]["getAll"][number];
+  lesson: RouterOutputs["lesson"]["getByCurrentUser"][number];
 };
 
 export default function UserLessonCard({ lesson }: UserLessonCardProps) {

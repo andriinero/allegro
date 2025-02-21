@@ -7,7 +7,7 @@ export const adminRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.user.findMany({
         take: input.take,
-        skip: input.page * 25,
+        skip: input.page * input.take,
       });
     }),
 

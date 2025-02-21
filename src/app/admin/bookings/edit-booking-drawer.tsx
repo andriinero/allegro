@@ -1,5 +1,4 @@
 import { Button } from "@/app/_components/ui/button";
-import { Calendar } from "@/app/_components/ui/calendar";
 import DateTimePicker24h from "@/app/_components/ui/date-time-picker";
 import {
   Form,
@@ -10,11 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/app/_components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -31,12 +25,9 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
-import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BookingStatus, LessonPresence, type Booking } from "@prisma/client";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -76,9 +67,9 @@ export default function EditBookingDrawer({
   });
 
   const apiUtils = api.useUtils();
-  const editBookingMutation = api.booking.updateAnyById.useMutation({
+  const editBookingMutation = api.booking.admin.updateById.useMutation({
     onSuccess: async () => {
-      await apiUtils.booking.getAny.invalidate();
+      await apiUtils.booking.admin.getAll.invalidate();
       toast.success("Booking has been updated");
       onOpenChange(false);
     },

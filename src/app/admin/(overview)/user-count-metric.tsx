@@ -5,7 +5,7 @@ import { User } from "lucide-react";
 import MetricCard from "./metric-card";
 
 export default function UserCountMetric() {
-  const [metrics] = api.metric.users.useSuspenseQuery();
+  const [metrics] = api.metric.admin.users.useSuspenseQuery();
 
   return (
     <MetricCard

@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/app/_components/general/spinner";
 import {
   Card,
   CardContent,
@@ -8,17 +9,16 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { api } from "@/trpc/react";
-import CompletedLessonItem from "./completed-lesson-item";
-import Spinner from "@/app/_components/general/spinner";
 import CompletedLessonsPlaceholder from "../../_components/placeholders/completed-lessons-placeholder";
+import CompletedLessonItem from "./completed-lesson-item";
 
 export default function CompletedLessonsCard() {
-  const { data: count } = api.lesson.getAnyCount.useQuery({
+  const { data: count } = api.lesson.admin.getAnyCount.useQuery({
     status: "COMPLETED",
   });
-  const { data: lessons, isPending } = api.lesson.getAll.useQuery({
+  const { data: lessons, isPending } = api.lesson.getByCurrentUser.useQuery({
     pagination: { take: 5, page: 0 },
-    where: { booking: { status: ["COMPLETED"] } },
+    status: ["COMPLETED"],
   });
 
   return (
