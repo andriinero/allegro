@@ -9,12 +9,13 @@ export default function Logo({ className, ...props }: LogoProps) {
     <Link
       href="/"
       className={cn(
-        "text-2xl font-bold tracking-tight text-primary-foreground",
+        "inline-flex items-center text-2xl font-bold tracking-tight text-primary-foreground transition-colors hover:text-primary-foreground/90",
         className,
       )}
+      aria-label="Go to homepage"
       {...props}
     >
-      <h1>Allegro</h1>
+      <h1 className="m-0">Allegro</h1>
     </Link>
   );
 }

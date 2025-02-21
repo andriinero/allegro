@@ -2,33 +2,13 @@
 
 import ContentWrapper from "@/app/_components/general/content-wrapper";
 import Logo from "@/app/_components/general/logo";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import {
-  ChevronDown,
-  LayoutDashboard,
-  LogOut,
-  Settings,
-  Shield,
-  User,
-} from "lucide-react";
 import type { Session } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NavLinks from "./nav-links";
+import UserDropdownMenu from "./user-dropdown-menu";
 
 type HeaderProps = {
   session: Session | null;
@@ -43,86 +23,27 @@ export default function Header({
 }: HeaderProps) {
   const pathname = usePathname();
 
-  const isSolidVariant = variant === "solid";
-  const fallbackUsername = session?.user?.name?.substring(0, 2);
-
   return (
     <header
       className={cn(
         "fixed z-20 flex w-full items-center justify-center backdrop-blur",
-        isSolidVariant && "border-b border-border bg-background",
+        variant === "solid" && "border-b border-border bg-background",
         className,
       )}
     >
       <ContentWrapper className="flex items-center py-2">
         <Logo
-          className={cn("flex-1", isSolidVariant && "text-accent-foreground")}
+          className={cn(
+            "flex-1",
+            variant === "solid" && "text-accent-foreground",
+          )}
         />
 
         <NavLinks variant={variant} />
 
         <div className="flex flex-1 items-center justify-end gap-4">
           {session?.user ? (
-            <DropdownMenu modal={false}>
-              <DropdownMenuTrigger className="flex items-center gap-2">
-                <Avatar>
-                  <AvatarImage src={session?.user?.image ?? ""} />
-                  <AvatarFallback>{fallbackUsername}</AvatarFallback>
-                </Avatar>
-
-                <ChevronDown
-                  className={cn(
-                    "size-5 text-background",
-                    isSolidVariant && "text-foreground",
-                  )}
-                />
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent>
-                <DropdownMenuLabel>
-                  <p>{session.user?.name}</p>
-                  <p className="text-xs font-light text-secondary-foreground">
-                    {session.user?.email}
-                  </p>
-                </DropdownMenuLabel>
-
-                <DropdownMenuSeparator />
-
-                <Link href="/dashboard/profile">
-                  <DropdownMenuItem>
-                    <User /> Profile
-                  </DropdownMenuItem>
-                </Link>
-
-                <Link href="/dashboard">
-                  <DropdownMenuItem>
-                    <LayoutDashboard /> Dashboard
-                  </DropdownMenuItem>
-                </Link>
-
-                {session.user.role === "ADMIN" && (
-                  <Link href="/admin">
-                    <DropdownMenuItem>
-                      <Shield /> Admin Dashboard
-                    </DropdownMenuItem>
-                  </Link>
-                )}
-
-                <Link href="/dashboard/settings">
-                  <DropdownMenuItem>
-                    <Settings /> Settings
-                  </DropdownMenuItem>
-                </Link>
-
-                <DropdownMenuSeparator />
-
-                <Link href="/api/auth/signout">
-                  <DropdownMenuItem className="text-destructive">
-                    <LogOut /> Logout
-                  </DropdownMenuItem>
-                </Link>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserDropdownMenu user={session.user} variant={variant} />
           ) : (
             <Link href="/api/auth/signin">
               <Button variant="ghost" className="text-primary-foreground">

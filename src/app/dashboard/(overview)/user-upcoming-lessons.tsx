@@ -1,6 +1,8 @@
 "use client";
 
+import EmptyState from "@/app/_components/placeholders/empty-state";
 import { api } from "@/trpc/react";
+import { BookOpenIcon } from "lucide-react";
 import UserLessonCard from "./user-lesson-card";
 
 export default function UserUpcomingLessons() {
@@ -10,11 +12,17 @@ export default function UserUpcomingLessons() {
     orderBy: { booking: { date: "desc" } },
   });
 
-  return (
+  return lessons ? (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {lessons.map((lesson) => (
         <UserLessonCard key={lesson.id} lesson={lesson} />
       ))}
     </div>
+  ) : (
+    <EmptyState
+      icon={BookOpenIcon}
+      title="No upcoming lessons"
+      description="You don't have any upcoming lessons."
+    />
   );
 }

@@ -16,8 +16,6 @@ type NavMenuProps = { variant?: "transparent" | "solid" };
 export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
   const pathname = usePathname();
 
-  const isSolidVariant = variant === "solid";
-
   return (
     <NavigationMenu className="flex-2 hidden sm:block">
       <NavigationMenuList>
@@ -28,7 +26,7 @@ export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "border border-transparent bg-transparent font-semibold text-primary-foreground hover:bg-transparent hover:text-primary",
-                isSolidVariant && "text-accent-foreground",
+                variant === "solid" && "text-accent-foreground",
                 pathname === link.href && "bg-accent",
               )}
             >

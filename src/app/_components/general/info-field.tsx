@@ -3,19 +3,19 @@ import type { LucideIcon } from "lucide-react";
 
 type InfoFieldProps = {
   icon: LucideIcon;
-  value: string;
+  children: React.ReactNode;
   className?: string;
 };
 
 export default function InfoField({
   icon: Icon,
-  value,
+  children,
   className,
 }: InfoFieldProps) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Icon className="size-4 text-muted-foreground" />
-      {value}
+      {children}
     </div>
   );
 }

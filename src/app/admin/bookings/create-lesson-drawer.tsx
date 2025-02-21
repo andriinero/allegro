@@ -38,7 +38,7 @@ const createLessonFormSchema = z.object({
   lessonLink: z.string().url().or(z.literal("")),
   assignment: z.string().optional(),
   description: z.string().optional(),
-  duration: z
+  duration: z.coerce
     .number()
     .min(30, "Minimum lesson duration is 30 minutes")
     .max(90, "Maximum duration is 90 minutes"),
@@ -136,7 +136,7 @@ export default function CreateLessonDrawer({
                   <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="e.g. Introduction to Basic Accrods"
+                      placeholder="e.g. Introduction to Basic Accords"
                       {...field}
                     />
                   </FormControl>

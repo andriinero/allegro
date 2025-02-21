@@ -23,7 +23,7 @@ import {
   TextIcon,
 } from "lucide-react";
 import Link from "next/link";
-import InfoField from "./info-field";
+import InfoField from "../../_components/general/info-field";
 
 type UserLessonCardProps = {
   lesson: RouterOutputs["lesson"]["getByCurrentUser"][number];
@@ -33,8 +33,8 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
   const { setOpen, setId } = useDashboard();
 
   function handleOpenCancelLessonDialog() {
-    setOpen("cancelLesson");
     setId(lesson.id);
+    setOpen("cancelLesson");
   }
 
   return (
@@ -58,53 +58,51 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
       </CardHeader>
 
       <CardContent className="flex-1 space-y-1 text-sm">
-        <InfoField icon={HourglassIcon} value={`${lesson?.duration} minutes`} />
+        <InfoField icon={HourglassIcon}>{lesson?.duration} minutes</InfoField>
 
-        <InfoField
-          icon={CalendarIcon}
-          value={
-            lesson.booking?.date
-              ? formatWeekdayDayMonth(lesson.booking.date)
-              : "No date"
-          }
-        />
+        <InfoField icon={CalendarIcon}>
+          {lesson.booking?.date
+            ? formatWeekdayDayMonth(lesson.booking.date)
+            : "No date"}
+        </InfoField>
 
-        <InfoField
-          icon={ClockIcon}
-          value={
-            lesson.booking?.date ? formatTime(lesson.booking.date) : "No time"
-          }
-        />
+        <InfoField icon={ClockIcon}>
+          {lesson.booking?.date ? formatTime(lesson.booking.date) : "No time"}
+        </InfoField>
 
         <Link
           href={lesson.lessonLink ?? ""}
           target="_blank"
           className="flex items-center gap-2 underline"
         >
-          <LinkIcon className="size-4 text-muted-foreground" /> Lesson Link
+          <InfoField icon={LinkIcon}>Lesson Link</InfoField>
         </Link>
 
-        {lesson.description && (
-          <div className="pt-2 text-sm">
-            <InfoField
-              icon={TextIcon}
-              value="Description"
-              className="font-medium"
-            />
-            {lesson.description}
-          </div>
-        )}
+        <div className="pt-2 text-sm">
+          <InfoField icon={TextIcon} className="font-medium">
+            Description
+          </InfoField>
+          {lesson.description ? (
+            lesson.description
+          ) : (
+            <p className="pt-2 text-sm text-muted-foreground">
+              No lesson description provided yet
+            </p>
+          )}
+        </div>
 
-        {lesson.assignment && (
-          <div className="pt-2 text-sm">
-            <InfoField
-              icon={FileIcon}
-              value="Assignment"
-              className="font-medium"
-            />
-            {lesson.assignment}
-          </div>
-        )}
+        <div className="pt-2 text-sm">
+          <InfoField icon={FileIcon} className="font-medium">
+            Assignment
+          </InfoField>
+          {lesson.assignment ? (
+            lesson.assignment
+          ) : (
+            <p className="pt-2 text-sm text-muted-foreground">
+              No practice assignment set for this lesson
+            </p>
+          )}
+        </div>
       </CardContent>
 
       {lesson.booking?.status === "CONFIRMED" && (

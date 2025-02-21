@@ -12,3 +12,10 @@ export const capitalize = (str: string) => {
 export const formatUUID = (uuid: string) => {
   return uuid.substring(20).toUpperCase();
 };
+
+export const getInitials = (name: string) => {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+};

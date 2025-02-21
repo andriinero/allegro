@@ -1,3 +1,4 @@
+import InfoField from "@/app/_components/general/info-field";
 import { Button } from "@/app/_components/ui/button";
 import {
   Card,
@@ -13,7 +14,7 @@ import { capitalize, formatUUID } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import {
   CalendarIcon,
-  CircleDashed,
+  CircleDashedIcon,
   ClockIcon,
   PresentationIcon,
 } from "lucide-react";
@@ -25,6 +26,11 @@ type UserBookingCardProps = {
 export default function UserBookingCard({ booking }: UserBookingCardProps) {
   const { setOpen, setId } = useDashboard();
 
+  function handleOpenCancelBookingDialog() {
+    setId(booking.id);
+    setOpen("cancelBooking");
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -33,33 +39,26 @@ export default function UserBookingCard({ booking }: UserBookingCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-1 text-sm">
-        <div className="flex items-center gap-2">
-          <CircleDashed className="size-4 text-muted-foreground" />
-          <span className="font-semibold">{capitalize(booking.status)}</span>
-        </div>
+        <InfoField icon={CircleDashedIcon}>
+          {capitalize(booking.status)}
+        </InfoField>
 
-        <div className="flex items-center gap-2">
-          <PresentationIcon className="size-4 text-muted-foreground" />
+        <InfoField icon={PresentationIcon}>
           {capitalize(booking.lessonPresence)}
-        </div>
+        </InfoField>
 
-        <div className="flex items-center gap-2">
-          <CalendarIcon className="size-4 text-muted-foreground" />
+        <InfoField icon={CalendarIcon}>
           {booking.date ? formatWeekdayDayMonth(booking.date) : "No date"}
-        </div>
+        </InfoField>
 
-        <div className="flex items-center gap-2">
-          <ClockIcon className="size-4 text-muted-foreground" />
+        <InfoField icon={ClockIcon}>
           {booking.date ? formatTime(booking.date) : "No time"}
-        </div>
+        </InfoField>
       </CardContent>
 
       <CardFooter>
         <Button
-          onClick={() => {
-            setOpen("cancelBooking");
-            setId(booking.id);
-          }}
+          onClick={handleOpenCancelBookingDialog}
           variant="destructive"
           className="w-full"
         >

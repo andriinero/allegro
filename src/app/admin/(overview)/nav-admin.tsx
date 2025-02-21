@@ -19,6 +19,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/app/_components/ui/sidebar";
+import { getInitials } from "@/lib/utils";
 import { ChevronsUpDown, Home, LayoutDashboard, LogOut } from "lucide-react";
 import Link from "next/link";
 
@@ -33,7 +34,7 @@ type NavUserProps = {
 export default function NavAdmin({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
 
-  const fallbackUsername = user?.name?.substring(0, 2);
+  const fallbackUsername = getInitials(user?.name ?? "");
 
   return (
     <SidebarMenu>

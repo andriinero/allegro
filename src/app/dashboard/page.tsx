@@ -21,19 +21,19 @@ export default function Page() {
         </PanelDescription>
       </PanelHeaderWrapper>
 
-      <Tabs defaultValue="upcoming-lessons">
+      <Tabs defaultValue="upcoming-lessons" className="flex h-full flex-col">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="upcoming-lessons">Upcoming Lessons</TabsTrigger>
           <TabsTrigger value="recent-bookings">Recent Bookings</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="upcoming-lessons">
+        <TabsContent value="upcoming-lessons" className="flex-1">
           <Suspense fallback={<UserUpcomingLessonsSkeleton />}>
             <UserUpcomingLessons />
           </Suspense>
         </TabsContent>
 
-        <TabsContent value="recent-bookings">
+        <TabsContent value="recent-bookings" className="flex-1">
           <Suspense fallback={<UserRecentBookingsSkeleton />}>
             <UserRecentBookings />
           </Suspense>

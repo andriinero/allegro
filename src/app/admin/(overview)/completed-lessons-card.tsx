@@ -1,6 +1,7 @@
 "use client";
 
 import Spinner from "@/app/_components/general/spinner";
+import EmptyState from "@/app/_components/placeholders/empty-state";
 import {
   Card,
   CardContent,
@@ -9,7 +10,7 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { api } from "@/trpc/react";
-import CompletedLessonsPlaceholder from "../../_components/placeholders/completed-lessons-placeholder";
+import { BookOpenIcon } from "lucide-react";
 import CompletedLessonItem from "./completed-lesson-item";
 
 export default function CompletedLessonsCard() {
@@ -45,7 +46,11 @@ export default function CompletedLessonsCard() {
             />
           ))
         ) : (
-          <CompletedLessonsPlaceholder />
+          <EmptyState
+            icon={BookOpenIcon}
+            title="No completed lessons for this month"
+            description="You haven't taught any students this month yet."
+          />
         )}
       </CardContent>
     </Card>
