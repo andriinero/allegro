@@ -139,11 +139,13 @@ export const bookingRouter = createTRPCRouter({
             message: "Booking not found",
           });
 
-        await ctx.db.lesson.deleteMany({
-          where: { booking: { id: input.id } },
-        });
-        return await ctx.db.booking.delete({
-          where: { id: input.id },
+        return await ctx.db.$transaction(async (tx) => {
+          await tx.lesson.deleteMany({
+            where: { booking: { id: input.id } },
+          });
+          return await tx.booking.delete({
+            where: { id: input.id },
+          });
         });
       }),
   },

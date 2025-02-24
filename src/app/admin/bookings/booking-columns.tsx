@@ -2,18 +2,31 @@
 
 import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 
+import InfoField from "@/app/_components/general/info-field";
 import { formatUUID } from "@/lib/utils";
-import { type Booking, BookingStatus } from "@prisma/client";
+import { type Booking, BookingStatus, LessonPresence } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Circle, CircleCheck, CircleDashed, CircleX } from "lucide-react";
-import type { ReactNode } from "react";
+import {
+  Circle,
+  CircleCheck,
+  CircleDashed,
+  CircleX,
+  LaptopIcon,
+  type LucideIcon,
+  MapPinHouseIcon,
+} from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
 
-const statusIconMap: Record<BookingStatus, ReactNode> = {
-  PENDING: <CircleDashed />,
-  CONFIRMED: <Circle />,
-  COMPLETED: <CircleCheck />,
-  CANCELLED: <CircleX />,
+const statusIconMap: Record<BookingStatus, LucideIcon> = {
+  PENDING: CircleDashed,
+  CONFIRMED: Circle,
+  COMPLETED: CircleCheck,
+  CANCELLED: CircleX,
+};
+
+const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
+  OFFLINE: MapPinHouseIcon,
+  ONLINE: LaptopIcon,
 };
 
 export const bookingColumns: ColumnDef<Booking>[] = [
@@ -49,11 +62,19 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "lessonPresence",
     header: "Presence",
     cell: ({ row }) => {
-      const lessonPresence = row.getValue("lessonPresence");
-      const result =
-        typeof lessonPresence === "string" ? lessonPresence : "UKWN";
+      const lessonPresence = Object.values(LessonPresence).find(
+        (s) => s === row.getValue("lessonPresence"),
+      );
 
-      return <p className="w-16">{result}</p>;
+      return (
+        <div className="w-24">
+          {lessonPresence && (
+            <InfoField icon={lessonPresenceIconMap[lessonPresence]}>
+              {lessonPresence}
+            </InfoField>
+          )}
+        </div>
+      );
     },
   },
   {
@@ -65,12 +86,9 @@ export const bookingColumns: ColumnDef<Booking>[] = [
       );
 
       return (
-        <div className="w-16">
+        <div className="w-28">
           {status && (
-            <div className="flex items-center gap-2">
-              <div className="[&_svg]:size-4">{statusIconMap[status]}</div>
-              <span>{status}</span>
-            </div>
+            <InfoField icon={statusIconMap[status]}>{status}</InfoField>
           )}
         </div>
       );

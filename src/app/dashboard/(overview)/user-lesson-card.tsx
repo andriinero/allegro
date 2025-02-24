@@ -20,10 +20,107 @@ import {
   GuitarIcon,
   HourglassIcon,
   LinkIcon,
+  type LucideIcon,
   TextIcon,
 } from "lucide-react";
 import Link from "next/link";
 import InfoField from "../../_components/general/info-field";
+
+const statusMap = {
+  CANCELLED: " (Cancelled)",
+  CONFIRMED: " (Confirmed)",
+} as const;
+
+type LessonStatusProps = {
+  status?: string;
+};
+
+function LessonStatus({ status }: LessonStatusProps) {
+  if (!status) return null;
+
+  return <>{statusMap[status as keyof typeof statusMap] ?? ""}</>;
+}
+
+type LessonDetailsProps = {
+  duration: number;
+  date?: Date;
+  lessonLink?: string | null;
+  description?: string | null;
+  assignment?: string | null;
+};
+
+function LessonDetails({
+  duration,
+  date,
+  lessonLink,
+  description,
+  assignment,
+}: LessonDetailsProps) {
+  return (
+    <div className="flex-1 space-y-1 text-sm">
+      <InfoField icon={HourglassIcon}>{duration} minutes</InfoField>
+
+      <InfoField icon={CalendarIcon}>
+        {date ? formatWeekdayDayMonth(date) : "No date"}
+      </InfoField>
+
+      <InfoField icon={ClockIcon}>
+        {date ? formatTime(date) : "No time"}
+      </InfoField>
+
+      {lessonLink && (
+        <Link
+          href={lessonLink}
+          target="_blank"
+          className="flex items-center gap-2 underline"
+        >
+          <InfoField icon={LinkIcon}>Lesson Link</InfoField>
+        </Link>
+      )}
+
+      <TextSection
+        icon={TextIcon}
+        title="Description"
+        content={description}
+        emptyMessage="No lesson description provided yet"
+      />
+
+      <TextSection
+        icon={FileIcon}
+        title="Assignment"
+        content={assignment}
+        emptyMessage="No practice assignment set for this lesson"
+      />
+    </div>
+  );
+}
+
+type TextSectionProps = {
+  icon: LucideIcon;
+  title: string;
+  content?: string | null;
+  emptyMessage: string;
+};
+
+function TextSection({
+  icon: Icon,
+  title,
+  content,
+  emptyMessage,
+}: TextSectionProps) {
+  return (
+    <div className="pt-2 text-sm">
+      <InfoField icon={Icon} className="font-medium">
+        {title}
+      </InfoField>
+      {content ? (
+        content
+      ) : (
+        <p className="pt-2 text-sm text-muted-foreground">{emptyMessage}</p>
+      )}
+    </div>
+  );
+}
 
 type UserLessonCardProps = {
   lesson: RouterOutputs["lesson"]["getByCurrentUser"][number];
@@ -52,57 +149,18 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
         </CardTitle>
         <CardDescription>
           {lesson.booking?.lessonPresence}
-          {lesson.booking?.status === "CANCELLED" && " (Cancelled)"}
-          {lesson.booking?.status === "COMPLETED" && " (Completed)"}
+          <LessonStatus status={lesson.booking?.status} />
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-1 space-y-1 text-sm">
-        <InfoField icon={HourglassIcon}>{lesson?.duration} minutes</InfoField>
-
-        <InfoField icon={CalendarIcon}>
-          {lesson.booking?.date
-            ? formatWeekdayDayMonth(lesson.booking.date)
-            : "No date"}
-        </InfoField>
-
-        <InfoField icon={ClockIcon}>
-          {lesson.booking?.date ? formatTime(lesson.booking.date) : "No time"}
-        </InfoField>
-
-        <Link
-          href={lesson.lessonLink ?? ""}
-          target="_blank"
-          className="flex items-center gap-2 underline"
-        >
-          <InfoField icon={LinkIcon}>Lesson Link</InfoField>
-        </Link>
-
-        <div className="pt-2 text-sm">
-          <InfoField icon={TextIcon} className="font-medium">
-            Description
-          </InfoField>
-          {lesson.description ? (
-            lesson.description
-          ) : (
-            <p className="pt-2 text-sm text-muted-foreground">
-              No lesson description provided yet
-            </p>
-          )}
-        </div>
-
-        <div className="pt-2 text-sm">
-          <InfoField icon={FileIcon} className="font-medium">
-            Assignment
-          </InfoField>
-          {lesson.assignment ? (
-            lesson.assignment
-          ) : (
-            <p className="pt-2 text-sm text-muted-foreground">
-              No practice assignment set for this lesson
-            </p>
-          )}
-        </div>
+      <CardContent>
+        <LessonDetails
+          duration={lesson.duration ?? 0}
+          date={lesson.booking?.date}
+          lessonLink={lesson.lessonLink}
+          description={lesson.description}
+          assignment={lesson.assignment}
+        />
       </CardContent>
 
       {lesson.booking?.status === "CONFIRMED" && (
