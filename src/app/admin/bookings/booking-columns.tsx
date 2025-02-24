@@ -3,10 +3,12 @@
 import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 
 import InfoField from "@/app/_components/general/info-field";
+import HeaderButton from "@/app/_components/table/header-button";
 import { formatUUID } from "@/lib/utils";
 import { type Booking, BookingStatus, LessonPresence } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
+  ChevronsUpDownIcon,
   Circle,
   CircleCheck,
   CircleDashed,
@@ -42,7 +44,13 @@ export const bookingColumns: ColumnDef<Booking>[] = [
   },
   {
     accessorKey: "date",
-    header: "For",
+    header: ({ column }) => {
+      return (
+        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+          Date
+        </HeaderButton>
+      );
+    },
     cell: ({ row }) => {
       const date = formatWeekdayDayMonthTime(row.getValue("date"));
 
@@ -51,7 +59,13 @@ export const bookingColumns: ColumnDef<Booking>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Placed",
+    header: ({ column }) => {
+      return (
+        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+          Placed
+        </HeaderButton>
+      );
+    },
     cell: ({ row }) => {
       const createdAt = formatDayMonthYearTime(row.getValue("createdAt"));
 
@@ -60,7 +74,13 @@ export const bookingColumns: ColumnDef<Booking>[] = [
   },
   {
     accessorKey: "lessonPresence",
-    header: "Presence",
+    header: ({ column }) => {
+      return (
+        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+          Presence
+        </HeaderButton>
+      );
+    },
     cell: ({ row }) => {
       const lessonPresence = Object.values(LessonPresence).find(
         (s) => s === row.getValue("lessonPresence"),
@@ -79,7 +99,13 @@ export const bookingColumns: ColumnDef<Booking>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+          Status
+        </HeaderButton>
+      );
+    },
     cell: ({ row }) => {
       const status = Object.values(BookingStatus).find(
         (s) => s === row.getValue("status"),

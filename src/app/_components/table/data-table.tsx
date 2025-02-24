@@ -16,14 +16,9 @@ import { DataTablePagination } from "./table-pagination";
 type DataTableProps<TData> = {
   table: ReactTable<TData>;
   isLoading: boolean;
-  isError: boolean;
 };
 
-export function DataTable<TData>({
-  table,
-  isLoading,
-  isError,
-}: DataTableProps<TData>) {
+export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
   return (
     <div className="flex flex-col gap-4">
       <Input
