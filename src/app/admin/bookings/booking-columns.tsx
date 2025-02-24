@@ -5,7 +5,7 @@ import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 import InfoField from "@/app/_components/general/info-field";
 import { formatUUID } from "@/lib/utils";
 import { type Booking, BookingStatus, LessonPresence } from "@prisma/client";
-import type { ColumnDef } from "@tanstack/react-table";
+import { type ColumnDef } from "@tanstack/react-table";
 import {
   Circle,
   CircleCheck,

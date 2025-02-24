@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
+import { Input } from "../ui/input";
 import { DataTablePagination } from "./table-pagination";
 
 type DataTableProps<TData> = {
@@ -24,7 +25,15 @@ export function DataTable<TData>({
   isError,
 }: DataTableProps<TData>) {
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
+      <Input
+        value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
+        onChange={(event) => {
+          table.getColumn("id")?.setFilterValue(event.target.value);
+        }}
+        placeholder="Filter bookings by id..."
+        className="max-w-xs"
+      />
       <div className="rounded-md border border-border">
         <Table className="">
           <TableHeader>
@@ -72,7 +81,7 @@ export function DataTable<TData>({
                   ))}
                 </TableRow>
               ))
-            ) : isError ? (
+            ) : (
               <TableRow>
                 <TableCell
                   colSpan={table.getVisibleFlatColumns().length}
@@ -81,8 +90,6 @@ export function DataTable<TData>({
                   No results.
                 </TableCell>
               </TableRow>
-            ) : (
-              <></>
             )}
           </TableBody>
         </Table>
