@@ -1,10 +1,10 @@
-import { useBookings } from "@/hooks/use-bookings";
+import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
 import CreateLessonDrawer from "./create-lesson-drawer";
 import EditBookingDrawer from "./edit-booking-drawer";
 import DeleteBookingDialog from "./delete-booking-dialog";
 
 export default function BookingDialogs() {
-  const { open, setOpen, currentRow } = useBookings();
+  const { open, setOpen, currentRow } = useBookingsDialogContext();
 
   return (
     <>

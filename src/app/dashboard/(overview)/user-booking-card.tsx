@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { useDashboard } from "@/hooks/use-dashboard";
+import { useDashboardDialogContext } from "@/hooks/use-dashboard-dialog-context";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
 import { capitalize, formatUUID } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
@@ -24,7 +24,7 @@ type UserBookingCardProps = {
 };
 
 export default function UserBookingCard({ booking }: UserBookingCardProps) {
-  const { setOpen, setId } = useDashboard();
+  const { setOpen, setId } = useDashboardDialogContext();
 
   function handleOpenCancelBookingDialog() {
     setId(booking.id);

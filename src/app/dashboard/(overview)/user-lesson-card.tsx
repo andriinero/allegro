@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { useDashboard } from "@/hooks/use-dashboard";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
@@ -25,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import InfoField from "../../_components/general/info-field";
+import { useDashboardDialogContext } from "@/hooks/use-dashboard-dialog-context";
 
 const statusMap = {
   CANCELLED: " (Cancelled)",
@@ -127,7 +127,7 @@ type UserLessonCardProps = {
 };
 
 export default function UserLessonCard({ lesson }: UserLessonCardProps) {
-  const { setOpen, setId } = useDashboard();
+  const { setOpen, setId } = useDashboardDialogContext();
 
   function handleOpenCancelLessonDialog() {
     setId(lesson.id);

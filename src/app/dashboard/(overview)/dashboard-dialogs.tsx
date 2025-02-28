@@ -1,11 +1,11 @@
 "use client";
 
-import { useDashboard } from "@/hooks/use-dashboard";
-import CancelLessonDialog from "./cancel-lesson-dialog";
+import { useDashboardDialogContext } from "@/hooks/use-dashboard-dialog-context";
 import CancelBookingDialog from "./cancel-booking-dialog";
+import CancelLessonDialog from "./cancel-lesson-dialog";
 
 export default function DashboardDialogs() {
-  const { open, id, setOpen } = useDashboard();
+  const { open, id, setOpen } = useDashboardDialogContext();
 
   return (
     <>

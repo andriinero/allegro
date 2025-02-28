@@ -13,37 +13,43 @@ import {
 
 type BookingDialogType = "createLesson" | "edit" | "delete";
 
-type BookingsContextType = {
+type BookingsDialogContextType = {
   open: BookingDialogType | null;
   setOpen: (str: BookingDialogType | null) => void;
   currentRow: Booking | null;
   setCurrentRow: Dispatch<SetStateAction<Booking | null>>;
 };
-const BookingsContext = createContext<BookingsContextType | null>(null);
+const BookingsDialogContext = createContext<BookingsDialogContextType | null>(
+  null,
+);
 
-type BookingsProviderProps = {
+type BookingsDialogContextProviderProps = {
   children: ReactNode;
 };
 
-export default function BookingsProvider({ children }: BookingsProviderProps) {
+export default function BookingsDialogContextProvider({
+  children,
+}: BookingsDialogContextProviderProps) {
   const [open, setOpen] = useDialogState<BookingDialogType>(null);
   const [currentRow, setCurrentRow] = useState<Booking | null>(null);
 
   return (
-    <BookingsContext.Provider
+    <BookingsDialogContext.Provider
       value={{ open, setOpen, currentRow, setCurrentRow }}
     >
       {children}
-    </BookingsContext.Provider>
+    </BookingsDialogContext.Provider>
   );
 }
 
-export const useBookings = () => {
-  const bookingsContext = useContext(BookingsContext);
+export const useBookingsDialogContext = () => {
+  const bookingsDialogContext = useContext(BookingsDialogContext);
 
-  if (!bookingsContext) {
-    throw new Error("useBookings has to be used within <BookingsContext>");
+  if (!bookingsDialogContext) {
+    throw new Error(
+      "useBookingsDialogContext has to be used within <BookingsDialogContext>",
+    );
   }
 
-  return bookingsContext;
+  return bookingsDialogContext;
 };
