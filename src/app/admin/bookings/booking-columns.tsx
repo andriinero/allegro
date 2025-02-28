@@ -4,7 +4,7 @@ import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 
 import InfoField from "@/app/_components/general/info-field";
 import HeaderButton from "@/app/_components/table/header-button";
-import { formatUUID } from "@/lib/utils";
+import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type Booking, BookingStatus, LessonPresence } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
@@ -36,10 +36,9 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "id",
     header: "Booking",
     cell: ({ row }) => {
-      const id = row.getValue("id");
-      const result = typeof id === "string" ? formatUUID(id) : "UKWN";
+      const id = getCellValueWithFallback(row.getValue("id"), "N/A");
 
-      return <p className="w-10 uppercase">{result}</p>;
+      return <p className="w-10 uppercase">{formatUUID(id)}</p>;
     },
   },
   {
