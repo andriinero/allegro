@@ -1,13 +1,13 @@
 "use client";
 
-import BookingsProvider from "@/hooks/use-bookings";
+import BookingsDialogContextProvider from "@/hooks/use-bookings-dialog-context";
 import AdminPanelHeading from "../(overview)/admin-panel-heading";
 import BookingDialogs from "./booking-dialogs";
 import BookingsDataTable from "./bookings-data-table";
 
 export default function Page() {
   return (
-    <BookingsProvider>
+    <BookingsDialogContextProvider>
       <BookingDialogs />
 
       <AdminPanelHeading
@@ -18,6 +18,6 @@ export default function Page() {
       <div className="py-4">
         <BookingsDataTable />
       </div>
-    </BookingsProvider>
+    </BookingsDialogContextProvider>
   );
 }

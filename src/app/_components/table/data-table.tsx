@@ -26,11 +26,11 @@ export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
         onChange={(event) => {
           table.getColumn("id")?.setFilterValue(event.target.value);
         }}
-        placeholder="Filter bookings by id..."
+        placeholder="Filter by id..."
         className="max-w-xs"
       />
       <div className="rounded-md border border-border">
-        <Table className="">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

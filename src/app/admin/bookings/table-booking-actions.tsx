@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { useBookings } from "@/hooks/use-bookings";
+import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
 import { type Booking } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
@@ -14,7 +14,7 @@ import { MoreHorizontal, Trash } from "lucide-react";
 type TableBookingActionsProps = { row: Row<Booking> };
 
 export default function TableBookingActions({ row }: TableBookingActionsProps) {
-  const { setOpen, setCurrentRow } = useBookings();
+  const { setOpen, setCurrentRow } = useBookingsDialogContext();
 
   return (
     <div className="flex justify-end">

@@ -13,7 +13,7 @@ import ContentWrapper from "../_components/general/content-wrapper";
 import Footer from "../_components/layout/footer";
 import Header from "../_components/layout/header";
 import SidebarTab from "./(overview)/sidebar-tab";
-import DashboardProvider from "@/hooks/use-dashboard";
+import DashboardDialogContextProvider from "@/hooks/use-dashboard-dialog-context";
 import DashboardDialogs from "./(overview)/dashboard-dialogs";
 
 type LayoutProps = { children: ReactNode };
@@ -41,7 +41,7 @@ export default async function Layout({ children }: LayoutProps) {
       <Header session={session} variant="solid" className="static" />
 
       <main className="flex justify-center">
-        <DashboardProvider>
+        <DashboardDialogContextProvider>
           <DashboardDialogs />
           <ContentWrapper className="gap-4 bg-secondary">
             <aside className="w-full max-w-52">
@@ -61,7 +61,7 @@ export default async function Layout({ children }: LayoutProps) {
               {children}
             </section>
           </ContentWrapper>
-        </DashboardProvider>
+        </DashboardDialogContextProvider>
       </main>
 
       <Footer />
