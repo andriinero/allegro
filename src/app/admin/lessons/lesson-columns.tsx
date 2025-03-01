@@ -13,7 +13,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     accessorKey: "id",
     header: "Lesson",
     cell: ({ row }) => {
-      const id = getCellValueWithFallback(row.getValue("id"), "N/A");
+      const id = getCellValueWithFallback(row.getValue("id"));
 
       return <p className="w-10 uppercase">{formatUUID(id)}</p>;
     },
@@ -43,7 +43,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       );
     },
     cell: ({ row }) => {
-      const title = getCellValueWithFallback(row.getValue("title"), "N/A");
+      const title = getCellValueWithFallback(row.getValue("title"));
 
       return <p className="w-42">{title}</p>;
     },
@@ -73,10 +73,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       );
     },
     cell: ({ row }) => {
-      const duration = getCellValueWithFallback(
-        row.getValue("duration"),
-        "N/A",
-      );
+      const duration = getCellValueWithFallback(row.getValue("duration"));
 
       return <p className="w-32">{duration} minutes</p>;
     },

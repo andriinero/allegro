@@ -5,7 +5,7 @@ import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
 import InfoField from "@/app/_components/general/info-field";
 import HeaderButton from "@/app/_components/table/header-button";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
-import { type Booking, BookingStatus, LessonPresence } from "@prisma/client";
+import { BookingStatus, LessonPresence, type Booking } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
@@ -14,8 +14,8 @@ import {
   CircleDashed,
   CircleX,
   LaptopIcon,
-  type LucideIcon,
   MapPinHouseIcon,
+  type LucideIcon,
 } from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
 
@@ -36,7 +36,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "id",
     header: "Booking",
     cell: ({ row }) => {
-      const id = getCellValueWithFallback(row.getValue("id"), "N/A");
+      const id = getCellValueWithFallback(row.getValue("id"));
 
       return <p className="w-10 uppercase">{formatUUID(id)}</p>;
     },
