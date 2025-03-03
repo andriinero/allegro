@@ -17,7 +17,9 @@ export default function EmptyState({
 
       <div className="flex flex-col items-center gap-1">
         <h5 className="text-sm font-semibold">{title}</h5>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-center text-sm text-muted-foreground">
+          {description}
+        </p>
       </div>
     </div>
   );
