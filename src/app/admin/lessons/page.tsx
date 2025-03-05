@@ -1,13 +1,13 @@
 "use client";
 
-import LessonDialogContextProvider from "@/hooks/use-lesson-dialog-context";
+import LessonsDialogContextProvider from "@/hooks/use-lessons-dialog-context";
 import AdminPanelHeading from "../(overview)/admin-panel-heading";
 import LessonDialogs from "./lesson-dialogs";
 import LessonsDataTable from "./lessons-data-table";
 
 export default function Page() {
   return (
-    <LessonDialogContextProvider>
+    <LessonsDialogContextProvider>
       <LessonDialogs />
 
       <AdminPanelHeading
@@ -18,6 +18,6 @@ export default function Page() {
       <div className="py-4">
         <LessonsDataTable />
       </div>
-    </LessonDialogContextProvider>
+    </LessonsDialogContextProvider>
   );
 }

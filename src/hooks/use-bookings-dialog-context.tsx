@@ -11,11 +11,11 @@ import {
   useState,
 } from "react";
 
-type BookingDialogType = "createLesson" | "edit" | "delete";
+type BookingsDialogType = "createLesson" | "edit" | "delete";
 
 type BookingsDialogContextType = {
-  open: BookingDialogType | null;
-  setOpen: (str: BookingDialogType | null) => void;
+  open: BookingsDialogType | null;
+  setOpen: (str: BookingsDialogType | null) => void;
   currentRow: Booking | null;
   setCurrentRow: Dispatch<SetStateAction<Booking | null>>;
 };
@@ -30,7 +30,7 @@ type BookingsDialogContextProviderProps = {
 export default function BookingsDialogContextProvider({
   children,
 }: BookingsDialogContextProviderProps) {
-  const [open, setOpen] = useDialogState<BookingDialogType>(null);
+  const [open, setOpen] = useDialogState<BookingsDialogType>(null);
   const [currentRow, setCurrentRow] = useState<Booking | null>(null);
 
   return (

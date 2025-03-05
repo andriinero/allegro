@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { useLessonDialogContext } from "@/hooks/use-lesson-dialog-context";
+import { useLessonsDialogContext } from "@/hooks/use-lessons-dialog-context";
 import type { Lesson } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -13,7 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 type TableLessonActionsProps = { row: Row<Lesson> };
 
 export default function TableLessonActions({ row }: TableLessonActionsProps) {
-  const { setOpen, setCurrentRow } = useLessonDialogContext();
+  const { setOpen, setCurrentRow } = useLessonsDialogContext();
 
   return (
     <div className="flex justify-end">
