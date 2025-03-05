@@ -9,48 +9,31 @@ import {
 } from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
 import { formatUUID } from "@/lib/utils";
-import { api } from "@/trpc/react";
-import type { Booking } from "@prisma/client";
-import { toast } from "sonner";
+import type { Lesson } from "@prisma/client";
 
-type DeleteBookingDialogProps = {
+type DeleteLessonDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: Booking | null;
+  currentRow: Lesson | null;
 };
 
-export default function DeleteBookingDialog({
+export default function DeleteLessonDialog({
   open,
   onOpenChange,
   currentRow,
-}: DeleteBookingDialogProps) {
-  const utils = api.useUtils();
-  const { mutate: deleteBooking, isPending } =
-    api.booking.admin.cancelById.useMutation({
-      onSuccess: async () => {
-        toast.success("Booking deleted successfully");
-        await utils.booking.admin.getAll.invalidate();
-      },
-      onError: () => {
-        toast.error("Failed to delete booking");
-      },
-    });
-
+}: DeleteLessonDialogProps) {
   function handleDelete() {
-    if (!currentRow?.id) return;
-
-    deleteBooking({ id: currentRow.id });
-    onOpenChange(false);
+    console.log("delete lesson not implemented");
   }
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete booking</AlertDialogTitle>
+          <AlertDialogTitle>Delete lesson</AlertDialogTitle>
           <AlertDialogDescription>
             You are about to{" "}
-            <span className="font-bold text-destructive">delete</span> a booking
+            <span className="font-bold text-destructive">delete</span> a lesson
             with the ID{" "}
             <span className="font-bold">
               {formatUUID(currentRow?.id ?? "")}
@@ -64,7 +47,7 @@ export default function DeleteBookingDialog({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
             onClick={handleDelete}
-            disabled={isPending}
+            disabled={true}
             className="bg-destructive hover:bg-destructive/90"
           >
             Delete

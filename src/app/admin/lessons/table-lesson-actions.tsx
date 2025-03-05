@@ -3,12 +3,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useLessonsDialogContext } from "@/hooks/use-lessons-dialog-context";
 import type { Lesson } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 
 type TableLessonActionsProps = { row: Row<Lesson> };
 
@@ -33,6 +34,19 @@ export default function TableLessonActions({ row }: TableLessonActionsProps) {
             }}
           >
             Edit
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            className="text-destructive"
+            onClick={() => {
+              setOpen("delete");
+              setCurrentRow(row.original);
+            }}
+          >
+            <Trash />
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

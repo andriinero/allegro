@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 
-type LessonsDialogType = "edit";
+type LessonsDialogType = "edit" | "delete";
 
 type LessonsDialogContextType = {
   open: LessonsDialogType | null;

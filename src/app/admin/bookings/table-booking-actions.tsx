@@ -46,6 +46,7 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
               Create Lesson
             </DropdownMenuItem>
           )}
+
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
