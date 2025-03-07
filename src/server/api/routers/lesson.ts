@@ -3,6 +3,7 @@ import {
   createLessonSchema,
   getAllLessonsSchema,
   lessonStatusSchema,
+  updateLessonSchema,
 } from "@/schemas/lesson";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -108,6 +109,30 @@ export const lessonRouter = createTRPCRouter({
         });
 
         return lesson;
+      }),
+
+    updateById: adminProcedure
+      .input(updateLessonSchema)
+      .mutation(async ({ ctx, input }) => {
+        const lesson = await ctx.db.lesson.findUnique({
+          where: { id: input.id },
+        });
+        if (!lesson)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Lesson not found",
+          });
+
+        return await ctx.db.lesson.update({
+          where: { id: input.id },
+          data: {
+            title: input.title,
+            description: input.description,
+            duration: input.duration,
+            lessonLink: input.lessonLink,
+            assignment: input.assignment,
+          },
+        });
       }),
   },
 });

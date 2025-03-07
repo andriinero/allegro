@@ -30,3 +30,13 @@ export const getAllLessonsSchema = z.object({
     .optional(),
 });
 export type LessonPagination = z.infer<typeof getAllLessonsSchema>;
+
+export const updateLessonSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  lessonLink: z.string().optional(),
+  assignment: z.string().optional(),
+  description: z.string().optional(),
+  duration: z.number().min(30).max(90).optional(),
+});
+export type UpdateLesson = z.infer<typeof updateLessonSchema>;

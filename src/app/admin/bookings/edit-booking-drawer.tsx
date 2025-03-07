@@ -59,11 +59,6 @@ export default function EditBookingDrawer({
 }: EditBookingDrawerProps) {
   const form = useForm<EditBookingForm>({
     resolver: zodResolver(editBookingFormSchema),
-    defaultValues: {
-      date: currentRow?.date,
-      status: currentRow?.status,
-      lessonPresence: currentRow?.lessonPresence,
-    },
   });
 
   const apiUtils = api.useUtils();
