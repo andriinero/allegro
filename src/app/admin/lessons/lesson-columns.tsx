@@ -3,7 +3,7 @@
 import HeaderButton from "@/app/_components/table/header-button";
 import { formatDayMonthYearTime } from "@/lib/date";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
-import { type Lesson, type User } from "@prisma/client";
+import { type Booking, type Lesson, type User } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDownIcon } from "lucide-react";
 import TableLessonActions from "./table-lesson-actions";
@@ -16,6 +16,17 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       const id = getCellValueWithFallback(row.getValue("id"));
 
       return <p className="w-10 uppercase">{formatUUID(id)}</p>;
+    },
+  },
+  {
+    accessorKey: "booking",
+    header: "Booking",
+    cell: ({ row }) => {
+      const booking = row.getValue("booking") as Booking;
+
+      console.log(booking);
+
+      return <p className="w-10 uppercase">{formatUUID(booking?.id)}</p>;
     },
   },
   {

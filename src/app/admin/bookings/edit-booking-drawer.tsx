@@ -76,7 +76,12 @@ export default function EditBookingDrawer({
   });
 
   useEffect(() => {
-    if (currentRow) form.reset(currentRow);
+    if (currentRow)
+      form.reset({
+        date: currentRow.date,
+        status: currentRow.status,
+        lessonPresence: currentRow.lessonPresence,
+      });
   }, [form, currentRow]);
 
   function onSubmit(data: EditBookingForm) {

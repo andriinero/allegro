@@ -10,7 +10,7 @@ export const capitalize = (str: string) => {
 };
 
 export const formatUUID = (uuid: string | number) => {
-  return uuid.toString().substring(20).toUpperCase() ?? "N/A";
+  return uuid ? uuid.toString().substring(20).toUpperCase() : "N/A";
 };
 
 export const getInitials = (name: string) => {

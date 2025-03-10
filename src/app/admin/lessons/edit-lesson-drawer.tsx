@@ -64,8 +64,9 @@ export default function EditBookingDrawer({
       });
     },
   });
+
   useEffect(() => {
-    if (currentRow) {
+    if (currentRow)
       form.reset({
         title: currentRow.title,
         description: currentRow.description ?? undefined,
@@ -73,7 +74,6 @@ export default function EditBookingDrawer({
         lessonLink: currentRow.lessonLink ?? undefined,
         assignment: currentRow.assignment ?? undefined,
       });
-    }
   }, [form, currentRow]);
 
   function onSubmit(data: EditLessonForm) {
