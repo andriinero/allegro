@@ -134,5 +134,27 @@ export const lessonRouter = createTRPCRouter({
           },
         });
       }),
+
+    deleteById: adminProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const lesson = await ctx.db.lesson.findUnique({
+          where: { id: input.id },
+          include: { booking: true },
+        });
+        if (!lesson)
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Lesson not found",
+          });
+
+        if (lesson.booking)
+          await ctx.db.booking.update({
+            where: { lessonId: input.id },
+            data: { status: "CANCELLED" },
+          });
+
+        return await ctx.db.lesson.delete({ where: { id: input.id } });
+      }),
   },
 });

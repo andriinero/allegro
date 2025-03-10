@@ -9,7 +9,9 @@ import {
 } from "@/app/_components/ui/alert-dialog";
 import { Button } from "@/app/_components/ui/button";
 import { formatUUID } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import type { Lesson } from "@prisma/client";
+import { toast } from "sonner";
 
 type DeleteLessonDialogProps = {
   open: boolean;
@@ -22,8 +24,26 @@ export default function DeleteLessonDialog({
   onOpenChange,
   currentRow,
 }: DeleteLessonDialogProps) {
+  const utils = api.useUtils();
+  const deleteLessonMutation = api.lesson.admin.deleteById.useMutation({
+    onSuccess: async () => {
+      toast.success("Lesson deleted successfully");
+      await utils.lesson.admin.getAll.invalidate();
+      onOpenChange(false);
+    },
+    onError: (error) => {
+      toast.error("Error deleting lesson", {
+        description: error.message,
+      });
+    },
+  });
+
   function handleDelete() {
-    console.log("delete lesson not implemented");
+    if (!currentRow?.id) return;
+
+    deleteLessonMutation.mutate({
+      id: currentRow.id,
+    });
   }
 
   return (
@@ -47,7 +67,7 @@ export default function DeleteLessonDialog({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
             onClick={handleDelete}
-            disabled={true}
+            disabled={deleteLessonMutation.isPending}
             className="bg-destructive hover:bg-destructive/90"
           >
             Delete
