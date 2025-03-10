@@ -20,13 +20,19 @@ type NavGeneral = {
   }[];
 };
 
-export default function NavGeneral({ general }: NavGeneral) {
+export default function NavGeneral({ pathname, general }: NavGeneral) {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>General</SidebarGroupLabel>
       <SidebarMenu>
         {general.map((item) => (
-          <SidebarMenuItem key={item.name} className={cn("")}>
+          <SidebarMenuItem
+            key={item.name}
+            className={cn(
+              "rounded-md",
+              pathname === item.url && "bg-accent font-medium text-foreground",
+            )}
+          >
             <SidebarMenuButton asChild>
               <Link href={item.url}>
                 <item.icon />
