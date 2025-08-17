@@ -5,7 +5,7 @@ import { Card, CardContent } from "../_components/ui/card";
 export default function HowItWorksSection() {
   return (
     <section className="flex flex-col items-center">
-      <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl bg-gray-100/50 py-16">
+      <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl  py-16">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">

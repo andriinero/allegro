@@ -30,7 +30,7 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="flex flex-col items-center">
+    <section className="flex flex-col items-center bg-gray-100/50">
       <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">

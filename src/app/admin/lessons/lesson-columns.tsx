@@ -22,6 +22,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     accessorKey: "booking",
     header: "Booking",
     cell: ({ row }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const booking = row.getValue("booking") as Booking;
 
       console.log(booking);
