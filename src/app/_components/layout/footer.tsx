@@ -93,16 +93,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">© 2024 Guitar Academy. All rights reserved.</p>
+        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400">
+          <p className="text-gray-400 text-sm">© 2024 Allegro. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className="">
               Facebook
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className="">
               Twitter
             </Button>
-            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+            <Button variant="ghost" size="sm" className="">
               Instagram
             </Button>
           </div>
