@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { useDashboardDialogContext } from "@/hooks/use-dashboard-dialog-context";
 import { formatTime, formatWeekdayDayMonth } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
@@ -24,7 +25,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import InfoField from "../../_components/general/info-field";
-import { useDashboardDialogContext } from "@/hooks/use-dashboard-dialog-context";
 
 const statusMap = {
   CANCELLED: " (Cancelled)",
@@ -72,7 +72,7 @@ function LessonDetails({
         <Link
           href={lessonLink}
           target="_blank"
-          className="flex items-center gap-2 underline"
+          className="flex items-center gap-2"
         >
           <InfoField icon={LinkIcon}>Lesson Link</InfoField>
         </Link>
@@ -116,7 +116,7 @@ function TextSection({
       {content ? (
         content
       ) : (
-        <p className="pt-2 text-sm text-muted-foreground">{emptyMessage}</p>
+        <p className="pt-0.5 text-sm text-muted-foreground">{emptyMessage}</p>
       )}
     </div>
   );

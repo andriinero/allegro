@@ -1,3 +1,4 @@
+import DashboardDialogContextProvider from "@/hooks/use-dashboard-dialog-context";
 import { auth } from "@/server/auth";
 import {
   History,
@@ -12,9 +13,8 @@ import type { ReactNode } from "react";
 import ContentWrapper from "../_components/general/content-wrapper";
 import Footer from "../_components/layout/footer";
 import Header from "../_components/layout/header";
-import SidebarTab from "./(overview)/sidebar-tab";
-import DashboardDialogContextProvider from "@/hooks/use-dashboard-dialog-context";
 import DashboardDialogs from "./(overview)/dashboard-dialogs";
+import SidebarTab from "./(overview)/sidebar-tab";
 
 type LayoutProps = { children: ReactNode };
 

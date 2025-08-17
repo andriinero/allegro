@@ -1,11 +1,10 @@
-import { cn, getInitials } from "@/lib/utils";
+import { getInitials } from "@/lib/utils";
 import {
-  ChevronDownIcon,
   LayoutDashboardIcon,
   LogOutIcon,
   SettingsIcon,
   ShieldIcon,
-  UserIcon,
+  UserIcon
 } from "lucide-react";
 import type { Session } from "next-auth";
 import Link from "next/link";
@@ -37,13 +36,6 @@ export default function UserDropdownMenu({
           <AvatarImage src={user?.image ?? ""} />
           <AvatarFallback>{fallbackUsername}</AvatarFallback>
         </Avatar>
-
-        <ChevronDownIcon
-          className={cn(
-            "size-5 text-background",
-            variant === "solid" && "text-foreground",
-          )}
-        />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>

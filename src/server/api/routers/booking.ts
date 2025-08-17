@@ -34,7 +34,7 @@ export const bookingRouter = createTRPCRouter({
     .input(createBookingSchema)
     .mutation(async ({ ctx, input }) => {
       const userBookingCount = await ctx.db.booking.count({
-        where: { bookedById: ctx.session.user.id },
+        where: { bookedById: ctx.session.user.id, status: "PENDING" },
       });
       if (userBookingCount >= 4)
         throw new TRPCError({
