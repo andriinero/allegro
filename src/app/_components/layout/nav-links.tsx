@@ -25,7 +25,7 @@ export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
               href={link.href}
               className={cn(
                 navigationMenuTriggerStyle(),
-                "border border-transparent bg-transparent font-normal text-base text-primary-foreground hover:bg-transparent hover:text-primary",
+                "border border-transparent bg-transparent text-base text-primary-foreground hover:bg-transparent hover:text-primary",
                 variant === "solid" && "text-accent-foreground",
                 pathname === link.href && "bg-accent",
               )}

@@ -23,7 +23,7 @@ export default function IntroSection() {
         </h1>
 
         <p className="text-xl text-gray-300 max-w-lg">
-          Get your free beginner chord chart and start your guitar journey today with our proven learning system.
+          Get your free beginner chord chart and start your guitar journey today with the best guitar teacher in Berlin.
         </p>
       </div>
 
