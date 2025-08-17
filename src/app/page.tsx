@@ -5,6 +5,7 @@ import ReviewSection from "./(landing)/review-section";
 import Footer from "./_components/layout/footer";
 import Header from "./_components/layout/header";
 import HowItWorksSection from "./(landing)/how-it-works-section";
+import FeaturesSection from "./(landing)/features-section";
 
 export default async function Home() {
   const session = await auth();
@@ -17,6 +18,7 @@ export default async function Home() {
         <IntroSection />
         <ReviewSection />
         <HowItWorksSection />
+        <FeaturesSection />
       </main>
 
       <Footer />
