@@ -1,9 +1,12 @@
 import Image from "next/image";
 import ContentWrapper from "../_components/general/content-wrapper";
 import { Button } from "../_components/ui/button";
+import { auth } from "@/server/auth";
 
 
-export default function IntroSection() {
+export default async function IntroSection() {
+  const session = await auth();
+
   return (
     <section className="flex justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
       <ContentWrapper>
@@ -19,14 +22,14 @@ export default function IntroSection() {
         <h1 className="font-black text-4xl lg:text-6xl leading-tight">
           MOST FUN WAY
           <br />
-          <span className="text-primary">TO LEARN GUITAR</span>
+          <span className="text-primary bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-transparent bg-clip-text">TO LEARN GUITAR</span>
         </h1>
 
         <p className="text-xl text-gray-300 max-w-lg">
           Get your free beginner chord chart and start your guitar journey today with the best guitar teacher in Berlin.
         </p>
       </div>
-
+      {!session?.user && (
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row gap-3 max-w-md">
           <Button
@@ -64,7 +67,7 @@ export default function IntroSection() {
           By clicking any option above, you agree to our Terms of Service and acknowledge our Privacy Policy.
         </p>
       </div>
-
+      )}
       <div className="flex items-center space-x-4">
         <div className="bg-primary rounded-full p-3">
           <span className="text-primary-foreground font-bold text-sm">FREE GIFT</span>
