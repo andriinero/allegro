@@ -36,7 +36,7 @@ export default function HowItWorksSection() {
 
           <div className="space-y-6">
             <h2 className="font-black text-3xl text-foreground">
-              Allegro™ is <span className="bg-primary text-primary-foreground px-2 py-1 rounded">Different</span>
+              Allegro™ is <span className="bg-primary px-2 py-1 rounded bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-primary-foreground">Different</span>
             </h2>
 
             <p className="text-lg text-muted-foreground leading-relaxed">
