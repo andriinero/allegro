@@ -6,16 +6,14 @@ export const navLinks = [
 
 import {
   BookOpen,
-  BookPlusIcon,
   Bot,
   CalendarPlusIcon,
   LayoutDashboard,
   LifeBuoy,
-  MessageSquare,
   Send,
   Settings2,
-  SquarePlusIcon,
   SquareTerminal,
+  UserPen,
 } from "lucide-react";
 
 export const tabs = {
@@ -48,10 +46,15 @@ export const tabs = {
       icon: CalendarPlusIcon,
     },
     {
-      name: "Chat",
-      url: "/dashboard/chat",
-      icon: MessageSquare,
+      name: "Profile",
+      url: "/dashboard/profile",
+      icon: UserPen,
     },
+    // {
+    //   name: "Chat",
+    //   url: "/dashboard/chat",
+    //   icon: MessageSquare,
+    // },
   ],
   navMain: [
     {

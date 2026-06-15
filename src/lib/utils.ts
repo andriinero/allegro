@@ -22,7 +22,7 @@ export const getInitials = (name: string) => {
 
 export const getCellValueWithFallback = (
   value: string | number | null | undefined,
-  fallback = "N/A",
+  fallback = "N/A"
 ) => {
   return typeof value === "string" || typeof value === "number"
     ? value

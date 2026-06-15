@@ -39,11 +39,11 @@ export const tabs = {
       url: "/admin/lessons",
       icon: BookOpen,
     },
-    {
-      name: "Chats",
-      url: "/admin/chats",
-      icon: MessageSquare,
-    },
+    // {
+    //   name: "Chats",
+    //   url: "/admin/chats",
+    //   icon: MessageSquare,
+    // },
   ],
   navMain: [
     {

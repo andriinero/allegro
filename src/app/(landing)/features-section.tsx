@@ -1,5 +1,10 @@
 import ContentWrapper from "../_components/general/content-wrapper";
-import { Card, CardContent, CardHeader, CardTitle } from "../_components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../_components/ui/card";
 
 const features = [
   {
@@ -26,37 +31,44 @@ const features = [
       "Monitor your improvement with our advanced progress tracking system. Set goals, track practice time, and celebrate your achievements.",
     icon: "📈",
   },
-]
+];
 
 export default function FeaturesSection() {
   return (
     <section className="flex flex-col items-center bg-gray-100/50">
       <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl text-foreground mb-4 font-black">
-            Why Choose Allegro?
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of students who have transformed their musical abilities with our comprehensive learning
-            platform.
-          </p>
-        </div>
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl text-foreground mb-4 font-black">
+              Why Choose Allegro?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Join thousands of students who have transformed their musical
+              abilities with our comprehensive learning platform.
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <Card key={index} className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader className="text-center pb-4">
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <CardTitle className="font-bold text-xl text-foreground">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center leading-relaxed">{feature.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <Card
+                key={index}
+                className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <CardHeader className="text-center pb-4">
+                  <div className="text-4xl mb-4">{feature.icon}</div>
+                  <CardTitle className="font-bold text-xl text-foreground">
+                    {feature.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground text-center leading-relaxed">
+                    {feature.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
       </ContentWrapper>
     </section>
   );

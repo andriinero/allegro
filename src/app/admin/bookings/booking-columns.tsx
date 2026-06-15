@@ -82,7 +82,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     },
     cell: ({ row }) => {
       const lessonPresence = Object.values(LessonPresence).find(
-        (s) => s === row.getValue("lessonPresence"),
+        (s) => s === row.getValue("lessonPresence")
       );
 
       return (
@@ -107,7 +107,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     },
     cell: ({ row }) => {
       const status = Object.values(BookingStatus).find(
-        (s) => s === row.getValue("status"),
+        (s) => s === row.getValue("status")
       );
 
       return (

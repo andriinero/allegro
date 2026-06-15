@@ -1,15 +1,14 @@
-import { Separator } from "@/app/_components/ui/separator";
+import { auth } from "@/server/auth";
 import PanelDescription from "../(overview)/panel-description";
 import PanelHeaderWrapper from "../(overview)/panel-header-wrapper";
 import PanelHeading from "../(overview)/panel-heading";
 import UpdateProfileForm from "./update-profile-form";
-import { auth } from "@/server/auth";
 
 export default async function Page() {
   const session = await auth();
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <PanelHeaderWrapper>
         <PanelHeading>Profile</PanelHeading>
         <PanelDescription>
@@ -17,9 +16,7 @@ export default async function Page() {
         </PanelDescription>
       </PanelHeaderWrapper>
 
-      <Separator />
-
       <UpdateProfileForm sessionUser={session?.user} />
-    </>
+    </div>
   );
 }

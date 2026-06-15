@@ -1,4 +1,9 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../_components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../_components/ui/accordion";
 
 const faqs = [
   {
@@ -41,16 +46,19 @@ const faqs = [
     answer:
       "Absolutely. There are no long-term contracts or cancellation fees. You can cancel your subscription at any time from your account settings, and you'll retain access until the end of your billing period.",
   },
-]
+];
 
 export default function FaqSection() {
   return (
     <section className="flex justify-center py-16">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Frequently Asked Questions
+          </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Got questions? We&apos;ve got answers. Here are the most common questions about learning guitar with us.
+            Got questions? We&apos;ve got answers. Here are the most common
+            questions about learning guitar with us.
           </p>
         </div>
 
@@ -62,7 +70,9 @@ export default function FaqSection() {
               className="bg-white rounded-lg shadow-sm border border-gray-200 px-6"
             >
               <AccordionTrigger className="text-left hover:no-underline py-4">
-                <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 pr-4">
+                  {faq.question}
+                </h3>
               </AccordionTrigger>
               <AccordionContent className="pb-4">
                 <div className="border-t border-gray-100 pt-4">
@@ -74,7 +84,9 @@ export default function FaqSection() {
         </Accordion>
 
         <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">Still have questions? We&apos;re here to help!</p>
+          <p className="text-gray-600 mb-4">
+            Still have questions? We&apos;re here to help!
+          </p>
           <button className="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
             Contact Support
           </button>

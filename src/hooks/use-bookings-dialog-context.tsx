@@ -20,7 +20,7 @@ type BookingsDialogContextType = {
   setCurrentRow: Dispatch<SetStateAction<Booking | null>>;
 };
 const BookingsDialogContext = createContext<BookingsDialogContextType | null>(
-  null,
+  null
 );
 
 type BookingsDialogContextProviderProps = {
@@ -47,7 +47,7 @@ export const useBookingsDialogContext = () => {
 
   if (!bookingsDialogContext) {
     throw new Error(
-      "useBookingsDialogContext has to be used within <BookingsDialogContext>",
+      "useBookingsDialogContext has to be used within <BookingsDialogContext>"
     );
   }
 

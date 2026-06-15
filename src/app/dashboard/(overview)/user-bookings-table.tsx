@@ -56,7 +56,7 @@ export default function UserBookingsTable({
               key={b.id}
               className={cn(
                 "bg-accent hover:bg-accent",
-                index % 2 === 0 && "bg-background hover:bg-background",
+                index % 2 === 0 && "bg-background hover:bg-background"
               )}
             >
               <TableCell className="font-medium">

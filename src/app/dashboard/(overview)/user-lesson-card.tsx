@@ -139,7 +139,7 @@ export default function UserLessonCard({ lesson }: UserLessonCardProps) {
       key={lesson.id}
       className={cn(
         "flex flex-col",
-        lesson.booking?.status === "CANCELLED" && "opacity-50",
+        lesson.booking?.status === "CANCELLED" && "opacity-50"
       )}
     >
       <CardHeader>

@@ -10,7 +10,8 @@ export default function Footer() {
               <span className="font-bold text-xl">Allegro</span>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              The most comprehensive online guitar learning platform with over 4 million satisfied students worldwide.
+              The most comprehensive online guitar learning platform with over 4
+              million satisfied students worldwide.
             </p>
           </div>
 
@@ -94,7 +95,9 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400">
-          <p className="text-gray-400 text-sm">© 2024 Allegro. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">
+            © 2024 Allegro. All rights reserved.
+          </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Button variant="ghost" size="sm" className="">
               Facebook

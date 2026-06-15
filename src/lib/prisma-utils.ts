@@ -8,7 +8,7 @@ import {
 export const getDateRangeWhereClause = (
   fieldName: string,
   dateStart?: Date,
-  dateEnd?: Date,
+  dateEnd?: Date
 ) =>
   dateStart && dateEnd
     ? {
@@ -22,7 +22,7 @@ export const getDateRangeWhereClause = (
 export const calculateMetrics = async <T extends keyof PrismaClient>(
   model: T,
   db: PrismaClient,
-  where?: object,
+  where?: object
 ) => {
   const { dateStart: currStart, dateEnd: currEnd } =
     formatCurrentMonthDateRange();

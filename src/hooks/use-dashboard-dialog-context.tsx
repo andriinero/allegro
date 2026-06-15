@@ -19,7 +19,7 @@ type DashboardDialogContextType = {
   setId: Dispatch<SetStateAction<string | null>>;
 };
 const DashboardDialogContext = createContext<DashboardDialogContextType | null>(
-  null,
+  null
 );
 
 type DashboardDialogContextProviderProps = {
@@ -44,7 +44,7 @@ export const useDashboardDialogContext = () => {
 
   if (!dashboardDialogContext) {
     throw new Error(
-      "useDashboardDialogContext has to be used within <DashboardDialogContext>",
+      "useDashboardDialogContext has to be used within <DashboardDialogContext>"
     );
   }
 

@@ -20,7 +20,7 @@ type LessonsDialogContextType = {
   setCurrentRow: Dispatch<SetStateAction<Lesson | null>>;
 };
 const LessonsDialogContext = createContext<LessonsDialogContextType | null>(
-  null,
+  null
 );
 
 type LessonsDialogContextProviderProps = {
@@ -47,7 +47,7 @@ export const useLessonsDialogContext = () => {
 
   if (!lessonsDialogContext) {
     throw new Error(
-      "useLessonsDialogContext has to be used within <LessonsDialogContext>",
+      "useLessonsDialogContext has to be used within <LessonsDialogContext>"
     );
   }
 

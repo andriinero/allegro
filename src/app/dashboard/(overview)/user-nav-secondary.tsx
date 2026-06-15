@@ -17,7 +17,10 @@ type UserNavSecondaryProps = ComponentPropsWithoutRef<typeof SidebarGroup> & {
   }[];
 };
 
-export default function UserNavSecondary({ items, ...props }: UserNavSecondaryProps) {
+export default function UserNavSecondary({
+  items,
+  ...props
+}: UserNavSecondaryProps) {
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>

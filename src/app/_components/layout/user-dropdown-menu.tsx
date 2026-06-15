@@ -4,7 +4,7 @@ import {
   LogOutIcon,
   SettingsIcon,
   ShieldIcon,
-  UserIcon
+  UserIcon,
 } from "lucide-react";
 import type { Session } from "next-auth";
 import Link from "next/link";

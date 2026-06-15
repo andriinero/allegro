@@ -7,7 +7,14 @@ import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "./button";
 import { Calendar } from "./calendar";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
@@ -64,7 +71,7 @@ export default function DateTimePicker24h({
                   variant="outline"
                   className={cn(
                     "flex w-full justify-between text-left font-normal",
-                    !date && "text-muted-foreground",
+                    !date && "text-muted-foreground"
                   )}
                 >
                   {date ? (
@@ -129,7 +136,7 @@ export default function DateTimePicker24h({
                             >
                               {minute.toString().padStart(2, "0")}
                             </Button>
-                          ),
+                          )
                         )}
                       </div>
                       <ScrollBar

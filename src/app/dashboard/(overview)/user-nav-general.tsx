@@ -30,7 +30,7 @@ export default function UserNavGeneral({ pathname, general }: UserNavGeneral) {
             key={item.name}
             className={cn(
               "rounded-md",
-              pathname === item.url && "bg-accent font-medium text-foreground",
+              pathname === item.url && "bg-accent font-medium text-foreground"
             )}
           >
             <SidebarMenuButton asChild>

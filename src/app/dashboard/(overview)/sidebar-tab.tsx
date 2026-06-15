@@ -23,7 +23,7 @@ export default function SidebarTab({
         className={cn(
           "flex items-center gap-2 rounded-md border border-transparent bg-background p-3 text-sm font-semibold tracking-tight shadow transition-colors hover:border-primary hover:text-primary",
           { "border-primary text-primary": pathname === href },
-          className,
+          className
         )}
         {...props}
       >

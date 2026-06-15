@@ -6,15 +6,15 @@ import CreateBookingForm from "./create-booking-form";
 
 export default function Page() {
   return (
-    <>
+    <div className="flex flex-col">
       <PanelHeaderWrapper>
         <PanelHeading>Book Lesson</PanelHeading>
         <PanelDescription>Book your next lesson</PanelDescription>
       </PanelHeaderWrapper>
 
-      <Separator />
+      <Separator className="my-6" />
 
       <CreateBookingForm />
-    </>
+    </div>
   );
 }

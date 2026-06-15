@@ -24,30 +24,30 @@ export default function Header({
   return (
     <header className="bg-white border-b border-border">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-       <Logo variant="solid" className="flex-1"/>
+        <Logo variant="solid" className="flex-1" />
 
-      <NavLinks variant='solid' />
+        <NavLinks variant="solid" />
 
-      <div className="flex items-center justify-end flex-1 gap-4">
-            {!session?.user && (
-              <Link href="/api/auth/signin" className="hidden sm:block">
-                <Button variant="ghost">Login</Button>
-              </Link>
-            )}
-            {session?.user && (
-              <UserDropdownMenu user={session.user} variant={variant} />
-            )}
-            {!pathname.startsWith("/dashboard") && (
-              <Link
-                href={
-                  session?.user ? "/dashboard/book-lesson" : "/api/auth/signin"
-                }
-                className="hidden sm:block"
-              >
-                <Button>Book Lesson Now</Button>
-              </Link>
-            )}
-          </div>
+        <div className="flex items-center justify-end flex-1 gap-4">
+          {!session?.user && (
+            <Link href="/api/auth/signin" className="hidden sm:block">
+              <Button variant="ghost">Login</Button>
+            </Link>
+          )}
+          {session?.user && (
+            <UserDropdownMenu user={session.user} variant={variant} />
+          )}
+          {!pathname.startsWith("/dashboard") && (
+            <Link
+              href={
+                session?.user ? "/dashboard/book-lesson" : "/api/auth/signin"
+              }
+              className="hidden sm:block"
+            >
+              <Button>Book Lesson Now</Button>
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   );
