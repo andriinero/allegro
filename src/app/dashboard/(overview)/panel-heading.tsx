@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
+import type { ComponentProps } from "react";
 
-import type { ComponentPropsWithoutRef } from "react";
-
-type PanelHeaderProps = ComponentPropsWithoutRef<"h2">;
+type PanelHeadingProps = {
+  className?: string;
+  title: string;
+  description?: string;
+} & ComponentProps<"div">;
 
 export default function PanelHeading({
+  title,
+  description,
   className,
-  children,
   ...props
-}: PanelHeaderProps) {
+}: PanelHeadingProps) {
   return (
-    <h2
-      className={cn("text-3xl font-bold tracking-tight", className)}
-      {...props}
-    >
-      {children}
-    </h2>
+    <div className={cn(className)} {...props}>
+      <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+      {description && <p className="text-muted-foreground">{description}</p>}
+    </div>
   );
 }
