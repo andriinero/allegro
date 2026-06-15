@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import UserRecentBookingsSkeleton from "../_components/placeholders/user-recent-bookings-skeleton";
 import UserUpcomingLessonsSkeleton from "../_components/placeholders/user-upcoming-lessons-skeleton";
 import { TabsContent, TabsList, TabsTrigger } from "../_components/ui/tabs";
-import PanelDescription from "./(overview)/panel-description";
 import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
 import PanelHeading from "./(overview)/panel-heading";
 import UserRecentBookings from "./(overview)/user-recent-bookings";
@@ -15,10 +14,10 @@ export default function Page() {
   return (
     <>
       <PanelHeaderWrapper>
-        <PanelHeading>Dashboard</PanelHeading>
-        <PanelDescription>
-          Here you can see all your upcoming lessons and recent bookings
-        </PanelDescription>
+        <PanelHeading
+          title="Dashboard"
+          description="Here you can see all your upcoming lessons and recent bookings"
+        />
       </PanelHeaderWrapper>
 
       <Tabs defaultValue="upcoming-lessons" className="flex h-full flex-col">

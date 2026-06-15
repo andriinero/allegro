@@ -7,7 +7,10 @@ export default function Chat() {
   return (
     <>
       <PanelHeaderWrapper>
-        <PanelHeading>Chat</PanelHeading>
+        <PanelHeading
+          title="Chat"
+          description="Direct contact with your instructor"
+        />
         <PanelDescription>Direct contact with your instructor</PanelDescription>
       </PanelHeaderWrapper>
 

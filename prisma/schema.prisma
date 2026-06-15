@@ -59,35 +59,8 @@ model User {
 
   accounts Account[]
   sessions Session[]
-  posts    Post[]
   bookings Booking[]
-  reviews  Review[]
-  comments Comment[]
   lessons  Lesson[]
-}
-
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  @@index([title])
-}
-
-model Comment {
-  id        String    @id @default(cuid())
-  body      String
-  rating    Int       @default(0)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
 }
 
 model Lesson {
@@ -103,7 +76,6 @@ model Lesson {
   student   User   @relation(fields: [studentId], references: [id])
   studentId String
 
-  review  Review?
   booking Booking? 
 }
 
@@ -139,18 +111,6 @@ model Booking {
   bookedById String
 }
 
-model Review {
-  id        String   @id @default(cuid())
-  rating    Float
-  comment   String?
-  createdAt DateTime @default(now())
-
-  reviewedBy   User   @relation(fields: [reviewedById], references: [id])
-  reviewedById String @unique
-  lesson       Lesson @relation(fields: [lessonId], references: [id])
-  lessonId     String @unique
-}
-
 enum UserRole {
   USER
   INSTRUCTOR
@@ -183,7 +143,8 @@ enum Currency {
 enum InvoiceStatus {
   PENDING
   COMPLETED
-  FAILED
+  CANCELLED
+  REFUNDED
 }
 
 enum GuitarType {
@@ -193,4 +154,11 @@ enum GuitarType {
   SPECIALTY
   HYBRID
   OTHER
+}
+
+enum LessonDuration {
+  THIRTY_MINUTES
+  ONE_HOUR
+  ONE_AND_A_HALF_HOURS
+  TWO_HOURS
 }
