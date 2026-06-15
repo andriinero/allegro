@@ -1,7 +1,7 @@
 "use client";
 
 import LessonsDialogContextProvider from "@/hooks/use-lessons-dialog-context";
-import AdminPanelHeading from "../(overview)/admin-panel-heading";
+import PanelHeading from "../(overview)/panel-heading";
 import LessonDialogs from "./lesson-dialogs";
 import LessonsDataTable from "./lessons-data-table";
 
@@ -10,7 +10,7 @@ export default function Page() {
     <LessonsDialogContextProvider>
       <LessonDialogs />
 
-      <AdminPanelHeading
+      <PanelHeading
         title="Lessons"
         description="Manage and view all lessons"
       />

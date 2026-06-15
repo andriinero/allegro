@@ -1,7 +1,7 @@
 "use client";
 
 import BookingsDialogContextProvider from "@/hooks/use-bookings-dialog-context";
-import AdminPanelHeading from "../(overview)/admin-panel-heading";
+import PanelHeading from "../(overview)/panel-heading";
 import BookingDialogs from "./booking-dialogs";
 import BookingsDataTable from "./bookings-data-table";
 
@@ -10,7 +10,7 @@ export default function Page() {
     <BookingsDialogContextProvider>
       <BookingDialogs />
 
-      <AdminPanelHeading
+      <PanelHeading
         title="Bookings"
         description="A list of bookings for this month"
       />

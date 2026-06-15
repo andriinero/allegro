@@ -1,9 +1,9 @@
-import AdminPanelHeading from "../(overview)/admin-panel-heading";
+import PanelHeading from "../(overview)/panel-heading";
 
 export default function Page() {
   return (
     <div>
-      <AdminPanelHeading
+      <PanelHeading
         title="Chats"
         description="Manage and respond to student messages"
       />

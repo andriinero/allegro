@@ -1,44 +1,52 @@
-"use client";
-
-import { Tabs } from "@radix-ui/react-tabs";
 import { Suspense } from "react";
-import UserRecentBookingsSkeleton from "../_components/placeholders/user-recent-bookings-skeleton";
-import UserUpcomingLessonsSkeleton from "../_components/placeholders/user-upcoming-lessons-skeleton";
-import { TabsContent, TabsList, TabsTrigger } from "../_components/ui/tabs";
-import PanelDescription from "./(overview)/panel-description";
-import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
-import PanelHeading from "./(overview)/panel-heading";
-import UserRecentBookings from "./(overview)/user-recent-bookings";
-import UserUpcomingLessons from "./(overview)/user-upcoming-lessons";
+import MetricsSkeleton from "../_components/placeholders/metrics-skeleton";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../_components/ui/card";
+import PanelHeading from "../admin/(overview)/panel-heading";
+import CompletedLessonsCard from "../admin/(overview)/completed-lessons-card";
+import LessonReviewsMetric from "../admin/(overview)/lesson-reviews-metric";
+import LessonsCompletedMetric from "../admin/(overview)/lessons-taken-metric";
+import SalesChart from "../admin/(overview)/sales-chart";
+import TotalBookingsMetric from "../admin/(overview)/total-bookings-metric";
+import UserCountMetric from "../admin/(overview)/user-count-metric";
 
-export default function Page() {
+
+export default async function Page() {
   return (
-    <>
-      <PanelHeaderWrapper>
-        <PanelHeading>Dashboard</PanelHeading>
-        <PanelDescription>
-          Here you can see all your upcoming lessons and recent bookings
-        </PanelDescription>
-      </PanelHeaderWrapper>
+    <div className="flex flex-col gap-4">
+      <PanelHeading title="Dashboard" />
 
-      <Tabs defaultValue="upcoming-lessons" className="flex h-full flex-col">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="upcoming-lessons">Upcoming Lessons</TabsTrigger>
-          <TabsTrigger value="recent-bookings">Recent Bookings</TabsTrigger>
-        </TabsList>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Suspense fallback={<MetricsSkeleton />}>
+          <UserCountMetric />
 
-        <TabsContent value="upcoming-lessons" className="flex-1">
-          <Suspense fallback={<UserUpcomingLessonsSkeleton />}>
-            <UserUpcomingLessons />
-          </Suspense>
-        </TabsContent>
+          <TotalBookingsMetric />
 
-        <TabsContent value="recent-bookings" className="flex-1">
-          <Suspense fallback={<UserRecentBookingsSkeleton />}>
-            <UserRecentBookings />
-          </Suspense>
-        </TabsContent>
-      </Tabs>
-    </>
+          <LessonsCompletedMetric />
+
+          <LessonReviewsMetric />
+        </Suspense>
+      </div>
+
+      <div className="grid grid-cols-7 gap-4">
+        <Card className="col-span-7 lg:col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+            <CardDescription>Revenue for the past 12 months</CardDescription>
+          </CardHeader>
+
+          <CardContent className="pl-2">
+            <SalesChart />
+          </CardContent>
+        </Card>
+
+        <CompletedLessonsCard />
+      </div>
+    </div>
   );
 }

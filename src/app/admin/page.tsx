@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../_components/ui/card";
-import AdminPanelHeading from "./(overview)/admin-panel-heading";
+import PanelHeading from "./(overview)/panel-heading";
 import CompletedLessonsCard from "./(overview)/completed-lessons-card";
 import LessonReviewsMetric from "./(overview)/lesson-reviews-metric";
 import LessonsCompletedMetric from "./(overview)/lessons-taken-metric";
@@ -18,7 +18,7 @@ import UserCountMetric from "./(overview)/user-count-metric";
 export default async function Page() {
   return (
     <div className="flex flex-col gap-4">
-      <AdminPanelHeading title="Dashboard" />
+      <PanelHeading title="Dashboard" />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Suspense fallback={<MetricsSkeleton />}>
