@@ -44,9 +44,9 @@ export const bookingRouter = createTRPCRouter({
 
       return await ctx.db.booking.create({
         data: {
-          date: input.date,
-          lessonPresence: input.presence,
+          timeSlotId: input.timeSlotId,
           bookedById: ctx.session.user.id,
+          lessonPresence: input.presence,
         },
       });
     }),
@@ -60,7 +60,7 @@ export const bookingRouter = createTRPCRouter({
       if (!booking)
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Booking found",
+          message: "Booking not found",
         });
 
       await ctx.db.booking.update({
@@ -120,7 +120,6 @@ export const bookingRouter = createTRPCRouter({
         return await ctx.db.booking.update({
           where: { id: input.id },
           data: {
-            date: input.date,
             status: input.status,
             lessonPresence: input.lessonPresence,
           },

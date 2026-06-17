@@ -16,9 +16,5 @@ export const metricRouter = createTRPCRouter({
         booking: { status: "COMPLETED" },
       })
     ),
-
-    reviews: adminProcedure.query(async ({ ctx }) =>
-      calculateMetrics("review", ctx.db)
-    ),
   },
 });

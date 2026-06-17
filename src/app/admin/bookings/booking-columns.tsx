@@ -1,11 +1,16 @@
 "use client";
 
-import { formatDayMonthYearTime, formatWeekdayDayMonthTime } from "@/lib/date";
+import { formatWeekdayDayMonthTime } from "@/lib/date";
 
 import InfoField from "@/app/_components/general/info-field";
 import HeaderButton from "@/app/_components/table/header-button";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
-import { BookingStatus, LessonPresence, type Booking } from "@prisma/client";
+import {
+  BookingStatus,
+  LessonPresence,
+  type User,
+  type Booking,
+} from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
@@ -42,6 +47,15 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     },
   },
   {
+    accessorKey: "bookedBy",
+    header: "Student",
+    cell: ({ row }) => {
+      const bookedBy = row.getValue("bookedBy");
+
+      return <p className="w-10">{(bookedBy as User)?.name}</p>;
+    },
+  },
+  {
     accessorKey: "date",
     header: ({ column }) => {
       return (
@@ -53,7 +67,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     cell: ({ row }) => {
       const date = formatWeekdayDayMonthTime(row.getValue("date"));
 
-      return <p className="w-42 font-medium">{date}</p>;
+      return <p className="w-42">{date}</p>;
     },
   },
   {
@@ -66,7 +80,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
       );
     },
     cell: ({ row }) => {
-      const createdAt = formatDayMonthYearTime(row.getValue("createdAt"));
+      const createdAt = formatWeekdayDayMonthTime(row.getValue("createdAt"));
 
       return <p className="w-42">{createdAt}</p>;
     },

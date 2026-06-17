@@ -13,7 +13,7 @@ export const lessonRouter = createTRPCRouter({
   getByCurrentUser: protectedProcedure
     .input(getAllLessonsSchema)
     .query(async ({ ctx, input }) => {
-      const { status, pagination, orderBy } = input;
+      const { status, pagination } = input;
       const paginationArgs = getPaginationArgs(pagination);
 
       return await ctx.db.lesson.findMany({
@@ -22,7 +22,6 @@ export const lessonRouter = createTRPCRouter({
           booking: { status: { in: status } },
         },
         include: { student: true, booking: true },
-        orderBy,
         ...paginationArgs,
       });
     }),
@@ -128,7 +127,6 @@ export const lessonRouter = createTRPCRouter({
           data: {
             title: input.title,
             description: input.description,
-            duration: input.duration,
             lessonLink: input.lessonLink,
             assignment: input.assignment,
           },

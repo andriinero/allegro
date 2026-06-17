@@ -9,7 +9,6 @@ export const bookingCountSchema = z
   .optional();
 export type BookingCount = z.infer<typeof bookingCountSchema>;
 
-//TODO: change pagination to paginationSchema
 export const getBookingsSchema = z.object({
   pagination: cursorPaginationSchema,
   where: z
@@ -21,7 +20,7 @@ export const getBookingsSchema = z.object({
 export type GetBookings = z.infer<typeof getBookingsSchema>;
 
 export const createBookingSchema = z.object({
-  date: z.date(),
+  timeSlotId: z.string(),
   presence: z.nativeEnum(LessonPresence),
 });
 export type CreateBooking = z.infer<typeof createBookingSchema>;

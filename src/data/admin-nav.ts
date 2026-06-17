@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Bot,
+  Clock,
   LayoutDashboard,
   LifeBuoy,
   MessageSquare,
@@ -38,6 +39,11 @@ export const tabs = {
       name: "Lessons",
       url: "/admin/lessons",
       icon: BookOpen,
+    },
+    {
+      name: "Time Slots",
+      url: "/admin/time-slots",
+      icon: Clock,
     },
     // {
     //   name: "Chats",
