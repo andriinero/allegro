@@ -4,7 +4,7 @@ import { bookingRouter } from "./routers/booking";
 import { lessonRouter } from "./routers/lesson";
 import { metricRouter } from "./routers/metric";
 import { profileRouter } from "./routers/profile";
-import { timeSlotRouter } from "./routers/timeSlot";
+import { timeSlotRouter } from "./routers/time-slot";
 
 /**
  * This is the primary router for your server.
