@@ -4,9 +4,11 @@ import { ClockIcon } from "lucide-react";
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
+import { cn } from "@/lib/utils";
 
 type TimeSlotProps = {
   timeSlot: LessonTimeSlot;
+  className: string;
 };
 
 function formatDuration(start: Date, end: Date) {
@@ -19,11 +21,11 @@ function formatDuration(start: Date, end: Date) {
   return `${hours}h ${minutes}m`;
 }
 
-export function TimeSlot({ timeSlot }: TimeSlotProps) {
+export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
 
   return (
-    <Card className="transition-colors hover:bg-accent/40">
+    <Card className={cn("transition-colors hover:bg-accent/40", className)}>
       <CardContent className="flex items-center justify-between gap-8 p-4">
         <div className="flex items-center gap-3">
           <div className="flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40">

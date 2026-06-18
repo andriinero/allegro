@@ -21,7 +21,6 @@ export type GetBookings = z.infer<typeof getBookingsSchema>;
 
 export const createBookingSchema = z.object({
   timeSlotId: z.string(),
-  presence: z.nativeEnum(LessonPresence),
 });
 export type CreateBooking = z.infer<typeof createBookingSchema>;
 

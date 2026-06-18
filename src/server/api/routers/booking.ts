@@ -41,12 +41,19 @@ export const bookingRouter = createTRPCRouter({
           code: "BAD_REQUEST",
           message: "You have reached the maximum number of bookings",
         });
+      const timeSlot = await ctx.db.lessonTimeSlot.findUnique({
+        where: { id: input.timeSlotId },
+      });
+      if (!timeSlot)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Time slot not found",
+        });
 
       return await ctx.db.booking.create({
         data: {
           timeSlotId: input.timeSlotId,
           bookedById: ctx.session.user.id,
-          lessonPresence: input.presence,
         },
       });
     }),
