@@ -5,12 +5,8 @@ import { formatWeekdayDayMonthTime } from "@/lib/date";
 import InfoField from "@/app/_components/general/info-field";
 import HeaderButton from "@/app/_components/table/header-button";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
-import {
-  BookingStatus,
-  LessonPresence,
-  type User,
-  type Booking,
-} from "@prisma/client";
+import { type RouterOutputs } from "@/trpc/react";
+import { BookingStatus, LessonPresence } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
@@ -23,6 +19,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
+import { format } from "date-fns";
+
+export type BookingRow = RouterOutputs["booking"]["admin"]["getAll"][number];
 
 const statusIconMap: Record<BookingStatus, LucideIcon> = {
   PENDING: CircleDashed,
@@ -36,7 +35,7 @@ const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
   ONLINE: LaptopIcon,
 };
 
-export const bookingColumns: ColumnDef<Booking>[] = [
+export const bookingColumns: ColumnDef<BookingRow>[] = [
   {
     accessorKey: "id",
     header: "Booking",
@@ -50,24 +49,30 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     accessorKey: "bookedBy",
     header: "Student",
     cell: ({ row }) => {
-      const bookedBy = row.getValue("bookedBy");
+      const bookedBy = row.original.bookedBy;
 
-      return <p className="w-10">{(bookedBy as User)?.name}</p>;
+      return <p className="w-10">{bookedBy?.name}</p>;
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "timeSlot",
     header: ({ column }) => {
       return (
         <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Date
+          Time Slot
         </HeaderButton>
       );
     },
     cell: ({ row }) => {
-      const date = formatWeekdayDayMonthTime(row.getValue("date"));
+      const timeSlot = row.original.timeSlot;
 
-      return <p className="w-42">{date}</p>;
+      return (
+        <p className="w-42">
+          {format(timeSlot.startTime, "ccc, d MMM")}{" "}
+          {format(timeSlot.startTime, "HH:mm")} -{" "}
+          {format(timeSlot.endTime, "HH:mm")}
+        </p>
+      );
     },
   },
   {
@@ -86,7 +91,8 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     },
   },
   {
-    accessorKey: "lessonPresence",
+    id: "presence",
+    accessorFn: (row) => row.timeSlot.presence,
     header: ({ column }) => {
       return (
         <HeaderButton column={column} icon={ChevronsUpDownIcon}>
@@ -96,7 +102,7 @@ export const bookingColumns: ColumnDef<Booking>[] = [
     },
     cell: ({ row }) => {
       const lessonPresence = Object.values(LessonPresence).find(
-        (s) => s === row.getValue("lessonPresence")
+        (s) => s === row.original.timeSlot.presence
       );
 
       return (

@@ -1,4 +1,4 @@
-import { format, add } from "date-fns";
+import { format, add, differenceInMinutes } from "date-fns";
 
 export const formatYearMonthDay = (date: Date) =>
   `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay() + 2}`;
@@ -39,4 +39,14 @@ export const formatPreviousMonthDateRange = () => {
     dateStart: new Date(dateStart.toDateString()),
     dateEnd: new Date(dateEnd.toDateString()),
   };
+};
+
+export const formatDuration = (start: Date, end: Date) => {
+  const totalMinutes = Math.max(differenceInMinutes(end, start), 0);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  if (hours === 0) return `${minutes}m`;
+  if (minutes === 0) return `${hours}h`;
+  return `${hours}h ${minutes}m`;
 };

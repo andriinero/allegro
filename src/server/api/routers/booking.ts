@@ -79,7 +79,7 @@ export const bookingRouter = createTRPCRouter({
   admin: {
     getAll: adminProcedure.query(async ({ ctx }) => {
       return await ctx.db.booking.findMany({
-        include: { bookedBy: true },
+        include: { bookedBy: true, timeSlot: true },
       });
     }),
 

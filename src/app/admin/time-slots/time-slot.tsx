@@ -1,8 +1,9 @@
-import { differenceInMinutes, format } from "date-fns";
+import { format } from "date-fns";
 import { CheckCircle2Icon, ClockIcon, UserIcon } from "lucide-react";
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
+import { formatDuration } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 
@@ -12,16 +13,6 @@ type TimeSlotProps = {
   timeSlot: TimeSlot;
   className?: string;
 };
-
-function formatDuration(start: Date, end: Date) {
-  const totalMinutes = Math.max(differenceInMinutes(end, start), 0);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-
-  if (hours === 0) return `${minutes}m`;
-  if (minutes === 0) return `${hours}h`;
-  return `${hours}h ${minutes}m`;
-}
 
 export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
@@ -85,7 +76,10 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
           ) : (
             <Badge variant="outline">Available</Badge>
           )}
-          <Badge variant={isOnline ? "secondary" : "outline"}>
+          <Badge
+            variant="secondary"
+            className="bg-transparent border-none hover:bg-transparent"
+          >
             {isOnline ? "Online" : "Offline"}
           </Badge>
         </div>

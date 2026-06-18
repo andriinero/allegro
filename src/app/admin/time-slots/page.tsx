@@ -40,7 +40,7 @@ export default function Page() {
         </PanelHeaderWrapper>
         <Separator />
 
-        <div className="flex w-full gap-4 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {slots && slots?.length > 0 ? (
             slots
           ) : (

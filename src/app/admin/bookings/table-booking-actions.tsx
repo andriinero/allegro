@@ -7,11 +7,11 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
-import { type Booking } from "@prisma/client";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
+import { type BookingRow } from "./booking-columns";
 
-type TableBookingActionsProps = { row: Row<Booking> };
+type TableBookingActionsProps = { row: Row<BookingRow> };
 
 export default function TableBookingActions({ row }: TableBookingActionsProps) {
   const { setOpen, setCurrentRow } = useBookingsDialogContext();
