@@ -12,6 +12,7 @@ import PanelHeaderWrapper from "../(overview)/panel-header-wrapper";
 import PanelHeading from "../(overview)/panel-heading";
 import ConfirmBookingForm from "./confirm-booking-form";
 import { cn } from "@/lib/utils";
+import { startOfDay } from "date-fns";
 
 export default function Page() {
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState<string | null>(
@@ -36,6 +37,11 @@ export default function Page() {
     ));
   }, [availableTimeSlots, selectedTimeSlotId]);
 
+  function handleDateChange(date: Date) {
+    setDate(date);
+    setSelectedTimeSlotId(null);
+  }
+
   return (
     <div className="flex flex-col">
       <PanelHeaderWrapper>
@@ -50,7 +56,11 @@ export default function Page() {
             <p>Selected Time Slot: {selectedTimeSlotId}</p>
           </div>
         )}
-        <DatePicker date={date} setDate={setDate} />
+        <DatePicker
+          date={date}
+          setDate={handleDateChange}
+          disabled={(date) => date < startOfDay(new Date())}
+        />
         <ConfirmBookingForm timeSlotId={selectedTimeSlotId} />
         <div>
           {timeSlots && timeSlots?.length > 0 ? (

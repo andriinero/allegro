@@ -1,18 +1,13 @@
-import PanelHeaderWrapper from "./(overview)/panel-header-wrapper";
-import PanelHeading from "./(overview)/panel-heading";
-import { Separator } from "@/app/_components/ui/separator";
+import { Card, CardHeader, CardTitle } from "../_components/ui/card";
 
 export default async function Page() {
   return (
     <div className="flex flex-col">
-      <PanelHeaderWrapper>
-        <PanelHeading
-          title="Dashboard"
-          description="Here you can see most important information"
-        />
-      </PanelHeaderWrapper>
-
-      <Separator />
+      <Card className="flex flex-col gap-4">
+        <CardHeader>
+          <CardTitle>Dashboard</CardTitle>
+        </CardHeader>
+      </Card>
     </div>
   );
 }

@@ -17,7 +17,9 @@ export const timeSlotRouter = createTRPCRouter({
             gte: dayStart,
             lt: nextDayStart,
           },
+          bookings: { is: null },
         },
+        orderBy: { startTime: "asc" },
       });
     }),
   admin: {
@@ -34,6 +36,14 @@ export const timeSlotRouter = createTRPCRouter({
               lt: nextDayStart,
             },
           },
+          include: {
+            bookings: {
+              include: {
+                bookedBy: { select: { name: true } },
+              },
+            },
+          },
+          orderBy: { startTime: "asc" },
         });
       }),
     createForDate: adminProcedure

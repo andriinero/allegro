@@ -1,14 +1,16 @@
-import { type LessonTimeSlot } from "@prisma/client";
 import { differenceInMinutes, format } from "date-fns";
-import { ClockIcon } from "lucide-react";
+import { CheckCircle2Icon, ClockIcon, UserIcon } from "lucide-react";
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { cn } from "@/lib/utils";
+import { type RouterOutputs } from "@/trpc/react";
+
+type TimeSlot = RouterOutputs["timeSlot"]["admin"]["getByDate"][number];
 
 type TimeSlotProps = {
-  timeSlot: LessonTimeSlot;
-  className: string;
+  timeSlot: TimeSlot;
+  className?: string;
 };
 
 function formatDuration(start: Date, end: Date) {
@@ -23,16 +25,34 @@ function formatDuration(start: Date, end: Date) {
 
 export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
+  const isBooked = timeSlot.bookings !== null;
+  const bookedByName = timeSlot.bookings?.bookedBy.name;
 
   return (
-    <Card className={cn("transition-colors hover:bg-accent/40", className)}>
+    <Card
+      className={cn(
+        "transition-colors hover:bg-accent/40",
+        isBooked && "border-primary/30 bg-primary/5",
+        className
+      )}
+    >
       <CardContent className="flex items-center justify-between gap-8 p-4">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40">
+          <div
+            className={cn(
+              "flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40",
+              isBooked && "border-primary/40 bg-primary/10 text-primary"
+            )}
+          >
             <span className="text-sm font-semibold leading-none tabular-nums">
               {format(timeSlot.startTime, "d")}
             </span>
-            <span className="text-[10px] font-medium uppercase leading-tight text-muted-foreground">
+            <span
+              className={cn(
+                "text-[10px] font-medium uppercase leading-tight",
+                isBooked ? "text-primary/80" : "text-muted-foreground"
+              )}
+            >
               {format(timeSlot.startTime, "MMM")}
             </span>
           </div>
@@ -45,13 +65,30 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
               <ClockIcon className="size-3" />
               {formatDuration(timeSlot.startTime, timeSlot.endTime)}
+              {isBooked && (
+                <>
+                  <span className="text-muted-foreground/50">·</span>
+                  <UserIcon className="size-3" />
+                  <span className="truncate">{bookedByName ?? "Booked"}</span>
+                </>
+              )}
             </span>
           </div>
         </div>
 
-        <Badge variant={isOnline ? "default" : "secondary"}>
-          {isOnline ? "Online" : "Offline"}
-        </Badge>
+        <div className="flex shrink-0 items-center gap-2">
+          {isBooked ? (
+            <Badge className="gap-1">
+              <CheckCircle2Icon className="size-3" />
+              Booked
+            </Badge>
+          ) : (
+            <Badge variant="outline">Available</Badge>
+          )}
+          <Badge variant={isOnline ? "secondary" : "outline"}>
+            {isOnline ? "Online" : "Offline"}
+          </Badge>
+        </div>
       </CardContent>
     </Card>
   );
