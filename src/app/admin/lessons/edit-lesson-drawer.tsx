@@ -70,7 +70,6 @@ export default function EditBookingDrawer({
       form.reset({
         title: currentRow.title,
         description: currentRow.description ?? undefined,
-        duration: currentRow.duration ?? undefined,
         lessonLink: currentRow.lessonLink ?? undefined,
         assignment: currentRow.assignment ?? undefined,
       });

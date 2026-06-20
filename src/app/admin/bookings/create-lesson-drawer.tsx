@@ -22,7 +22,11 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { formatWeekdayDayMonthTime } from "@/lib/date";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LessonPresence, type Booking } from "@prisma/client";
+import {
+  LessonPresence,
+  type LessonTimeSlot,
+  type Booking,
+} from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,7 +34,7 @@ import { z } from "zod";
 type CreateLessonDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: Booking | null;
+  currentRow: (Booking & { timeSlot: LessonTimeSlot }) | null;
 };
 
 const createLessonFormSchema = z.object({
@@ -81,7 +85,7 @@ export default function CreateLessonDrawer({
       return;
     }
     if (
-      currentRow.lessonPresence === LessonPresence.ONLINE &&
+      currentRow.timeSlot.presence === LessonPresence.ONLINE &&
       !data.lessonLink
     ) {
       form.setError("lessonLink", {
@@ -114,11 +118,11 @@ export default function CreateLessonDrawer({
           <SheetDescription>
             Create an{" "}
             <span className="font-medium">
-              {currentRow?.lessonPresence.toLowerCase()}
+              {currentRow?.timeSlot.presence.toLowerCase()}
             </span>{" "}
             lesson{" "}
-            {currentRow?.date &&
-              `for ${formatWeekdayDayMonthTime(currentRow.date)}`}
+            {currentRow?.timeSlot.startTime &&
+              `for ${formatWeekdayDayMonthTime(currentRow.timeSlot.startTime)}`}
           </SheetDescription>
         </SheetHeader>
 
@@ -172,7 +176,7 @@ export default function CreateLessonDrawer({
               )}
             />
 
-            {currentRow?.lessonPresence === "ONLINE" && (
+            {currentRow?.timeSlot.presence === LessonPresence.ONLINE && (
               <FormField
                 control={form.control}
                 name="lessonLink"

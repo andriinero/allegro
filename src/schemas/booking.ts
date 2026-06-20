@@ -26,8 +26,6 @@ export type CreateBooking = z.infer<typeof createBookingSchema>;
 
 export const updateBookingSchema = z.object({
   id: z.string(),
-  date: z.date(),
-  status: z.nativeEnum(BookingStatus),
-  lessonPresence: z.nativeEnum(LessonPresence),
+  status: z.nativeEnum(BookingStatus).optional(),
 });
 export type UpdateBooking = z.infer<typeof updateBookingSchema>;

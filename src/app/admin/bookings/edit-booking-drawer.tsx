@@ -1,5 +1,4 @@
 import { Button } from "@/app/_components/ui/button";
-import DateTimePicker24h from "@/app/_components/ui/date-time-picker";
 import {
   Form,
   FormControl,
@@ -25,31 +24,23 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
+import { type UpdateBooking, updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookingStatus, LessonPresence, type Booking } from "@prisma/client";
+import { BookingStatus } from "@prisma/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { type z } from "zod";
+import type { BookingRow } from "./booking-columns";
 
-const editBookingFormSchema = z.object({
-  date: z.date({
-    required_error: "Please select a date",
-  }),
-  status: z.nativeEnum(BookingStatus, {
-    required_error: "Please select a booking status",
-  }),
-  lessonPresence: z.nativeEnum(LessonPresence, {
-    required_error: "Please select a lesson presence",
-  }),
-});
-type EditBookingForm = z.infer<typeof editBookingFormSchema>;
+const updateBookingFormSchema = updateBookingSchema.omit({ id: true });
+type UpdateBookingForm = z.infer<typeof updateBookingSchema>;
 
 type EditBookingDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: Booking | null;
+  currentRow: BookingRow | null;
 };
 
 export default function EditBookingDrawer({
@@ -57,12 +48,12 @@ export default function EditBookingDrawer({
   onOpenChange,
   currentRow,
 }: EditBookingDrawerProps) {
-  const form = useForm<EditBookingForm>({
-    resolver: zodResolver(editBookingFormSchema),
+  const form = useForm<UpdateBookingForm>({
+    resolver: zodResolver(updateBookingFormSchema),
   });
 
   const apiUtils = api.useUtils();
-  const editBookingMutation = api.booking.admin.updateById.useMutation({
+  const updateBookingMutation = api.booking.admin.updateById.useMutation({
     onSuccess: async () => {
       await apiUtils.booking.admin.getAll.invalidate();
       toast.success("Booking has been updated");
@@ -78,18 +69,17 @@ export default function EditBookingDrawer({
   useEffect(() => {
     if (currentRow)
       form.reset({
-        date: currentRow.date,
         status: currentRow.status,
-        lessonPresence: currentRow.lessonPresence,
       });
   }, [form, currentRow]);
 
-  function onSubmit(data: EditBookingForm) {
+  function onSubmit(data: UpdateBookingForm) {
+    console.log(data);
     if (!currentRow?.id) return;
 
-    editBookingMutation.mutate({
+    updateBookingMutation.mutate({
       id: currentRow.id,
-      ...data,
+      status: data.status ?? currentRow.status,
     });
   }
 
@@ -116,13 +106,6 @@ export default function EditBookingDrawer({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex-1 space-y-5"
           >
-            <DateTimePicker24h
-              form={form}
-              name="date"
-              label="Date"
-              description="The date and time when the lesson will take place"
-            />
-
             <FormField
               control={form.control}
               name="status"
@@ -149,37 +132,6 @@ export default function EditBookingDrawer({
                   <FormMessage />
                   <FormDescription>
                     Current status of the booking
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="lessonPresence"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Presence</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select lesson presence" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.values(LessonPresence).map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {s.toLowerCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                  <FormDescription>
-                    Whether the lesson will be online or in-person
                   </FormDescription>
                 </FormItem>
               )}
