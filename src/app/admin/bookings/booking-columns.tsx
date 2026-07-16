@@ -130,8 +130,6 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
         (s) => s === row.getValue("status")
       );
 
-      console.log(row.original);
-
       return (
         <div className="w-28">
           {status && (

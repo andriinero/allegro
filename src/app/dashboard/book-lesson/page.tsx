@@ -19,8 +19,9 @@ export default function Page() {
     null
   );
   const [date, setDate] = useState<Date>(new Date());
-  const { data: availableTimeSlots, isLoading } =
-    api.timeSlot.getAvailableByDate.useQuery({ date });
+  const { data: availableTimeSlots } = api.timeSlot.getAvailableByDate.useQuery(
+    { date }
+  );
 
   const timeSlots = useMemo(() => {
     return availableTimeSlots?.map((timeSlot: LessonTimeSlot) => (

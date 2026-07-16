@@ -89,7 +89,7 @@ export default function DateTimePicker24h({
                     selected={date}
                     disabled={disabled}
                     onSelect={handleDateSelect}
-                    initialFocus
+                    autoFocus
                   />
                   <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
                     <ScrollArea className="w-64 sm:w-auto">

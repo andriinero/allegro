@@ -1,4 +1,4 @@
-import { BookingStatus, LessonPresence } from "@prisma/client";
+import { BookingStatus } from "@prisma/client";
 import { z } from "zod";
 import { cursorPaginationSchema } from "./pagination";
 

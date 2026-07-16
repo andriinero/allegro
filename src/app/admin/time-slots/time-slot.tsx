@@ -7,7 +7,10 @@ import { formatDuration } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 
-type TimeSlot = RouterOutputs["timeSlot"]["admin"]["getByDate"][number];
+type AdminTimeSlot = RouterOutputs["timeSlot"]["admin"]["getByDate"][number];
+type TimeSlot = Omit<AdminTimeSlot, "bookings"> & {
+  bookings?: AdminTimeSlot["bookings"];
+};
 
 type TimeSlotProps = {
   timeSlot: TimeSlot;

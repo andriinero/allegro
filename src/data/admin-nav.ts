@@ -4,7 +4,6 @@ import {
   Clock,
   LayoutDashboard,
   LifeBuoy,
-  MessageSquare,
   Send,
   Settings2,
   SquarePlusIcon,

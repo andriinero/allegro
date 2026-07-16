@@ -20,7 +20,7 @@ import {
   useSidebar,
 } from "@/app/_components/ui/sidebar";
 import { getInitials } from "@/lib/utils";
-import { ChevronsUpDown, Home, LayoutDashboard, LogOut } from "lucide-react";
+import { ChevronsUpDown, Home, LogOut } from "lucide-react";
 import Link from "next/link";
 
 type UserNavProps = {

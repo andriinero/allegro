@@ -24,7 +24,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/app/_components/ui/sheet";
-import { type UpdateBooking, updateBookingSchema } from "@/schemas/booking";
+import { updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BookingStatus } from "@prisma/client";
