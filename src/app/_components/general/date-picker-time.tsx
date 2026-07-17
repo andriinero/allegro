@@ -7,12 +7,16 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type DatePickerTimeProps = {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   disabled?: (date: Date) => boolean;
+  label?: string;
+  idPrefix?: string;
+  className?: string;
 };
 
 const DEFAULT_TIME = "10:30:00";
@@ -31,6 +35,9 @@ export function DatePickerTime({
   date,
   setDate,
   disabled = () => false,
+  label,
+  idPrefix = "date-picker",
+  className,
 }: DatePickerTimeProps) {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState(
@@ -38,15 +45,15 @@ export function DatePickerTime({
   );
 
   return (
-    <FieldGroup className="mx-auto max-w-xs flex-row">
+    <FieldGroup className={cn("max-w-none gap-3 sm:flex-row", className)}>
       <Field>
-        <FieldLabel htmlFor="date-picker-optional">Date</FieldLabel>
+        <FieldLabel htmlFor={`${idPrefix}-date`}>{label ?? "Date"}</FieldLabel>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              id="date-picker-optional"
-              className="w-32 justify-between font-normal"
+              id={`${idPrefix}-date`}
+              className="w-full justify-between font-normal sm:w-44"
             >
               {date ? format(date, "PPP") : "Select date"}
               <ChevronDownIcon />
@@ -67,11 +74,11 @@ export function DatePickerTime({
           </PopoverContent>
         </Popover>
       </Field>
-      <Field className="w-32">
-        <FieldLabel htmlFor="time-picker-optional">Time</FieldLabel>
+      <Field className="sm:w-32 sm:shrink-0">
+        <FieldLabel htmlFor={`${idPrefix}-time`}>Time</FieldLabel>
         <Input
           type="time"
-          id="time-picker-optional"
+          id={`${idPrefix}-time`}
           step="1"
           value={time}
           onChange={(event) => {

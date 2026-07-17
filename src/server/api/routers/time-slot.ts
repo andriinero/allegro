@@ -23,6 +23,21 @@ export const timeSlotRouter = createTRPCRouter({
       });
     }),
   admin: {
+    getUpcoming: adminProcedure.query(async ({ ctx }) => {
+      return await ctx.db.lessonTimeSlot.findMany({
+        where: {
+          startTime: { gte: new Date() },
+        },
+        include: {
+          bookings: {
+            include: {
+              bookedBy: { select: { name: true } },
+            },
+          },
+        },
+        orderBy: { startTime: "asc" },
+      });
+    }),
     getByDate: adminProcedure
       .input(z.object({ date: z.date() }))
       .query(async ({ ctx, input }) => {

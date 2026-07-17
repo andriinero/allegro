@@ -1,5 +1,11 @@
 import { format } from "date-fns";
-import { CheckCircle2Icon, ClockIcon, UserIcon } from "lucide-react";
+import {
+  CheckCircle2Icon,
+  ClockIcon,
+  MapPinIcon,
+  UserIcon,
+  VideoIcon,
+} from "lucide-react";
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
@@ -25,12 +31,12 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   return (
     <Card
       className={cn(
-        "transition-colors hover:bg-accent/40",
+        "shadow-none transition-colors hover:bg-accent/40",
         isBooked && "border-primary/30 bg-primary/5",
         className
       )}
     >
-      <CardContent className="flex items-center justify-between gap-8 p-4">
+      <CardContent className="flex items-center justify-between gap-3 p-4">
         <div className="flex items-center gap-3">
           <div
             className={cn(
@@ -70,7 +76,7 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
           {isBooked ? (
             <Badge className="gap-1">
               <CheckCircle2Icon className="size-3" />
@@ -81,9 +87,14 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
           )}
           <Badge
             variant="secondary"
-            className="bg-transparent border-none hover:bg-transparent"
+            className="gap-1 border-none bg-transparent hover:bg-transparent"
           >
-            {isOnline ? "Online" : "Offline"}
+            {isOnline ? (
+              <VideoIcon className="size-3" />
+            ) : (
+              <MapPinIcon className="size-3" />
+            )}
+            {isOnline ? "Online" : "In person"}
           </Badge>
         </div>
       </CardContent>
