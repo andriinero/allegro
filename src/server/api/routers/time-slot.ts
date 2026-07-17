@@ -1,8 +1,8 @@
 import { LessonPresence } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import { addDays, startOfDay } from "date-fns";
 import { z } from "zod";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
 
 export const timeSlotRouter = createTRPCRouter({
   getAvailableByDate: publicProcedure
@@ -23,7 +23,16 @@ export const timeSlotRouter = createTRPCRouter({
       });
     }),
   admin: {
-    getUpcoming: adminProcedure.query(async ({ ctx }) => {
+    getAll: adminProcedure.query(async ({ ctx }) => {
+      return await ctx.db.lessonTimeSlot.findMany({
+        orderBy: { startTime: "asc" },
+        include: {
+          bookings: { include: { bookedBy: { select: { name: true } } } },
+        },
+      });
+    }),
+
+    getAllUpcoming: adminProcedure.query(async ({ ctx }) => {
       return await ctx.db.lessonTimeSlot.findMany({
         where: {
           startTime: { gte: new Date() },
@@ -38,6 +47,7 @@ export const timeSlotRouter = createTRPCRouter({
         orderBy: { startTime: "asc" },
       });
     }),
+
     getByDate: adminProcedure
       .input(z.object({ date: z.date() }))
       .query(async ({ ctx, input }) => {
@@ -61,6 +71,7 @@ export const timeSlotRouter = createTRPCRouter({
           orderBy: { startTime: "asc" },
         });
       }),
+
     createForDate: adminProcedure
       .input(
         z.object({

@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyState from "@/app/_components/placeholders/empty-state";
 import { Badge } from "@/app/_components/ui/badge";
 import {
   Card,
@@ -8,21 +9,19 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { api } from "@/trpc/react";
-import { addMinutes, setHours, startOfDay } from "date-fns";
 import {
+  BookOpenIcon,
   CalendarDaysIcon,
   CheckCircle2Icon,
   Clock3Icon,
   PlusCircleIcon,
 } from "lucide-react";
-import { useMemo } from "react";
 import PanelHeading from "../(overview)/panel-heading";
 import { CreateTimeSlotsForm } from "./create-time-slots-form";
 import { TimeSlot } from "./time-slot";
 
 export default function Page() {
-  const date = useMemo(() => startOfDay(new Date()), []);
-  const { data: timeSlots } = api.timeSlot.admin.getUpcoming.useQuery();
+  const { data: timeSlots } = api.timeSlot.admin.getAllUpcoming.useQuery();
 
   const bookedCount =
     timeSlots?.filter((slot) => slot.bookings !== null).length ?? 0;
@@ -104,16 +103,12 @@ export default function Page() {
                 ))}
               </div>
             ) : (
-              <div className="flex min-h-64 flex-col justify-center gap-3 rounded-lg border border-dashed bg-muted/10 p-4 sm:p-6">
-                <div className="text-center">
-                  <Badge variant="outline" className="mb-2 bg-background">
-                    Preview
-                  </Badge>
-                  <p className="text-sm font-medium">Example time slot</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    This is placeholder data and won’t be saved.
-                  </p>
-                </div>
+              <div className="flex min-h-64 items-center justify-center rounded-lg border border-dashed bg-muted/10">
+                <EmptyState
+                  icon={BookOpenIcon}
+                  title="No upcoming time slots"
+                  description="Use the form to add your first available lesson time."
+                />
               </div>
             )}
           </CardContent>
