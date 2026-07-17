@@ -15,7 +15,7 @@ export default function Logo({
     <Link
       href="/"
       className={cn(
-        "inline-flex items-center text-2xl font-bold tracking-tight text-primary-foreground transition-colors hover:text-primary-foreground/90",
+        "group inline-flex items-center text-2xl font-bold tracking-tight text-primary-foreground transition-opacity hover:opacity-90",
         variant === "solid" &&
           "text-accent-foreground hover:text-accent-foreground/90",
         className
@@ -23,11 +23,22 @@ export default function Logo({
       aria-label="Go to homepage"
       {...props}
     >
-      <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-sm">A</span>
+      <div className="flex items-center gap-2.5">
+        <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-orange-400 via-orange-500 to-rose-500 shadow-lg shadow-orange-950/25 ring-1 ring-white/20 transition-transform group-hover:rotate-3">
+          <span className="absolute -right-2 -top-3 h-6 w-6 rounded-full bg-white/30 blur-md" />
+          <span className="relative text-sm font-black italic text-white">
+            A
+          </span>
         </div>
-        <span className="font-bold text-xl text-foreground">Allegro</span>
+        <span
+          className={cn(
+            "text-xl font-bold tracking-[-0.03em] text-white",
+            variant === "solid" && "text-foreground"
+          )}
+        >
+          Allegro
+          <span className="text-orange-500">.</span>
+        </span>
       </div>
     </Link>
   );

@@ -17,17 +17,18 @@ export default function NavLinks({ variant = "transparent" }: NavMenuProps) {
   const pathname = usePathname();
 
   return (
-    <NavigationMenu className="flex-2 hidden sm:block">
-      <NavigationMenuList>
+    <NavigationMenu className="hidden lg:block">
+      <NavigationMenuList className="rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner shadow-black/10">
         {navLinks.map((link) => (
-          <NavigationMenuItem key={link.href} className="">
+          <NavigationMenuItem key={link.href}>
             <Link
               href={link.href}
               className={cn(
                 navigationMenuTriggerStyle(),
-                "border border-transparent bg-transparent text-base text-primary-foreground hover:bg-transparent hover:text-primary",
-                variant === "solid" && "text-accent-foreground",
-                pathname === link.href && "bg-accent"
+                "h-9 rounded-full border-0 bg-transparent px-4 text-sm font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus:bg-white/10 focus:text-white",
+                variant === "solid" && "text-slate-300",
+                pathname === link.href &&
+                  "bg-white/10 text-white shadow-sm hover:bg-white/10"
               )}
             >
               {link.name}
