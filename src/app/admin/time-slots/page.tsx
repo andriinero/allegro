@@ -16,6 +16,7 @@ import {
   PlusCircleIcon,
   RefreshCwIcon,
 } from "lucide-react";
+import { toast } from "sonner";
 import PanelHeading from "../(overview)/panel-heading";
 import { CreateTimeSlotsForm } from "./create-time-slots-form";
 import UpcomingTimeSlots from "./upcoming-time-slots";
@@ -30,6 +31,17 @@ export default function Page() {
   const bookedCount =
     timeSlots?.filter((slot) => slot.bookings !== null).length ?? 0;
   const availableCount = (timeSlots?.length ?? 0) - bookedCount;
+
+  async function handleRefresh() {
+    const result = await refetch();
+
+    if (result.isSuccess) {
+      toast.success("Upcoming time slots refreshed");
+    } else {
+      toast.error("Failed to refresh upcoming time slots");
+    }
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
       <PanelHeading
@@ -80,7 +92,7 @@ export default function Page() {
                   aria-label="Refresh upcoming time slots"
                   title="Refresh upcoming time slots"
                   disabled={isFetching}
-                  onClick={() => void refetch()}
+                  onClick={() => void handleRefresh()}
                 >
                   <RefreshCwIcon className={isFetching ? "animate-spin" : ""} />
                 </Button>
