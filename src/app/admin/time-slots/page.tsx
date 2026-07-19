@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/app/_components/ui/badge";
+import { Button } from "@/app/_components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,13 +14,18 @@ import {
   CheckCircle2Icon,
   Clock3Icon,
   PlusCircleIcon,
+  RefreshCwIcon,
 } from "lucide-react";
 import PanelHeading from "../(overview)/panel-heading";
 import { CreateTimeSlotsForm } from "./create-time-slots-form";
 import UpcomingTimeSlots from "./upcoming-time-slots";
 
 export default function Page() {
-  const { data: timeSlots } = api.timeSlot.admin.getAllUpcoming.useQuery();
+  const {
+    data: timeSlots,
+    isFetching,
+    refetch,
+  } = api.timeSlot.admin.getAllUpcoming.useQuery();
 
   const bookedCount =
     timeSlots?.filter((slot) => slot.bookings !== null).length ?? 0;
@@ -63,9 +69,22 @@ export default function Page() {
                   Your time slots
                 </p>
               </div>
-              <Badge variant="secondary" className="w-fit font-normal">
-                {timeSlots?.length ?? 0} total slots
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="w-fit font-normal">
+                  {timeSlots?.length ?? 0} total slots
+                </Badge>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Refresh upcoming time slots"
+                  title="Refresh upcoming time slots"
+                  disabled={isFetching}
+                  onClick={() => void refetch()}
+                >
+                  <RefreshCwIcon className={isFetching ? "animate-spin" : ""} />
+                </Button>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
