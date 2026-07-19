@@ -1,6 +1,7 @@
 "use client";
 
 import Spinner from "@/app/_components/general/spinner";
+import EmptyState from "@/app/_components/placeholders/empty-state";
 import {
   Table,
   TableBody,
@@ -10,6 +11,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
+import { SearchXIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { DataTablePagination } from "./table-pagination";
 
@@ -80,9 +82,13 @@ export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
               <TableRow>
                 <TableCell
                   colSpan={table.getVisibleFlatColumns().length}
-                  className="h-24 text-center"
+                  className="h-48"
                 >
-                  No results.
+                  <EmptyState
+                    icon={SearchXIcon}
+                    title="No results"
+                    description="Try adjusting your filters to find what you're looking for."
+                  />
                 </TableCell>
               </TableRow>
             )}
