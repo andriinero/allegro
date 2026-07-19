@@ -1,6 +1,5 @@
 "use client";
 
-import EmptyState from "@/app/_components/placeholders/empty-state";
 import { Badge } from "@/app/_components/ui/badge";
 import {
   Card,
@@ -9,9 +8,7 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { api } from "@/trpc/react";
-import { format, isSameDay, isToday, isTomorrow } from "date-fns";
 import {
-  BookOpenIcon,
   CalendarDaysIcon,
   CheckCircle2Icon,
   Clock3Icon,
@@ -19,7 +16,7 @@ import {
 } from "lucide-react";
 import PanelHeading from "../(overview)/panel-heading";
 import { CreateTimeSlotsForm } from "./create-time-slots-form";
-import { TimeSlot } from "./time-slot";
+import UpcomingTimeSlots from "./upcoming-time-slots";
 
 export default function Page() {
   const { data: timeSlots } = api.timeSlot.admin.getAllUpcoming.useQuery();
@@ -27,29 +24,6 @@ export default function Page() {
   const bookedCount =
     timeSlots?.filter((slot) => slot.bookings !== null).length ?? 0;
   const availableCount = (timeSlots?.length ?? 0) - bookedCount;
-  const sortedTimeSlots = [...(timeSlots ?? [])].sort(
-    (first, second) => first.startTime.getTime() - second.startTime.getTime()
-  );
-  const timeSlotsByDay = sortedTimeSlots.reduce<
-    { date: Date; slots: typeof sortedTimeSlots }[]
-  >((days, slot) => {
-    const currentDay = days.at(-1);
-
-    if (currentDay && isSameDay(currentDay.date, slot.startTime)) {
-      currentDay.slots.push(slot);
-    } else {
-      days.push({ date: slot.startTime, slots: [slot] });
-    }
-
-    return days;
-  }, []);
-
-  function getDayLabel(date: Date) {
-    if (isToday(date)) return "Today";
-    if (isTomorrow(date)) return "Tomorrow";
-    return format(date, "EEEE");
-  }
-
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
       <PanelHeading
@@ -119,42 +93,7 @@ export default function Page() {
           </CardHeader>
 
           <CardContent className="p-4 sm:p-6">
-            {timeSlots && timeSlots.length > 0 ? (
-              <div className="space-y-6">
-                {timeSlotsByDay.map(({ date, slots }) => (
-                  <section key={format(date, "yyyy-MM-dd")}>
-                    <div className="mb-3 flex items-center gap-3">
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          {getDayLabel(date)}
-                        </h3>
-                        <p className="text-xs text-muted-foreground">
-                          {format(date, "MMMM d, yyyy")}
-                        </p>
-                      </div>
-                      <div className="h-px flex-1 bg-border" />
-                      <Badge variant="outline" className="font-normal">
-                        {slots.length} {slots.length === 1 ? "slot" : "slots"}
-                      </Badge>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
-                      {slots.map((slot) => (
-                        <TimeSlot key={slot.id} timeSlot={slot} />
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            ) : (
-              <div className="flex min-h-64 items-center justify-center rounded-lg border border-dashed bg-muted/10">
-                <EmptyState
-                  icon={BookOpenIcon}
-                  title="No upcoming time slots"
-                  description="Use the form to add your first available lesson time."
-                />
-              </div>
-            )}
+            <UpcomingTimeSlots timeSlots={timeSlots ?? []} />
           </CardContent>
         </Card>
       </div>
