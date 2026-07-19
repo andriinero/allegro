@@ -22,6 +22,7 @@ export const timeSlotRouter = createTRPCRouter({
         orderBy: { startTime: "asc" },
       });
     }),
+
   admin: {
     getAll: adminProcedure.query(async ({ ctx }) => {
       return await ctx.db.lessonTimeSlot.findMany({

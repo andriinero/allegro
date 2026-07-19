@@ -13,6 +13,7 @@ import PanelHeading from "../(overview)/panel-heading";
 import ConfirmBookingForm from "./confirm-booking-form";
 import { cn } from "@/lib/utils";
 import { startOfDay } from "date-fns";
+import { CancelAllBookingsButton } from "./cancel-all-bookings-button";
 
 export default function Page() {
   const [selectedTimeSlotId, setSelectedTimeSlotId] = useState<string | null>(
@@ -45,8 +46,9 @@ export default function Page() {
 
   return (
     <div className="flex flex-col">
-      <PanelHeaderWrapper>
+      <PanelHeaderWrapper className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <PanelHeading title="Book Lesson" description="Book your next lesson" />
+        <CancelAllBookingsButton />
       </PanelHeaderWrapper>
 
       <Separator className="my-6" />
