@@ -10,10 +10,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { toast } from "sonner";
 import { lessonColumns } from "./lesson-columns";
 
 export default function LessonsDataTable() {
-  const { data, isLoading } = api.lesson.admin.getAll.useQuery();
+  const { data, isLoading, isFetching, refetch } =
+    api.lesson.admin.getAll.useQuery();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -31,5 +33,22 @@ export default function LessonsDataTable() {
     },
   });
 
-  return <DataTable table={table} isLoading={isLoading} />;
+  async function handleRefresh() {
+    const result = await refetch();
+
+    if (result.isSuccess) {
+      toast.success("Lessons refreshed");
+    } else {
+      toast.error("Failed to refresh lessons");
+    }
+  }
+
+  return (
+    <DataTable
+      table={table}
+      isLoading={isLoading}
+      isRefreshing={isFetching}
+      onRefresh={() => void handleRefresh()}
+    />
+  );
 }

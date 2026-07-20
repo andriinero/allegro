@@ -12,10 +12,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { toast } from "sonner";
 import { bookingColumns } from "./booking-columns";
 
 export default function BookingsDataTable() {
-  const { data, isLoading } = api.booking.admin.getAll.useQuery();
+  const { data, isLoading, isFetching, refetch } =
+    api.booking.admin.getAll.useQuery();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -33,5 +35,22 @@ export default function BookingsDataTable() {
     },
   });
 
-  return <DataTable table={table} isLoading={isLoading} />;
+  async function handleRefresh() {
+    const result = await refetch();
+
+    if (result.isSuccess) {
+      toast.success("Bookings refreshed");
+    } else {
+      toast.error("Failed to refresh bookings");
+    }
+  }
+
+  return (
+    <DataTable
+      table={table}
+      isLoading={isLoading}
+      isRefreshing={isFetching}
+      onRefresh={() => void handleRefresh()}
+    />
+  );
 }

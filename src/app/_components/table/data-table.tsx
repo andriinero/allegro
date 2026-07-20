@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
-import { SearchIcon, SearchXIcon, XIcon } from "lucide-react";
+import { RefreshCwIcon, SearchIcon, SearchXIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { DataTablePagination } from "./table-pagination";
@@ -19,9 +19,16 @@ import { DataTablePagination } from "./table-pagination";
 type DataTableProps<TData> = {
   table: ReactTable<TData>;
   isLoading: boolean;
+  isRefreshing?: boolean;
+  onRefresh?: () => void;
 };
 
-export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  table,
+  isLoading,
+  isRefreshing = false,
+  onRefresh,
+}: DataTableProps<TData>) {
   const idFilter = (table.getColumn("id")?.getFilterValue() as string) ?? "";
 
   return (
@@ -50,12 +57,29 @@ export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
             </Button>
           )}
         </div>
-        <p className="text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">
-            {table.getFilteredRowModel().rows.length}
-          </span>{" "}
-          {table.getFilteredRowModel().rows.length === 1 ? "result" : "results"}
-        </p>
+        <div className="flex items-center gap-2 self-end sm:self-auto">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">
+              {table.getFilteredRowModel().rows.length}
+            </span>{" "}
+            {table.getFilteredRowModel().rows.length === 1
+              ? "result"
+              : "results"}
+          </p>
+          {onRefresh && (
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              aria-label="Refresh table data"
+              title="Refresh table data"
+              disabled={isRefreshing}
+              onClick={onRefresh}
+            >
+              <RefreshCwIcon className={isRefreshing ? "animate-spin" : ""} />
+            </Button>
+          )}
+        </div>
       </div>
       <div>
         <Table>
