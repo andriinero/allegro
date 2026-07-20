@@ -1,11 +1,16 @@
 "use client";
 
 import HeaderButton from "@/app/_components/table/header-button";
-import { formatDayMonthYearTime } from "@/lib/date";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/_components/ui/avatar";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type Booking, type Lesson, type User } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDownIcon } from "lucide-react";
+import { ChevronsUpDownIcon, UserRoundIcon } from "lucide-react";
+import { format } from "date-fns";
 import TableLessonActions from "./table-lesson-actions";
 
 export const lessonColumns: ColumnDef<Lesson>[] = [
@@ -15,7 +20,11 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       const id = getCellValueWithFallback(row.getValue("id"));
 
-      return <p className="w-10 uppercase">{formatUUID(id)}</p>;
+      return (
+        <code className="rounded bg-muted px-2 py-1 text-xs font-medium uppercase text-muted-foreground">
+          {formatUUID(id)}
+        </code>
+      );
     },
   },
   {
@@ -25,9 +34,11 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const booking = row.getValue("booking") as Booking;
 
-      console.log(booking);
-
-      return <p className="w-10 uppercase">{formatUUID(booking?.id)}</p>;
+      return (
+        <code className="text-xs uppercase text-muted-foreground">
+          {formatUUID(booking?.id)}
+        </code>
+      );
     },
   },
   {
@@ -42,7 +53,20 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       const student = row.getValue("student");
 
-      return <p className="w-16 font-medium">{(student as User).name}</p>;
+      const { name: studentName, image } = student as User;
+      const name = studentName ?? "Unknown student";
+
+      return (
+        <div className="flex min-w-40 items-center gap-3">
+          <Avatar className="size-8">
+            <AvatarImage src={image ?? ""} alt={`${name}'s profile picture`} />
+            <AvatarFallback className="bg-primary/10 text-primary">
+              <UserRoundIcon className="size-4" aria-hidden="true" />
+            </AvatarFallback>
+          </Avatar>
+          <span className="font-medium">{name}</span>
+        </div>
+      );
     },
   },
   {
@@ -57,7 +81,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       const title = getCellValueWithFallback(row.getValue("title"));
 
-      return <p className="w-42">{title}</p>;
+      return <p className="min-w-44 max-w-72 font-medium">{title}</p>;
     },
   },
   {
@@ -70,9 +94,16 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       );
     },
     cell: ({ row }) => {
-      const createdAt = formatDayMonthYearTime(row.getValue("createdAt"));
+      const createdAt = row.getValue("createdAt") as Date;
 
-      return <p className="w-42">{createdAt}</p>;
+      return (
+        <div className="min-w-28">
+          <p className="font-medium">{format(createdAt, "d MMM yyyy")}</p>
+          <p className="text-xs text-muted-foreground">
+            {format(createdAt, "HH:mm")}
+          </p>
+        </div>
+      );
     },
   },
   {
@@ -87,7 +118,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     cell: ({ row }) => {
       const duration = getCellValueWithFallback(row.getValue("duration"));
 
-      return <p className="w-32">{duration} minutes</p>;
+      return <p className="whitespace-nowrap">{duration} min</p>;
     },
   },
   {

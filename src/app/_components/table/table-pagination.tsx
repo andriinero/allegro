@@ -22,12 +22,16 @@ export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-between overflow-auto px-2">
-      <div className="hidden flex-1 text-sm text-muted-foreground sm:block"></div>
+    <div className="flex items-center justify-between gap-4 overflow-auto border-t bg-muted/10 px-4 py-3">
+      <div className="hidden flex-1 text-sm text-muted-foreground sm:block">
+        {table.getFilteredRowModel().rows.length} total
+      </div>
 
       <div className="flex items-center sm:space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="hidden text-sm font-medium sm:block">Rows per page</p>
+          <p className="hidden text-sm text-muted-foreground sm:block">
+            Rows per page
+          </p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -48,7 +52,7 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
 
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        <div className="flex w-[100px] items-center justify-center text-sm text-muted-foreground">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>

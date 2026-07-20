@@ -11,7 +11,8 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
-import { SearchXIcon } from "lucide-react";
+import { SearchIcon, SearchXIcon, XIcon } from "lucide-react";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { DataTablePagination } from "./table-pagination";
 
@@ -21,17 +22,42 @@ type DataTableProps<TData> = {
 };
 
 export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
+  const idFilter = (table.getColumn("id")?.getFilterValue() as string) ?? "";
+
   return (
-    <div className="flex flex-col gap-4">
-      <Input
-        value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
-        onChange={(event) => {
-          table.getColumn("id")?.setFilterValue(event.target.value);
-        }}
-        placeholder="Filter by id..."
-        className="max-w-xs"
-      />
-      <div className="rounded-md border border-border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+      <div className="flex flex-col gap-3 border-b bg-muted/10 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative w-full sm:max-w-xs">
+          <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={idFilter}
+            onChange={(event) => {
+              table.getColumn("id")?.setFilterValue(event.target.value);
+            }}
+            placeholder="Search by ID…"
+            className="bg-background pl-9 pr-9"
+          />
+          {idFilter && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 top-1/2 size-9 -translate-y-1/2 text-muted-foreground"
+              aria-label="Clear search"
+              onClick={() => table.getColumn("id")?.setFilterValue("")}
+            >
+              <XIcon />
+            </Button>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">
+            {table.getFilteredRowModel().rows.length}
+          </span>{" "}
+          {table.getFilteredRowModel().rows.length === 1 ? "result" : "results"}
+        </p>
+      </div>
+      <div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -67,6 +93,7 @@ export function DataTable<TData>({ table, isLoading }: DataTableProps<TData>) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="h-16"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

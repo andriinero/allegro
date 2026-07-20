@@ -2,8 +2,13 @@
 
 import { formatWeekdayDayMonthTime } from "@/lib/date";
 
-import InfoField from "@/app/_components/general/info-field";
 import HeaderButton from "@/app/_components/table/header-button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/_components/ui/avatar";
+import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import { BookingStatus, LessonPresence } from "@prisma/client";
@@ -17,6 +22,7 @@ import {
   LaptopIcon,
   MapPinHouseIcon,
   type LucideIcon,
+  UserRoundIcon,
 } from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
 import { format } from "date-fns";
@@ -35,6 +41,13 @@ const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
   ONLINE: LaptopIcon,
 };
 
+const statusClassNameMap: Record<BookingStatus, string> = {
+  PENDING: "border-amber-200 bg-amber-50 text-amber-700",
+  CONFIRMED: "border-blue-200 bg-blue-50 text-blue-700",
+  COMPLETED: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  CANCELLED: "border-red-200 bg-red-50 text-red-700",
+};
+
 export const bookingColumns: ColumnDef<BookingRow>[] = [
   {
     accessorKey: "id",
@@ -42,7 +55,11 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     cell: ({ row }) => {
       const id = getCellValueWithFallback(row.getValue("id"));
 
-      return <p className="w-10 uppercase">{formatUUID(id)}</p>;
+      return (
+        <code className="rounded bg-muted px-2 py-1 text-xs font-medium uppercase text-muted-foreground">
+          {formatUUID(id)}
+        </code>
+      );
     },
   },
   {
@@ -51,7 +68,22 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     cell: ({ row }) => {
       const bookedBy = row.original.bookedBy;
 
-      return <p className="w-10">{bookedBy?.name}</p>;
+      const name = bookedBy?.name ?? "Unknown student";
+
+      return (
+        <div className="flex min-w-40 items-center gap-3">
+          <Avatar className="size-8">
+            <AvatarImage
+              src={bookedBy?.image ?? ""}
+              alt={`${name}'s profile picture`}
+            />
+            <AvatarFallback className="bg-primary/10 text-primary">
+              <UserRoundIcon className="size-4" aria-hidden="true" />
+            </AvatarFallback>
+          </Avatar>
+          <span className="font-medium">{name}</span>
+        </div>
+      );
     },
   },
   {
@@ -67,11 +99,15 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       const timeSlot = row.original.timeSlot;
 
       return (
-        <p className="w-42">
-          {format(timeSlot.startTime, "ccc, d MMM")}{" "}
-          {format(timeSlot.startTime, "HH:mm")} -{" "}
-          {format(timeSlot.endTime, "HH:mm")}
-        </p>
+        <div className="min-w-36">
+          <p className="font-medium">
+            {format(timeSlot.startTime, "EEE, d MMM")}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {format(timeSlot.startTime, "HH:mm")}–
+            {format(timeSlot.endTime, "HH:mm")}
+          </p>
+        </div>
       );
     },
   },
@@ -87,7 +123,7 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     cell: ({ row }) => {
       const createdAt = formatWeekdayDayMonthTime(row.getValue("createdAt"));
 
-      return <p className="w-42">{createdAt}</p>;
+      return <p className="min-w-36 text-muted-foreground">{createdAt}</p>;
     },
   },
   {
@@ -106,11 +142,15 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       );
 
       return (
-        <div className="w-24">
+        <div className="min-w-24">
           {lessonPresence && (
-            <InfoField icon={lessonPresenceIconMap[lessonPresence]}>
-              {lessonPresence}
-            </InfoField>
+            <Badge variant="outline" className="gap-1.5 font-medium capitalize">
+              {(() => {
+                const Icon = lessonPresenceIconMap[lessonPresence];
+                return <Icon className="size-3.5 text-muted-foreground" />;
+              })()}
+              {lessonPresence.toLowerCase()}
+            </Badge>
           )}
         </div>
       );
@@ -131,9 +171,18 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       );
 
       return (
-        <div className="w-28">
+        <div className="min-w-28">
           {status && (
-            <InfoField icon={statusIconMap[status]}>{status}</InfoField>
+            <Badge
+              variant="outline"
+              className={`gap-1.5 font-medium capitalize ${statusClassNameMap[status]}`}
+            >
+              {(() => {
+                const Icon = statusIconMap[status];
+                return <Icon className="size-3.5" />;
+              })()}
+              {status.toLowerCase()}
+            </Badge>
           )}
         </div>
       );
