@@ -141,7 +141,7 @@ export function CreateTimeSlotsForm() {
                   htmlFor="time-slot-offline"
                   className="cursor-pointer"
                 >
-                  In person
+                  Offline
                 </FieldLabel>
               </Field>
             </RadioGroup>

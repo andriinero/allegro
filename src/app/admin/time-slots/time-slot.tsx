@@ -94,7 +94,7 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
             ) : (
               <MapPinIcon className="size-3" />
             )}
-            {isOnline ? "Online" : "In person"}
+            {isOnline ? "Online" : "Offline"}
           </Badge>
         </div>
       </CardContent>
