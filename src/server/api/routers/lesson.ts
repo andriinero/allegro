@@ -88,11 +88,17 @@ export const lessonRouter = createTRPCRouter({
       .mutation(async ({ ctx, input }) => {
         const { bookingId, ...data } = input;
 
-        const bookedLesson = await ctx.db.lesson.findFirst({
-          where: { booking: { id: bookingId } },
-          select: { booking: { select: { id: true } } },
+        const booking = await ctx.db.booking.findUnique({
+          where: { id: bookingId },
+          select: { bookedById: true, lessonId: true },
         });
-        if (bookedLesson) {
+        if (!booking) {
+          throw new TRPCError({
+            message: "Booking not found",
+            code: "NOT_FOUND",
+          });
+        }
+        if (booking.lessonId) {
           throw new TRPCError({
             message: "A lesson already exists for this booking",
             code: "BAD_REQUEST",
@@ -100,7 +106,11 @@ export const lessonRouter = createTRPCRouter({
         }
 
         const lesson = await ctx.db.lesson.create({
-          data: { ...data, booking: { connect: { id: bookingId } } },
+          data: {
+            ...data,
+            studentId: booking.bookedById,
+            booking: { connect: { id: bookingId } },
+          },
         });
         await ctx.db.booking.update({
           where: { id: bookingId },

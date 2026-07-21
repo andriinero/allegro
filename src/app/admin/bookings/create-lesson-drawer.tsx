@@ -42,10 +42,6 @@ const createLessonFormSchema = z.object({
   lessonLink: z.string().url().or(z.literal("")),
   assignment: z.string().optional(),
   description: z.string().optional(),
-  duration: z.coerce
-    .number()
-    .min(30, "Minimum lesson duration is 30 minutes")
-    .max(90, "Maximum duration is 90 minutes"),
 });
 type CreateLessonForm = z.infer<typeof createLessonFormSchema>;
 
@@ -57,7 +53,6 @@ export default function CreateLessonDrawer({
   const form = useForm<CreateLessonForm>({
     resolver: zodResolver(createLessonFormSchema),
     defaultValues: {
-      duration: 45,
       title: "",
       lessonLink: "",
       assignment: "",
@@ -78,9 +73,9 @@ export default function CreateLessonDrawer({
   });
 
   async function onSubmit(data: CreateLessonForm) {
-    if (!currentRow?.bookedById) {
+    if (!currentRow) {
       toast.error("There was a problem submitting the form", {
-        description: "StudentId not specified",
+        description: "Booking not specified",
       });
       return;
     }
@@ -97,7 +92,6 @@ export default function CreateLessonDrawer({
     createLessonMutation.mutate({
       ...data,
       bookingId: currentRow.id,
-      studentId: currentRow.bookedById,
     });
 
     onOpenChange(false);
@@ -148,29 +142,6 @@ export default function CreateLessonDrawer({
                   <FormDescription>
                     Enter a title that accurately reflects the lesson&apos;s
                     content.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="duration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Duration</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="e.g. 45"
-                      {...field}
-                      min={30}
-                      max={90}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <FormDescription>
-                    Specify the length of the lesson in minutes.
                   </FormDescription>
                 </FormItem>
               )}
