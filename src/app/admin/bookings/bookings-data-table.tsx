@@ -11,6 +11,7 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { bookingColumns } from "./booking-columns";
@@ -18,8 +19,12 @@ import { bookingColumns } from "./booking-columns";
 export default function BookingsDataTable() {
   const { data, isLoading, isFetching, refetch } =
     api.booking.admin.getAll.useQuery();
+  const searchParams = useSearchParams();
+  const bookingId = searchParams.get("bookingId");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() =>
+    bookingId ? [{ id: "id", value: bookingId }] : []
+  );
   const table = useReactTable({
     data: data ?? [],
     columns: bookingColumns,

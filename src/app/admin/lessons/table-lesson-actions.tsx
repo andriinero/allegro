@@ -7,9 +7,11 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useLessonsDialogContext } from "@/hooks/use-lessons-dialog-context";
+import { formatUUID } from "@/lib/utils";
 import type { RouterOutputs } from "@/trpc/react";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
+import Link from "next/link";
 
 type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
 
@@ -37,6 +39,16 @@ export default function TableLessonActions({ row }: TableLessonActionsProps) {
           >
             Edit
           </DropdownMenuItem>
+
+          {row.original.booking && (
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/admin/bookings?bookingId=${formatUUID(row.original.booking.id)}`}
+              >
+                Go to Booking
+              </Link>
+            </DropdownMenuItem>
+          )}
 
           <DropdownMenuSeparator />
 
