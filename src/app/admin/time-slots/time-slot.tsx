@@ -30,35 +30,20 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const card = (
     <Card
       className={cn(
-        "shadow-none transition-colors hover:bg-accent/40",
-        hasBooking && "cursor-pointer border-primary/30 bg-primary/5",
-        isCancelled && "border-destructive/30 bg-destructive/5",
+        "shadow-none transition-[border-color,background-color,box-shadow] hover:bg-muted/30",
+        hasBooking &&
+          "cursor-pointer hover:border-foreground/20 hover:shadow-sm",
+        isCancelled && "bg-muted/20",
         className
       )}
     >
       <CardContent className="flex items-center justify-between gap-3 p-4">
         <div className="flex items-center gap-3">
-          <div
-            className={cn(
-              "flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40",
-              hasBooking && "border-primary/40 bg-primary/10 text-primary",
-              isCancelled &&
-                "border-destructive/40 bg-destructive/10 text-destructive"
-            )}
-          >
+          <div className="flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40">
             <span className="text-sm font-semibold tabular-nums leading-none">
               {format(timeSlot.startTime, "d")}
             </span>
-            <span
-              className={cn(
-                "text-[10px] font-medium uppercase leading-tight",
-                isCancelled
-                  ? "text-destructive/80"
-                  : hasBooking
-                    ? "text-primary/80"
-                    : "text-muted-foreground"
-              )}
-            >
+            <span className="text-[10px] font-medium uppercase leading-tight text-muted-foreground">
               {format(timeSlot.startTime, "MMM")}
             </span>
           </div>

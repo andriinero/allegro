@@ -20,10 +20,14 @@ const statusIconMap: Record<BookingStatus, LucideIcon> = {
 };
 
 const statusClassNameMap: Record<BookingStatus, string> = {
-  PENDING: "border-amber-200 bg-amber-50 text-amber-700",
-  CONFIRMED: "border-blue-200 bg-blue-50 text-blue-700",
-  COMPLETED: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  CANCELLED: "border-red-200 bg-red-50 text-red-700",
+  PENDING:
+    "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300",
+  CONFIRMED:
+    "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300",
+  COMPLETED:
+    "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300",
+  CANCELLED:
+    "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300",
 };
 
 export default function BookingStatusBadge({
