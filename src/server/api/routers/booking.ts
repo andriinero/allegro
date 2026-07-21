@@ -78,7 +78,10 @@ export const bookingRouter = createTRPCRouter({
 
   cancelAll: protectedProcedure.mutation(async ({ ctx }) => {
     return await ctx.db.booking.updateMany({
-      where: { bookedById: ctx.session.user.id },
+      where: {
+        bookedById: ctx.session.user.id,
+        status: { in: ["PENDING", "CONFIRMED"] },
+      },
       data: { status: "CANCELLED" },
     });
   }),

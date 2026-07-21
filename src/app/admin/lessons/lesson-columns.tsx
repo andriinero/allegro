@@ -146,7 +146,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
       const lessonLink = row.original.lessonLink;
 
       if (!lessonLink) {
-        return <span className="text-muted-foreground">N/A</span>;
+        return <span className="text-muted-foreground">—</span>;
       }
 
       return (
@@ -156,7 +156,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-primary underline-offset-4 hover:underline"
         >
-          Open link
+          Join lesson
           <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
         </a>
       );
