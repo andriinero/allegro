@@ -110,7 +110,7 @@ export default function CreateLessonDrawer({
         <SheetHeader>
           <SheetTitle>Create Lesson</SheetTitle>
           <SheetDescription>
-            Create an{" "}
+            Confirm and create an{" "}
             <span className="font-medium">
               {currentRow?.timeSlot.presence.toLowerCase()}
             </span>{" "}

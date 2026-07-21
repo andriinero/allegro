@@ -2,7 +2,9 @@
 
 import { formatWeekdayDayMonthTime } from "@/lib/date";
 
+import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
 import HeaderButton from "@/app/_components/table/header-button";
+import TimeSlotSchedule from "@/app/_components/table/time-slot-schedule";
 import {
   Avatar,
   AvatarFallback,
@@ -11,15 +13,10 @@ import {
 import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
-import { BookingStatus, LessonPresence } from "@prisma/client";
+import { LessonPresence, type BookingStatus } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import {
   ChevronsUpDownIcon,
-  Circle,
-  CircleCheck,
-  CircleDashed,
-  CircleX,
   LaptopIcon,
   MapPinHouseIcon,
   UserRoundIcon,
@@ -29,23 +26,9 @@ import TableBookingActions from "./table-booking-actions";
 
 export type BookingRow = RouterOutputs["booking"]["admin"]["getAll"][number];
 
-const statusIconMap: Record<BookingStatus, LucideIcon> = {
-  PENDING: CircleDashed,
-  CONFIRMED: Circle,
-  COMPLETED: CircleCheck,
-  CANCELLED: CircleX,
-};
-
 const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
   OFFLINE: MapPinHouseIcon,
   ONLINE: LaptopIcon,
-};
-
-const statusClassNameMap: Record<BookingStatus, string> = {
-  PENDING: "border-amber-200 bg-amber-50 text-amber-700",
-  CONFIRMED: "border-blue-200 bg-blue-50 text-blue-700",
-  COMPLETED: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  CANCELLED: "border-red-200 bg-red-50 text-red-700",
 };
 
 export const bookingColumns: ColumnDef<BookingRow>[] = [
@@ -99,15 +82,10 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       const timeSlot = row.original.timeSlot;
 
       return (
-        <div className="min-w-36">
-          <p className="font-medium">
-            {format(timeSlot.startTime, "EEE, d MMM")}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {format(timeSlot.startTime, "HH:mm")}–
-            {format(timeSlot.endTime, "HH:mm")}
-          </p>
-        </div>
+        <TimeSlotSchedule
+          startTime={timeSlot.startTime}
+          endTime={timeSlot.endTime}
+        />
       );
     },
   },
@@ -166,24 +144,11 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = Object.values(BookingStatus).find(
-        (s) => s === row.getValue("status")
-      );
+      const status = row.getValue<BookingStatus>("status");
 
       return (
         <div className="min-w-28">
-          {status && (
-            <Badge
-              variant="outline"
-              className={`gap-1.5 font-medium capitalize ${statusClassNameMap[status]}`}
-            >
-              {(() => {
-                const Icon = statusIconMap[status];
-                return <Icon className="size-3.5" />;
-              })()}
-              {status.toLowerCase()}
-            </Badge>
-          )}
+          <BookingStatusBadge status={status} />
         </div>
       );
     },

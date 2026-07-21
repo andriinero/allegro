@@ -1,20 +1,24 @@
 "use client";
 
+import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
 import HeaderButton from "@/app/_components/table/header-button";
+import TimeSlotSchedule from "@/app/_components/table/time-slot-schedule";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/app/_components/ui/avatar";
+import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
   ExternalLinkIcon,
+  LaptopIcon,
+  MapPinHouseIcon,
   UserRoundIcon,
 } from "lucide-react";
-import { differenceInMinutes, format } from "date-fns";
 import TableLessonActions from "./table-lesson-actions";
 
 type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
@@ -34,27 +38,13 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
     },
   },
   {
-    accessorKey: "booking",
-    header: "Booking",
-    cell: ({ row }) => {
-      const booking = row.original.booking;
-
-      return (
-        <code className="text-xs uppercase text-muted-foreground">
-          {formatUUID(getCellValueWithFallback(booking?.id))}
-        </code>
-      );
-    },
-  },
-  {
-    accessorKey: "student",
-    header: ({ column }) => {
-      return (
-        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Student
-        </HeaderButton>
-      );
-    },
+    id: "student",
+    accessorFn: (lesson) => lesson.student.name,
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Student
+      </HeaderButton>
+    ),
     cell: ({ row }) => {
       const { name: studentName, image } = row.original.student;
       const name = studentName ?? "Unknown student";
@@ -74,24 +64,86 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
   },
   {
     accessorKey: "title",
-    header: ({ column }) => {
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Title
+      </HeaderButton>
+    ),
+    cell: ({ row }) => (
+      <p className="min-w-44 max-w-72 font-medium">{row.original.title}</p>
+    ),
+  },
+  {
+    id: "timeSlot",
+    accessorFn: (lesson) => lesson.booking?.timeSlot.startTime ?? null,
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Time Slot
+      </HeaderButton>
+    ),
+    cell: ({ row }) => {
+      const timeSlot = row.original.booking?.timeSlot;
+
+      if (!timeSlot) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
       return (
-        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Title
-        </HeaderButton>
+        <TimeSlotSchedule
+          startTime={timeSlot.startTime}
+          endTime={timeSlot.endTime}
+        />
       );
     },
+  },
+  {
+    id: "presence",
+    accessorFn: (lesson) => lesson.booking?.timeSlot.presence ?? null,
+    header: "Presence",
     cell: ({ row }) => {
-      const title = getCellValueWithFallback(row.getValue("title"));
+      const presence = row.original.booking?.timeSlot.presence;
 
-      return <p className="min-w-44 max-w-72 font-medium">{title}</p>;
+      if (!presence) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
+      const Icon = presence === "ONLINE" ? LaptopIcon : MapPinHouseIcon;
+
+      return (
+        <Badge variant="outline" className="gap-1.5 font-medium capitalize">
+          <Icon className="size-3.5 text-muted-foreground" aria-hidden="true" />
+          {presence.toLowerCase()}
+        </Badge>
+      );
+    },
+  },
+  {
+    id: "status",
+    accessorFn: (lesson) => lesson.booking?.status ?? null,
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Status
+      </HeaderButton>
+    ),
+    cell: ({ row }) => {
+      const status = row.original.booking?.status;
+
+      if (!status) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
+      return (
+        <div className="min-w-28">
+          <BookingStatusBadge status={status} />
+        </div>
+      );
     },
   },
   {
     accessorKey: "lessonLink",
     header: "Lesson link",
     cell: ({ row }) => {
-      const lessonLink = row.getValue<string | null>("lessonLink");
+      const lessonLink = row.original.lessonLink;
 
       if (!lessonLink) {
         return <span className="text-muted-foreground">N/A</span>;
@@ -107,54 +159,6 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
           Open link
           <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
         </a>
-      );
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Created
-        </HeaderButton>
-      );
-    },
-    cell: ({ row }) => {
-      const createdAt = row.getValue("createdAt") as Date;
-
-      return (
-        <div className="min-w-28">
-          <p className="font-medium">{format(createdAt, "d MMM yyyy")}</p>
-          <p className="text-xs text-muted-foreground">
-            {format(createdAt, "HH:mm")}
-          </p>
-        </div>
-      );
-    },
-  },
-  {
-    id: "duration",
-    accessorFn: (lesson) => {
-      const timeSlot = lesson.booking?.timeSlot;
-
-      return timeSlot
-        ? differenceInMinutes(timeSlot.endTime, timeSlot.startTime)
-        : null;
-    },
-    header: ({ column }) => {
-      return (
-        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Duration
-        </HeaderButton>
-      );
-    },
-    cell: ({ row }) => {
-      const duration = row.getValue<number | null>("duration");
-
-      return (
-        <p className="whitespace-nowrap">
-          {duration === null ? "N/A" : `${duration} min`}
-        </p>
       );
     },
   },

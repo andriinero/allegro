@@ -7,11 +7,11 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
+import { formatUUID } from "@/lib/utils";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { type BookingRow } from "./booking-columns";
-import { formatUUID } from "@/lib/utils";
 
 type TableBookingActionsProps = { row: Row<BookingRow> };
 

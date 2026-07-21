@@ -58,14 +58,6 @@ export function DataTable<TData>({
           )}
         </div>
         <div className="flex items-center gap-2 self-end sm:self-auto">
-          <p className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">
-              {table.getFilteredRowModel().rows.length}
-            </span>{" "}
-            {table.getFilteredRowModel().rows.length === 1
-              ? "result"
-              : "results"}
-          </p>
           {onRefresh && (
             <Button
               type="button"
