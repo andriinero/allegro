@@ -6,6 +6,7 @@ import {
   UserIcon,
   VideoIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
@@ -25,14 +26,15 @@ type TimeSlotProps = {
 
 export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
-  const isBooked = timeSlot.bookings !== null;
+  const bookingId = timeSlot.bookings?.id;
+  const isBooked = Boolean(bookingId);
   const bookedByName = timeSlot.bookings?.bookedBy.name;
 
-  return (
+  const card = (
     <Card
       className={cn(
         "shadow-none transition-colors hover:bg-accent/40",
-        isBooked && "border-primary/30 bg-primary/5",
+        isBooked && "cursor-pointer border-primary/30 bg-primary/5",
         className
       )}
     >
@@ -99,5 +101,17 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
         </div>
       </CardContent>
     </Card>
+  );
+
+  if (!bookingId) return card;
+
+  return (
+    <Link
+      href={`/admin/bookings?bookingId=${bookingId}`}
+      aria-label={`View booking for ${bookedByName ?? "this time slot"}`}
+      className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    >
+      {card}
+    </Link>
   );
 }
