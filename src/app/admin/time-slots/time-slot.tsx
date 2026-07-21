@@ -1,13 +1,8 @@
 import { format } from "date-fns";
-import {
-  CheckCircle2Icon,
-  ClockIcon,
-  MapPinIcon,
-  UserIcon,
-  VideoIcon,
-} from "lucide-react";
+import { ClockIcon, MapPinIcon, UserIcon, VideoIcon } from "lucide-react";
 import Link from "next/link";
 
+import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { formatDuration } from "@/lib/date";
@@ -26,15 +21,18 @@ type TimeSlotProps = {
 
 export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
-  const bookingId = timeSlot.bookings?.id;
-  const isBooked = Boolean(bookingId);
-  const bookedByName = timeSlot.bookings?.bookedBy.name;
+  const booking = timeSlot.bookings;
+  const bookingId = booking?.id;
+  const hasBooking = Boolean(bookingId);
+  const isCancelled = booking?.status === "CANCELLED";
+  const bookedByName = booking?.bookedBy.name;
 
   const card = (
     <Card
       className={cn(
         "shadow-none transition-colors hover:bg-accent/40",
-        isBooked && "cursor-pointer border-primary/30 bg-primary/5",
+        hasBooking && "cursor-pointer border-primary/30 bg-primary/5",
+        isCancelled && "border-destructive/30 bg-destructive/5",
         className
       )}
     >
@@ -43,7 +41,9 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
           <div
             className={cn(
               "flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40",
-              isBooked && "border-primary/40 bg-primary/10 text-primary"
+              hasBooking && "border-primary/40 bg-primary/10 text-primary",
+              isCancelled &&
+                "border-destructive/40 bg-destructive/10 text-destructive"
             )}
           >
             <span className="text-sm font-semibold tabular-nums leading-none">
@@ -52,7 +52,11 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
             <span
               className={cn(
                 "text-[10px] font-medium uppercase leading-tight",
-                isBooked ? "text-primary/80" : "text-muted-foreground"
+                isCancelled
+                  ? "text-destructive/80"
+                  : hasBooking
+                    ? "text-primary/80"
+                    : "text-muted-foreground"
               )}
             >
               {format(timeSlot.startTime, "MMM")}
@@ -67,7 +71,7 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
               <ClockIcon className="size-3" />
               {formatDuration(timeSlot.startTime, timeSlot.endTime)}
-              {isBooked && (
+              {hasBooking && (
                 <>
                   <span className="text-muted-foreground/50">·</span>
                   <UserIcon className="size-3" />
@@ -79,11 +83,8 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
         </div>
 
         <div className="flex shrink-0 flex-col items-end gap-1.5">
-          {isBooked ? (
-            <Badge className="gap-1">
-              <CheckCircle2Icon className="size-3" />
-              Booked
-            </Badge>
+          {booking ? (
+            <BookingStatusBadge status={booking.status} />
           ) : (
             <Badge variant="outline">Available</Badge>
           )}

@@ -30,6 +30,11 @@ export const tabs = {
       icon: LayoutDashboard,
     },
     {
+      name: "Time Slots",
+      url: "/admin/time-slots",
+      icon: Clock,
+    },
+    {
       name: "Bookings",
       url: "/admin/bookings",
       icon: SquarePlusIcon,
@@ -38,11 +43,6 @@ export const tabs = {
       name: "Lessons",
       url: "/admin/lessons",
       icon: BookOpen,
-    },
-    {
-      name: "Time Slots",
-      url: "/admin/time-slots",
-      icon: Clock,
     },
     // {
     //   name: "Chats",
