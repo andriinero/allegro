@@ -113,7 +113,7 @@ export function CreateTimeSlotsForm() {
         render={({ field }) => (
           <FieldSet className="w-full gap-0">
             <FieldLegend variant="label" className="mb-3">
-              Lesson format
+              Presence
             </FieldLegend>
             <RadioGroup
               value={field.value}

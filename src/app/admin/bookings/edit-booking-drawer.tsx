@@ -206,7 +206,7 @@ export default function EditBookingDrawer({
               name="presence"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Lesson format</FormLabel>
+                  <FormLabel>Presence</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
@@ -214,7 +214,7 @@ export default function EditBookingDrawer({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select lesson format" />
+                        <SelectValue placeholder="Select presence" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
