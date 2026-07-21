@@ -51,7 +51,7 @@ export default async function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        <section className="flex-1 p-6 flex justify-center">
+        <section className="flex flex-1 justify-center p-6">
           <div className="w-full max-w-7xl">{children}</div>
         </section>
       </SidebarInset>

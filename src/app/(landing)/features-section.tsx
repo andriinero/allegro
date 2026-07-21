@@ -36,32 +36,32 @@ const features = [
 export default function FeaturesSection() {
   return (
     <section className="flex flex-col items-center bg-gray-100/50">
-      <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl py-16">
+      <ContentWrapper className="max-w-screen-5xl flex-col items-center gap-4 py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl text-foreground mb-4 font-black">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-black text-foreground lg:text-4xl">
               Why Choose Allegro?
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
               Join thousands of students who have transformed their musical
               abilities with our comprehensive learning platform.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <Card
                 key={index}
-                className="bg-white border-0 shadow-lg hover:shadow-xl transition-shadow"
+                className="border-0 bg-white shadow-lg transition-shadow hover:shadow-xl"
               >
-                <CardHeader className="text-center pb-4">
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  <CardTitle className="font-bold text-xl text-foreground">
+                <CardHeader className="pb-4 text-center">
+                  <div className="mb-4 text-4xl">{feature.icon}</div>
+                  <CardTitle className="text-xl font-bold text-foreground">
                     {feature.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground text-center leading-relaxed">
+                  <p className="text-center leading-relaxed text-muted-foreground">
                     {feature.description}
                   </p>
                 </CardContent>

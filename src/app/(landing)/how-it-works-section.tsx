@@ -5,22 +5,22 @@ import { Card, CardContent } from "../_components/ui/card";
 export default function HowItWorksSection() {
   return (
     <section className="flex flex-col items-center">
-      <ContentWrapper className="flex-col items-center gap-4 max-w-screen-5xl  py-16">
+      <ContentWrapper className="max-w-screen-5xl flex-col items-center gap-4 py-16">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="relative">
-              <Card className="bg-primary text-primary-foreground p-8 transform rotate-2">
+              <Card className="rotate-2 transform bg-primary p-8 text-primary-foreground">
                 <CardContent className="p-0">
-                  <h3 className="font-black text-3xl mb-4">
+                  <h3 className="mb-4 text-3xl font-black">
                     WATCH
                     <br />
                     HOW IT
                     <br />
                     WORKS
                   </h3>
-                  <div className="bg-white/20 rounded-lg p-4 mt-6">
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4">
-                      <span className="text-primary text-xl">▶</span>
+                  <div className="mt-6 rounded-lg bg-white/20 p-4">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white">
+                      <span className="text-xl text-primary">▶</span>
                     </div>
                     <Image
                       width={500}
@@ -35,14 +35,14 @@ export default function HowItWorksSection() {
             </div>
 
             <div className="space-y-6">
-              <h2 className="font-black text-3xl text-foreground">
+              <h2 className="text-3xl font-black text-foreground">
                 Allegro™ is{" "}
-                <span className="bg-primary px-2 py-1 rounded bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 text-primary-foreground">
+                <span className="rounded bg-primary bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 px-2 py-1 text-primary-foreground">
                   Different
                 </span>
               </h2>
 
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 With YouTube and other lesson sites, you are on your own with{" "}
                 <strong>no easy to follow</strong> and because we{" "}
                 <strong>really care</strong> about helping you grow, our
@@ -51,11 +51,11 @@ export default function HowItWorksSection() {
 
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-primary-foreground text-sm">✓</span>
+                  <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary">
+                    <span className="text-sm text-primary-foreground">✓</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground mb-2">
+                    <h4 className="mb-2 font-semibold text-foreground">
                       Get Unstuck
                     </h4>
                     <p className="text-muted-foreground">

@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules
+.next
+out
+build
+coverage
+
+# Generated files
+next-env.d.ts
+*.tsbuildinfo
+pnpm-lock.yaml
+prisma/migrations
+
+# Local and deployment state
+.vercel
+.env
+.env.*
+!.env.example

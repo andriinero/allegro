@@ -4,37 +4,37 @@ export default function Footer() {
   return (
     <footer className="flex justify-center bg-foreground p-4 text-secondary">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-xl">Allegro</span>
+              <span className="text-xl font-bold">Allegro</span>
             </div>
-            <p className="text-gray-400 leading-relaxed">
+            <p className="leading-relaxed text-gray-400">
               The most comprehensive online guitar learning platform with over 4
               million satisfied students worldwide.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Learning</h4>
+            <h4 className="mb-4 text-lg font-semibold">Learning</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Beginner Lessons
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Intermediate
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Advanced
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Song Library
                 </a>
               </li>
@@ -42,25 +42,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Features</h4>
+            <h4 className="mb-4 text-lg font-semibold">Features</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Interactive Lessons
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Progress Tracking
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Mobile App
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Community
                 </a>
               </li>
@@ -68,25 +68,25 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-lg mb-4">Support</h4>
+            <h4 className="mb-4 text-lg font-semibold">Support</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#" className="transition-colors hover:text-white">
                   Terms of Service
                 </a>
               </li>
@@ -94,11 +94,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400">
-          <p className="text-gray-400 text-sm">
+        <div className="mt-12 flex flex-col items-center justify-between border-t border-gray-700 pt-8 text-gray-400 md:flex-row">
+          <p className="text-sm text-gray-400">
             © 2024 Allegro. All rights reserved.
           </p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
+          <div className="mt-4 flex space-x-4 md:mt-0">
             <Button variant="ghost" size="sm" className="">
               Facebook
             </Button>

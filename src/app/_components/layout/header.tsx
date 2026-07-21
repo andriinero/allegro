@@ -68,7 +68,7 @@ export default function Header({
             >
               <Link href={bookingHref}>
                 Book a lesson
-                <ArrowUpRight className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
             </Button>
           )}

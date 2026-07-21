@@ -44,7 +44,7 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
               isBooked && "border-primary/40 bg-primary/10 text-primary"
             )}
           >
-            <span className="text-sm font-semibold leading-none tabular-nums">
+            <span className="text-sm font-semibold tabular-nums leading-none">
               {format(timeSlot.startTime, "d")}
             </span>
             <span

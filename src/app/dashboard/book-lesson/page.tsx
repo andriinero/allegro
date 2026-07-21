@@ -32,7 +32,7 @@ export default function Page() {
           className={cn(
             "cursor-pointer",
             selectedTimeSlotId === timeSlot.id &&
-              "border-2 border-primary rounded-md shadow-sm"
+              "rounded-md border-2 border-primary shadow-sm"
           )}
         />
       </div>

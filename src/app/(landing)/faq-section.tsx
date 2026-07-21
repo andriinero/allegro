@@ -51,12 +51,12 @@ const faqs = [
 export default function FaqSection() {
   return (
     <section className="flex justify-center py-16">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      <div className="container mx-auto max-w-4xl px-4">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
             Got questions? We&apos;ve got answers. Here are the most common
             questions about learning guitar with us.
           </p>
@@ -67,27 +67,27 @@ export default function FaqSection() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 px-6"
+              className="rounded-lg border border-gray-200 bg-white px-6 shadow-sm"
             >
-              <AccordionTrigger className="text-left hover:no-underline py-4">
-                <h3 className="text-lg font-semibold text-gray-900 pr-4">
+              <AccordionTrigger className="py-4 text-left hover:no-underline">
+                <h3 className="pr-4 text-lg font-semibold text-gray-900">
                   {faq.question}
                 </h3>
               </AccordionTrigger>
               <AccordionContent className="pb-4">
                 <div className="border-t border-gray-100 pt-4">
-                  <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  <p className="leading-relaxed text-gray-700">{faq.answer}</p>
                 </div>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
 
-        <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
+        <div className="mt-12 text-center">
+          <p className="mb-4 text-gray-600">
             Still have questions? We&apos;re here to help!
           </p>
-          <button className="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+          <button className="rounded-lg bg-red-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-red-700">
             Contact Support
           </button>
         </div>

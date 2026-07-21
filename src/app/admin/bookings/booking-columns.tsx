@@ -13,6 +13,7 @@ import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import { BookingStatus, LessonPresence } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import {
   ChevronsUpDownIcon,
   Circle,
@@ -21,11 +22,10 @@ import {
   CircleX,
   LaptopIcon,
   MapPinHouseIcon,
-  type LucideIcon,
   UserRoundIcon,
+  type LucideIcon,
 } from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
-import { format } from "date-fns";
 
 export type BookingRow = RouterOutputs["booking"]["admin"]["getAll"][number];
 
