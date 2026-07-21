@@ -35,7 +35,12 @@ export default function LessonsDialogContextProvider({
 
   return (
     <LessonsDialogContext.Provider
-      value={{ open, setOpen, currentRow, setCurrentRow }}
+      value={{
+        open,
+        setOpen,
+        currentRow,
+        setCurrentRow,
+      }}
     >
       {children}
     </LessonsDialogContext.Provider>

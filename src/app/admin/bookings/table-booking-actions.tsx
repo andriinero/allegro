@@ -9,7 +9,9 @@ import {
 import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
+import Link from "next/link";
 import { type BookingRow } from "./booking-columns";
+import { formatUUID } from "@/lib/utils";
 
 type TableBookingActionsProps = { row: Row<BookingRow> };
 
@@ -44,6 +46,16 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
               }}
             >
               Create Lesson
+            </DropdownMenuItem>
+          )}
+
+          {row.original.status === "CONFIRMED" && row.original.lessonId && (
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/admin/lessons?lessonId=${formatUUID(row.original.lessonId)}`}
+              >
+                Go to Lesson
+              </Link>
             </DropdownMenuItem>
           )}
 

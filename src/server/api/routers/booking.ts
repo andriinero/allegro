@@ -86,7 +86,7 @@ export const bookingRouter = createTRPCRouter({
   admin: {
     getAll: adminProcedure.query(async ({ ctx }) => {
       return await ctx.db.booking.findMany({
-        include: { bookedBy: true, timeSlot: true },
+        include: { bookedBy: true, timeSlot: true, lesson: true },
       });
     }),
 
@@ -97,25 +97,6 @@ export const bookingRouter = createTRPCRouter({
           take: input.take,
           skip: input.page * input.take,
           include: { bookedBy: true },
-        });
-      }),
-
-    cancelById: adminProcedure
-      .input(z.object({ id: z.string() }))
-      .mutation(async ({ ctx, input }) => {
-        const booking = await ctx.db.booking.findUnique({
-          where: { id: input.id },
-        });
-        if (!booking) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "Booking not found",
-          });
-        }
-
-        await ctx.db.booking.update({
-          where: { id: input.id },
-          data: { status: "CANCELLED" },
         });
       }),
 
@@ -152,12 +133,32 @@ export const bookingRouter = createTRPCRouter({
           });
 
         return await ctx.db.$transaction(async (tx) => {
-          await tx.lesson.deleteMany({
-            where: { booking: { id: input.id } },
+          await tx.booking.update({
+            where: { id: input.id },
+            data: { lesson: { disconnect: true } },
           });
           return await tx.booking.delete({
             where: { id: input.id },
           });
+        });
+      }),
+
+    cancelById: adminProcedure
+      .input(z.object({ id: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const booking = await ctx.db.booking.findUnique({
+          where: { id: input.id },
+        });
+        if (!booking) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Booking not found",
+          });
+        }
+
+        await ctx.db.booking.update({
+          where: { id: input.id },
+          data: { status: "CANCELLED" },
         });
       }),
   },
