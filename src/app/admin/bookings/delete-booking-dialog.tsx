@@ -26,7 +26,7 @@ export default function DeleteBookingDialog({
 }: DeleteBookingDialogProps) {
   const utils = api.useUtils();
   const { mutate: deleteBooking, isPending } =
-    api.booking.admin.cancelById.useMutation({
+    api.booking.admin.deleteById.useMutation({
       onSuccess: async () => {
         toast.success("Booking deleted successfully");
         await utils.booking.admin.getAll.invalidate();
