@@ -28,11 +28,14 @@ import { updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BookingStatus, LessonPresence } from "@prisma/client";
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { type z } from "zod";
 import type { BookingRow } from "./booking-columns";
+
+const CLEAR_TIME_SLOT_VALUE = "clear-time-slot";
 
 const updateBookingFormSchema = updateBookingSchema.omit({ id: true });
 type UpdateBookingForm = z.infer<typeof updateBookingFormSchema>;
@@ -51,6 +54,11 @@ export default function EditBookingDrawer({
   const form = useForm<UpdateBookingForm>({
     resolver: zodResolver(updateBookingFormSchema),
   });
+  const { data: availableTimeSlots, isLoading: isLoadingTimeSlots } =
+    api.timeSlot.admin.getAvailableForBooking.useQuery(
+      { bookingId: currentRow?.id ?? "" },
+      { enabled: open && currentRow !== null }
+    );
 
   const apiUtils = api.useUtils();
   const updateBookingMutation = api.booking.admin.updateById.useMutation({
@@ -74,7 +82,8 @@ export default function EditBookingDrawer({
     if (currentRow)
       form.reset({
         status: currentRow.status,
-        presence: currentRow.timeSlot.presence,
+        presence: currentRow.timeSlot?.presence,
+        timeSlotId: currentRow.timeSlotId,
       });
   }, [form, currentRow]);
 
@@ -84,7 +93,8 @@ export default function EditBookingDrawer({
     updateBookingMutation.mutate({
       id: currentRow.id,
       status: data.status ?? currentRow.status,
-      presence: data.presence ?? currentRow.timeSlot.presence,
+      presence: data.timeSlotId ? data.presence : undefined,
+      timeSlotId: data.timeSlotId,
     });
   }
 
@@ -141,11 +151,67 @@ export default function EditBookingDrawer({
 
             <FormField
               control={form.control}
+              name="timeSlotId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time slot</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      const timeSlotId =
+                        value === CLEAR_TIME_SLOT_VALUE ? null : value;
+                      field.onChange(timeSlotId);
+
+                      const selectedTimeSlot = availableTimeSlots?.find(
+                        (timeSlot) => timeSlot.id === timeSlotId
+                      );
+                      form.setValue("presence", selectedTimeSlot?.presence);
+                    }}
+                    value={field.value ?? CLEAR_TIME_SLOT_VALUE}
+                    disabled={isLoadingTimeSlots}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={
+                            isLoadingTimeSlots
+                              ? "Loading time slots…"
+                              : "Select a time slot"
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value={CLEAR_TIME_SLOT_VALUE}>
+                        No time slot
+                      </SelectItem>
+                      {availableTimeSlots?.map((timeSlot) => (
+                        <SelectItem key={timeSlot.id} value={timeSlot.id}>
+                          {format(timeSlot.startTime, "EEE, d MMM · HH:mm")}–
+                          {format(timeSlot.endTime, "HH:mm")} ·{" "}
+                          {timeSlot.presence.toLowerCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                  <FormDescription>
+                    Reassign this booking or leave it without a time slot.
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="presence"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Lesson format</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    disabled={!form.watch("timeSlotId")}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select lesson format" />

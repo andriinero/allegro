@@ -108,6 +108,7 @@ export const bookingRouter = createTRPCRouter({
       .mutation(async ({ ctx, input }) => {
         const booking = await ctx.db.booking.findUnique({
           where: { id: input.id },
+          select: { id: true, timeSlotId: true },
         });
         if (!booking)
           throw new TRPCError({
@@ -115,14 +116,54 @@ export const bookingRouter = createTRPCRouter({
             message: "Booking not found",
           });
 
-        return await ctx.db.booking.update({
-          where: { id: input.id },
-          data: {
-            status: input.status,
-            timeSlot: input.presence
-              ? { update: { presence: input.presence } }
-              : undefined,
-          },
+        const targetTimeSlotId =
+          input.timeSlotId === undefined
+            ? booking.timeSlotId
+            : input.timeSlotId;
+
+        if (targetTimeSlotId && targetTimeSlotId !== booking.timeSlotId) {
+          const targetTimeSlot = await ctx.db.lessonTimeSlot.findUnique({
+            where: { id: targetTimeSlotId },
+            select: { bookings: { select: { id: true } } },
+          });
+
+          if (!targetTimeSlot) {
+            throw new TRPCError({
+              code: "NOT_FOUND",
+              message: "Time slot not found",
+            });
+          }
+
+          if (targetTimeSlot.bookings) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "This time slot is already booked",
+            });
+          }
+        }
+
+        return await ctx.db.$transaction(async (tx) => {
+          const updatedBooking = await tx.booking.update({
+            where: { id: input.id },
+            data: {
+              status: input.status,
+              timeSlot:
+                input.timeSlotId === undefined
+                  ? undefined
+                  : input.timeSlotId === null
+                    ? { disconnect: true }
+                    : { connect: { id: input.timeSlotId } },
+            },
+          });
+
+          if (input.presence && targetTimeSlotId) {
+            await tx.lessonTimeSlot.update({
+              where: { id: targetTimeSlotId },
+              data: { presence: input.presence },
+            });
+          }
+
+          return updatedBooking;
         });
       }),
 

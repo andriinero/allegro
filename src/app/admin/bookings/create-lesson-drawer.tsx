@@ -22,19 +22,16 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import { formatWeekdayDayMonthTime } from "@/lib/date";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  LessonPresence,
-  type Booking,
-  type LessonTimeSlot,
-} from "@prisma/client";
+import { LessonPresence } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import type { BookingRow } from "./booking-columns";
 
 type CreateLessonDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: (Booking & { timeSlot: LessonTimeSlot }) | null;
+  currentRow: BookingRow | null;
 };
 
 const createLessonFormSchema = z.object({
@@ -73,9 +70,9 @@ export default function CreateLessonDrawer({
   });
 
   async function onSubmit(data: CreateLessonForm) {
-    if (!currentRow) {
+    if (!currentRow?.timeSlot) {
       toast.error("There was a problem submitting the form", {
-        description: "Booking not specified",
+        description: "Booking time slot not specified",
       });
       return;
     }
@@ -112,10 +109,10 @@ export default function CreateLessonDrawer({
           <SheetDescription>
             Confirm and create an{" "}
             <span className="font-medium">
-              {currentRow?.timeSlot.presence.toLowerCase()}
+              {currentRow?.timeSlot?.presence.toLowerCase()}
             </span>{" "}
             lesson{" "}
-            {currentRow?.timeSlot.startTime &&
+            {currentRow?.timeSlot?.startTime &&
               `for ${formatWeekdayDayMonthTime(currentRow.timeSlot.startTime)}`}
           </SheetDescription>
         </SheetHeader>
@@ -147,7 +144,7 @@ export default function CreateLessonDrawer({
               )}
             />
 
-            {currentRow?.timeSlot.presence === LessonPresence.ONLINE && (
+            {currentRow?.timeSlot?.presence === LessonPresence.ONLINE && (
               <FormField
                 control={form.control}
                 name="lessonLink"

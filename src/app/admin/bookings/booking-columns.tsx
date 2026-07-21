@@ -70,7 +70,8 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     },
   },
   {
-    accessorKey: "timeSlot",
+    id: "timeSlot",
+    accessorFn: (booking) => booking.timeSlot?.startTime ?? null,
     header: ({ column }) => {
       return (
         <HeaderButton column={column} icon={ChevronsUpDownIcon}>
@@ -80,6 +81,10 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     },
     cell: ({ row }) => {
       const timeSlot = row.original.timeSlot;
+
+      if (!timeSlot) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
 
       return (
         <TimeSlotSchedule
@@ -106,7 +111,7 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
   },
   {
     id: "presence",
-    accessorFn: (row) => row.timeSlot.presence,
+    accessorFn: (row) => row.timeSlot?.presence ?? null,
     header: ({ column }) => {
       return (
         <HeaderButton column={column} icon={ChevronsUpDownIcon}>
@@ -115,13 +120,11 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       );
     },
     cell: ({ row }) => {
-      const lessonPresence = Object.values(LessonPresence).find(
-        (s) => s === row.original.timeSlot.presence
-      );
+      const lessonPresence = row.original.timeSlot?.presence;
 
       return (
         <div className="min-w-24">
-          {lessonPresence && (
+          {lessonPresence ? (
             <Badge variant="outline" className="gap-1.5 font-medium capitalize">
               {(() => {
                 const Icon = lessonPresenceIconMap[lessonPresence];
@@ -129,6 +132,8 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
               })()}
               {lessonPresence.toLowerCase()}
             </Badge>
+          ) : (
+            <span className="text-muted-foreground">N/A</span>
           )}
         </div>
       );

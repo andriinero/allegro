@@ -75,7 +75,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
   },
   {
     id: "timeSlot",
-    accessorFn: (lesson) => lesson.booking?.timeSlot.startTime ?? null,
+    accessorFn: (lesson) => lesson.booking?.timeSlot?.startTime ?? null,
     header: ({ column }) => (
       <HeaderButton column={column} icon={ChevronsUpDownIcon}>
         Time Slot
@@ -98,10 +98,10 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
   },
   {
     id: "presence",
-    accessorFn: (lesson) => lesson.booking?.timeSlot.presence ?? null,
+    accessorFn: (lesson) => lesson.booking?.timeSlot?.presence ?? null,
     header: "Presence",
     cell: ({ row }) => {
-      const presence = row.original.booking?.timeSlot.presence;
+      const presence = row.original.booking?.timeSlot?.presence;
 
       if (!presence) {
         return <span className="text-muted-foreground">N/A</span>;

@@ -38,7 +38,7 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
             Edit
           </DropdownMenuItem>
 
-          {row.original.status === "PENDING" && (
+          {row.original.status === "PENDING" && row.original.timeSlotId && (
             <DropdownMenuItem
               onClick={() => {
                 setOpen("createLesson");

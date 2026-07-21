@@ -104,12 +104,12 @@ model Booking {
   createdAt DateTime      @default(now())
   updatedAt DateTime?
 
-  lesson     Lesson?        @relation(fields: [lessonId], references: [id])
-  lessonId   String?        @unique
-  bookedBy   User           @relation(fields: [bookedById], references: [id])
+  lesson     Lesson?         @relation(fields: [lessonId], references: [id])
+  lessonId   String?         @unique
+  bookedBy   User            @relation(fields: [bookedById], references: [id])
   bookedById String
-  timeSlot   LessonTimeSlot @relation(fields: [timeSlotId], references: [id])
-  timeSlotId String         @unique
+  timeSlot   LessonTimeSlot? @relation(fields: [timeSlotId], references: [id])
+  timeSlotId String?         @unique
 }
 
 enum UserRole {
