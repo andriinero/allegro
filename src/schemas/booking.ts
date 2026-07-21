@@ -1,4 +1,4 @@
-import { BookingStatus } from "@prisma/client";
+import { BookingStatus, LessonPresence } from "@prisma/client";
 import { z } from "zod";
 import { cursorPaginationSchema } from "./pagination";
 
@@ -27,5 +27,6 @@ export type CreateBooking = z.infer<typeof createBookingSchema>;
 export const updateBookingSchema = z.object({
   id: z.string(),
   status: z.nativeEnum(BookingStatus).optional(),
+  presence: z.nativeEnum(LessonPresence).optional(),
 });
 export type UpdateBooking = z.infer<typeof updateBookingSchema>;

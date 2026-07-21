@@ -119,6 +119,9 @@ export const bookingRouter = createTRPCRouter({
           where: { id: input.id },
           data: {
             status: input.status,
+            timeSlot: input.presence
+              ? { update: { presence: input.presence } }
+              : undefined,
           },
         });
       }),

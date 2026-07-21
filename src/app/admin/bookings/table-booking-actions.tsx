@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
-import { formatUUID } from "@/lib/utils";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +16,7 @@ type TableBookingActionsProps = { row: Row<BookingRow> };
 
 export default function TableBookingActions({ row }: TableBookingActionsProps) {
   const { setOpen, setCurrentRow } = useBookingsDialogContext();
+  const lessonId = row.original.lessonId;
 
   return (
     <div className="flex justify-end">
@@ -49,11 +49,9 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
             </DropdownMenuItem>
           )}
 
-          {row.original.status === "CONFIRMED" && row.original.lessonId && (
+          {lessonId && (
             <DropdownMenuItem asChild>
-              <Link
-                href={`/admin/lessons?lessonId=${formatUUID(row.original.lessonId)}`}
-              >
+              <Link href={`/admin/lessons?lessonId=${lessonId}`}>
                 Go to Lesson
               </Link>
             </DropdownMenuItem>

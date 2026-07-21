@@ -27,7 +27,7 @@ import {
 import { updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookingStatus } from "@prisma/client";
+import { BookingStatus, LessonPresence } from "@prisma/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,7 +35,7 @@ import { type z } from "zod";
 import type { BookingRow } from "./booking-columns";
 
 const updateBookingFormSchema = updateBookingSchema.omit({ id: true });
-type UpdateBookingForm = z.infer<typeof updateBookingSchema>;
+type UpdateBookingForm = z.infer<typeof updateBookingFormSchema>;
 
 type EditBookingDrawerProps = {
   open: boolean;
@@ -55,7 +55,11 @@ export default function EditBookingDrawer({
   const apiUtils = api.useUtils();
   const updateBookingMutation = api.booking.admin.updateById.useMutation({
     onSuccess: async () => {
-      await apiUtils.booking.admin.getAll.invalidate();
+      await Promise.all([
+        apiUtils.booking.admin.getAll.invalidate(),
+        apiUtils.lesson.admin.getAll.invalidate(),
+        apiUtils.timeSlot.admin.getAllUpcoming.invalidate(),
+      ]);
       toast.success("Booking has been updated");
       onOpenChange(false);
     },
@@ -70,16 +74,17 @@ export default function EditBookingDrawer({
     if (currentRow)
       form.reset({
         status: currentRow.status,
+        presence: currentRow.timeSlot.presence,
       });
   }, [form, currentRow]);
 
   function onSubmit(data: UpdateBookingForm) {
-    console.log(data);
     if (!currentRow?.id) return;
 
     updateBookingMutation.mutate({
       id: currentRow.id,
       status: data.status ?? currentRow.status,
+      presence: data.presence ?? currentRow.timeSlot.presence,
     });
   }
 
@@ -112,10 +117,7 @@ export default function EditBookingDrawer({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select booking status" />
@@ -132,6 +134,34 @@ export default function EditBookingDrawer({
                   <FormMessage />
                   <FormDescription>
                     Current status of the booking
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="presence"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Lesson format</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select lesson format" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(LessonPresence).map((presence) => (
+                        <SelectItem key={presence} value={presence}>
+                          {presence.toLowerCase()}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                  <FormDescription>
+                    Choose whether the lesson takes place online or offline.
                   </FormDescription>
                 </FormItem>
               )}
