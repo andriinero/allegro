@@ -30,7 +30,6 @@ import { z } from "zod";
 const editLessonFormSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
-  duration: z.number().min(30).max(90).optional(),
   lessonLink: z.string().optional(),
   assignment: z.string().optional(),
 });
@@ -128,29 +127,6 @@ export default function EditBookingDrawer({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="duration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Duration</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="e.g. 45"
-                      {...field}
-                      min={30}
-                      max={90}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                  <FormDescription>
-                    Specify the length of the lesson in minutes.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
             {currentRow?.lessonLink && (
               <FormField
                 control={form.control}
@@ -159,11 +135,14 @@ export default function EditBookingDrawer({
                   <FormItem>
                     <FormLabel>Lesson Link</FormLabel>
                     <FormControl>
-                      <Input placeholder="Zoom link" {...field} />
+                      <Input
+                        placeholder="e.g. Google Meet, Zoom, or Teams link"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                     <FormDescription>
-                      Provide the link to the Zoom session for this lesson.
+                      Provide the link for this online lesson.
                     </FormDescription>
                   </FormItem>
                 )}

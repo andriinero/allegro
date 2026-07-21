@@ -35,6 +35,5 @@ export const updateLessonSchema = z.object({
   lessonLink: z.string().optional(),
   assignment: z.string().optional(),
   description: z.string().optional(),
-  duration: z.number().min(30).max(90).optional(),
 });
 export type UpdateLesson = z.infer<typeof updateLessonSchema>;

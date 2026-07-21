@@ -7,11 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useLessonsDialogContext } from "@/hooks/use-lessons-dialog-context";
-import type { Lesson } from "@prisma/client";
+import type { RouterOutputs } from "@/trpc/react";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 
-type TableLessonActionsProps = { row: Row<Lesson> };
+type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
+
+type TableLessonActionsProps = { row: Row<LessonRow> };
 
 export default function TableLessonActions({ row }: TableLessonActionsProps) {
   const { setOpen, setCurrentRow } = useLessonsDialogContext();

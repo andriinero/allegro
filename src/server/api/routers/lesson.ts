@@ -79,7 +79,10 @@ export const lessonRouter = createTRPCRouter({
 
     getAll: adminProcedure.query(async ({ ctx }) => {
       return await ctx.db.lesson.findMany({
-        include: { student: true, booking: true },
+        include: {
+          student: true,
+          booking: { include: { timeSlot: true } },
+        },
       });
     }),
 

@@ -7,13 +7,19 @@ import {
   AvatarImage,
 } from "@/app/_components/ui/avatar";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
-import { type Booking, type Lesson, type User } from "@prisma/client";
+import { type RouterOutputs } from "@/trpc/react";
 import { type ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDownIcon, UserRoundIcon } from "lucide-react";
-import { format } from "date-fns";
+import {
+  ChevronsUpDownIcon,
+  ExternalLinkIcon,
+  UserRoundIcon,
+} from "lucide-react";
+import { differenceInMinutes, format } from "date-fns";
 import TableLessonActions from "./table-lesson-actions";
 
-export const lessonColumns: ColumnDef<Lesson>[] = [
+type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
+
+export const lessonColumns: ColumnDef<LessonRow>[] = [
   {
     accessorKey: "id",
     header: "Lesson",
@@ -31,12 +37,11 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     accessorKey: "booking",
     header: "Booking",
     cell: ({ row }) => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      const booking = row.getValue("booking") as Booking;
+      const booking = row.original.booking;
 
       return (
         <code className="text-xs uppercase text-muted-foreground">
-          {formatUUID(booking?.id)}
+          {formatUUID(getCellValueWithFallback(booking?.id))}
         </code>
       );
     },
@@ -51,9 +56,7 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       );
     },
     cell: ({ row }) => {
-      const student = row.getValue("student");
-
-      const { name: studentName, image } = student as User;
+      const { name: studentName, image } = row.original.student;
       const name = studentName ?? "Unknown student";
 
       return (
@@ -85,6 +88,29 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     },
   },
   {
+    accessorKey: "lessonLink",
+    header: "Lesson link",
+    cell: ({ row }) => {
+      const lessonLink = row.getValue<string | null>("lessonLink");
+
+      if (!lessonLink) {
+        return <span className="text-muted-foreground">N/A</span>;
+      }
+
+      return (
+        <a
+          href={lessonLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-primary underline-offset-4 hover:underline"
+        >
+          Open link
+          <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
+        </a>
+      );
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -107,7 +133,14 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
     },
   },
   {
-    accessorKey: "duration",
+    id: "duration",
+    accessorFn: (lesson) => {
+      const timeSlot = lesson.booking?.timeSlot;
+
+      return timeSlot
+        ? differenceInMinutes(timeSlot.endTime, timeSlot.startTime)
+        : null;
+    },
     header: ({ column }) => {
       return (
         <HeaderButton column={column} icon={ChevronsUpDownIcon}>
@@ -116,9 +149,13 @@ export const lessonColumns: ColumnDef<Lesson>[] = [
       );
     },
     cell: ({ row }) => {
-      const duration = getCellValueWithFallback(row.getValue("duration"));
+      const duration = row.getValue<number | null>("duration");
 
-      return <p className="whitespace-nowrap">{duration} min</p>;
+      return (
+        <p className="whitespace-nowrap">
+          {duration === null ? "N/A" : `${duration} min`}
+        </p>
+      );
     },
   },
   {
