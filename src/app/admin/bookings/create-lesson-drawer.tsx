@@ -24,8 +24,8 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   LessonPresence,
-  type LessonTimeSlot,
   type Booking,
+  type LessonTimeSlot,
 } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -141,7 +141,7 @@ export default function CreateLessonDrawer({
                   <FormMessage />
                   <FormDescription>
                     Enter a title that accurately reflects the lesson&apos;s
-                    content.
+                    content
                   </FormDescription>
                 </FormItem>
               )}
@@ -155,11 +155,14 @@ export default function CreateLessonDrawer({
                   <FormItem>
                     <FormLabel>Lesson Link</FormLabel>
                     <FormControl>
-                      <Input placeholder="Zoom link" {...field} />
+                      <Input
+                        placeholder="e.g. Google Meet, Zoom or Teams link"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                     <FormDescription>
-                      Provide the link to the Zoom session for this lesson.
+                      Provide the link for this online lesson
                     </FormDescription>
                   </FormItem>
                 )}
@@ -181,7 +184,7 @@ export default function CreateLessonDrawer({
                   </FormControl>
                   <FormMessage />
                   <FormDescription>
-                    Describe the learning objectives of this lesson.
+                    Describe the learning objectives of this lesson
                   </FormDescription>
                 </FormItem>
               )}
@@ -202,7 +205,7 @@ export default function CreateLessonDrawer({
                   </FormControl>
                   <FormMessage />
                   <FormDescription>
-                    Explain the assignment requirements and expectations.
+                    Explain the assignment requirements and expectations
                   </FormDescription>
                 </FormItem>
               )}
