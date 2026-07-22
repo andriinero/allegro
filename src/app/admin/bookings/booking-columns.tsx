@@ -46,8 +46,13 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
     },
   },
   {
-    accessorKey: "bookedBy",
-    header: "Student",
+    id: "student",
+    accessorFn: (booking) => booking.bookedBy?.name ?? "",
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Student
+      </HeaderButton>
+    ),
     cell: ({ row }) => {
       const bookedBy = row.original.bookedBy;
 
