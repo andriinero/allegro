@@ -48,7 +48,11 @@ export function AdminSidebar({ user, ...props }: AppSidebarProps) {
 
       <SidebarContent>
         <NavGeneral general={tabs.general} pathname={pathname} />
-        <NavSecondary items={tabs.navSecondary} className="mt-auto" />
+        <NavSecondary
+          items={tabs.navSecondary}
+          pathname={pathname}
+          className="mt-auto"
+        />
       </SidebarContent>
 
       <SidebarFooter>

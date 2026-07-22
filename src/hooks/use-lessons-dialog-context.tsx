@@ -1,7 +1,7 @@
 "use client";
 
 import useDialogState from "@/hooks/use-dialog-state";
-import type { Lesson } from "@prisma/client";
+import type { RouterOutputs } from "@/trpc/react";
 import {
   createContext,
   type Dispatch,
@@ -12,12 +12,13 @@ import {
 } from "react";
 
 type LessonsDialogType = "edit" | "delete";
+type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
 
 type LessonsDialogContextType = {
   open: LessonsDialogType | null;
   setOpen: (str: LessonsDialogType | null) => void;
-  currentRow: Lesson | null;
-  setCurrentRow: Dispatch<SetStateAction<Lesson | null>>;
+  currentRow: LessonRow | null;
+  setCurrentRow: Dispatch<SetStateAction<LessonRow | null>>;
 };
 const LessonsDialogContext = createContext<LessonsDialogContextType | null>(
   null
@@ -31,7 +32,7 @@ export default function LessonsDialogContextProvider({
   children,
 }: LessonsDialogContextProviderProps) {
   const [open, setOpen] = useDialogState<LessonsDialogType>(null);
-  const [currentRow, setCurrentRow] = useState<Lesson | null>(null);
+  const [currentRow, setCurrentRow] = useState<LessonRow | null>(null);
 
   return (
     <LessonsDialogContext.Provider

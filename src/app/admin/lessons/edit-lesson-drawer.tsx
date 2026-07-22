@@ -21,11 +21,11 @@ import {
 import { Textarea } from "@/app/_components/ui/textarea";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Lesson } from "@prisma/client";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { LessonRow } from "./lessons-data-table";
 
 const editLessonFormSchema = z.object({
   title: z.string().optional(),
@@ -38,10 +38,10 @@ type EditLessonForm = z.infer<typeof editLessonFormSchema>;
 type EditLessonDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  currentRow: Lesson | null;
+  currentRow: LessonRow | null;
 };
 
-export default function EditBookingDrawer({
+export default function EditLessonDrawer({
   open,
   onOpenChange,
   currentRow,
@@ -126,27 +126,25 @@ export default function EditBookingDrawer({
               )}
             />
 
-            {currentRow?.lessonLink && (
-              <FormField
-                control={form.control}
-                name="lessonLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Lesson Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g. Google Meet, Zoom, or Teams link"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    <FormDescription>
-                      Provide the link for this online lesson
-                    </FormDescription>
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={form.control}
+              name="lessonLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Lesson Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. Google Meet, Zoom, or Teams link"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <FormDescription>
+                    Provide the link for this online lesson
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
