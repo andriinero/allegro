@@ -12,7 +12,7 @@ export default function Page() {
 
       <PanelHeading
         title="Bookings"
-        description="A list of bookings for this month"
+        description="Manage and view all bookings"
       />
 
       <div className="py-4">

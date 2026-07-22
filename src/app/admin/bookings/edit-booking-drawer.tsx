@@ -27,7 +27,7 @@ import {
 import { updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookingStatus, LessonPresence } from "@prisma/client";
+import { BookingStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -82,7 +82,6 @@ export default function EditBookingDrawer({
     if (currentRow)
       form.reset({
         status: currentRow.status,
-        presence: currentRow.timeSlot?.presence,
         timeSlotId: currentRow.timeSlotId,
       });
   }, [form, currentRow]);
@@ -93,7 +92,6 @@ export default function EditBookingDrawer({
     updateBookingMutation.mutate({
       id: currentRow.id,
       status: data.status ?? currentRow.status,
-      presence: data.timeSlotId ? data.presence : undefined,
       timeSlotId: data.timeSlotId,
     });
   }
@@ -160,11 +158,6 @@ export default function EditBookingDrawer({
                       const timeSlotId =
                         value === CLEAR_TIME_SLOT_VALUE ? null : value;
                       field.onChange(timeSlotId);
-
-                      const selectedTimeSlot = availableTimeSlots?.find(
-                        (timeSlot) => timeSlot.id === timeSlotId
-                      );
-                      form.setValue("presence", selectedTimeSlot?.presence);
                     }}
                     value={field.value ?? CLEAR_TIME_SLOT_VALUE}
                     disabled={isLoadingTimeSlots}
@@ -196,38 +189,6 @@ export default function EditBookingDrawer({
                   <FormMessage />
                   <FormDescription>
                     Reassign this booking or leave it without a time slot.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="presence"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Presence</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled={!form.watch("timeSlotId")}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select presence" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.values(LessonPresence).map((presence) => (
-                        <SelectItem key={presence} value={presence}>
-                          {presence.toLowerCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                  <FormDescription>
-                    Choose whether the lesson takes place online or offline.
                   </FormDescription>
                 </FormItem>
               )}

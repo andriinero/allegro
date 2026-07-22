@@ -142,28 +142,17 @@ export const bookingRouter = createTRPCRouter({
           }
         }
 
-        return await ctx.db.$transaction(async (tx) => {
-          const updatedBooking = await tx.booking.update({
-            where: { id: input.id },
-            data: {
-              status: input.status,
-              timeSlot:
-                input.timeSlotId === undefined
-                  ? undefined
-                  : input.timeSlotId === null
-                    ? { disconnect: true }
-                    : { connect: { id: input.timeSlotId } },
-            },
-          });
-
-          if (input.presence && targetTimeSlotId) {
-            await tx.lessonTimeSlot.update({
-              where: { id: targetTimeSlotId },
-              data: { presence: input.presence },
-            });
-          }
-
-          return updatedBooking;
+        return await ctx.db.booking.update({
+          where: { id: input.id },
+          data: {
+            status: input.status,
+            timeSlot:
+              input.timeSlotId === undefined
+                ? undefined
+                : input.timeSlotId === null
+                  ? { disconnect: true }
+                  : { connect: { id: input.timeSlotId } },
+          },
         });
       }),
 

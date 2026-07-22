@@ -97,6 +97,29 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
     },
   },
   {
+    accessorKey: "lessonLink",
+    header: "Lesson link",
+    cell: ({ row }) => {
+      const lessonLink = row.original.lessonLink;
+
+      if (!lessonLink) {
+        return <span className="text-muted-foreground">—</span>;
+      }
+
+      return (
+        <a
+          href={lessonLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-primary underline-offset-4 hover:underline"
+        >
+          Join lesson
+          <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
+        </a>
+      );
+    },
+  },
+  {
     id: "presence",
     accessorFn: (lesson) => lesson.booking?.timeSlot?.presence ?? null,
     header: "Presence",
@@ -136,29 +159,6 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
         <div className="min-w-28">
           <BookingStatusBadge status={status} />
         </div>
-      );
-    },
-  },
-  {
-    accessorKey: "lessonLink",
-    header: "Lesson link",
-    cell: ({ row }) => {
-      const lessonLink = row.original.lessonLink;
-
-      if (!lessonLink) {
-        return <span className="text-muted-foreground">—</span>;
-      }
-
-      return (
-        <a
-          href={lessonLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 whitespace-nowrap font-medium text-primary underline-offset-4 hover:underline"
-        >
-          Join lesson
-          <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
-        </a>
       );
     },
   },
