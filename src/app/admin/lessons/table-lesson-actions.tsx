@@ -8,18 +8,26 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import { useLessonsDialogContext } from "@/hooks/use-lessons-dialog-context";
 import { formatUUID } from "@/lib/utils";
-import type { RouterOutputs } from "@/trpc/react";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
-
-type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
+import { LessonRow } from "./lessons-data-table";
 
 type TableLessonActionsProps = { row: Row<LessonRow> };
 
 export default function TableLessonActions({ row }: TableLessonActionsProps) {
   const { setOpen, setCurrentRow } = useLessonsDialogContext();
   const bookingId = row.original.booking?.id;
+
+  function handleEdit() {
+    setOpen("edit");
+    setCurrentRow(row.original);
+  }
+
+  function handleDelete() {
+    setOpen("delete");
+    setCurrentRow(row.original);
+  }
 
   return (
     <div className="flex justify-end">
@@ -32,14 +40,7 @@ export default function TableLessonActions({ row }: TableLessonActionsProps) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            onClick={() => {
-              setOpen("edit");
-              setCurrentRow(row.original);
-            }}
-          >
-            Edit
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleEdit}>Edit</DropdownMenuItem>
 
           {bookingId && (
             <DropdownMenuItem asChild>
@@ -51,13 +52,7 @@ export default function TableLessonActions({ row }: TableLessonActionsProps) {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            className="text-destructive"
-            onClick={() => {
-              setOpen("delete");
-              setCurrentRow(row.original);
-            }}
-          >
+          <DropdownMenuItem className="text-destructive" onClick={handleDelete}>
             <Trash />
             Delete
           </DropdownMenuItem>

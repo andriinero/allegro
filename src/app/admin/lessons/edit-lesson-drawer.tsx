@@ -95,8 +95,7 @@ export default function EditBookingDrawer({
         <SheetHeader>
           <SheetTitle>Edit Lesson</SheetTitle>
           <SheetDescription>
-            Make changes to the lesson details. Click save when you&apos;re
-            done.
+            Make changes to the lesson details
           </SheetDescription>
         </SheetHeader>
 
@@ -121,7 +120,7 @@ export default function EditBookingDrawer({
                   <FormMessage />
                   <FormDescription>
                     Enter a title that accurately reflects the lesson&apos;s
-                    content.
+                    content
                   </FormDescription>
                 </FormItem>
               )}
@@ -142,7 +141,7 @@ export default function EditBookingDrawer({
                     </FormControl>
                     <FormMessage />
                     <FormDescription>
-                      Provide the link for this online lesson.
+                      Provide the link for this online lesson
                     </FormDescription>
                   </FormItem>
                 )}
@@ -164,7 +163,7 @@ export default function EditBookingDrawer({
                   </FormControl>
                   <FormMessage />
                   <FormDescription>
-                    Describe the learning objectives of this lesson.
+                    Describe the learning objectives of this lesson
                   </FormDescription>
                 </FormItem>
               )}
@@ -185,7 +184,7 @@ export default function EditBookingDrawer({
                   </FormControl>
                   <FormMessage />
                   <FormDescription>
-                    Explain the assignment requirements and expectations.
+                    Explain the assignment requirements and expectations
                   </FormDescription>
                 </FormItem>
               )}

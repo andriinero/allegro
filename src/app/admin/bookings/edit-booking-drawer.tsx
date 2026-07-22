@@ -108,8 +108,7 @@ export default function EditBookingDrawer({
         <SheetHeader>
           <SheetTitle>Edit Booking</SheetTitle>
           <SheetDescription>
-            Make changes to the booking details. Click save when you&apos;re
-            done.
+            Make changes to the booking details
           </SheetDescription>
         </SheetHeader>
 
@@ -175,7 +174,7 @@ export default function EditBookingDrawer({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value={CLEAR_TIME_SLOT_VALUE}>
-                        No time slot
+                        unassigned
                       </SelectItem>
                       {availableTimeSlots?.map((timeSlot) => (
                         <SelectItem key={timeSlot.id} value={timeSlot.id}>
@@ -187,9 +186,7 @@ export default function EditBookingDrawer({
                     </SelectContent>
                   </Select>
                   <FormMessage />
-                  <FormDescription>
-                    Reassign this booking or leave it without a time slot.
-                  </FormDescription>
+                  <FormDescription>Reschedule this booking</FormDescription>
                 </FormItem>
               )}
             />

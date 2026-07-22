@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTable } from "@/app/_components/table/data-table";
+import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
 import { api } from "@/trpc/react";
 import {
   type ColumnFiltersState,
@@ -14,9 +15,10 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { bookingColumns } from "./booking-columns";
+import { bookingColumns, BookingRow } from "./booking-columns";
 
 export default function BookingsDataTable() {
+  const { setCurrentRow, setOpen } = useBookingsDialogContext();
   const { data, isLoading, isFetching, refetch } =
     api.booking.admin.getAll.useQuery();
   const searchParams = useSearchParams();
@@ -50,12 +52,19 @@ export default function BookingsDataTable() {
     }
   }
 
+  function handleRowClick(data: BookingRow) {
+    setCurrentRow(data);
+    setOpen("edit");
+  }
+
   return (
     <DataTable
       table={table}
       isLoading={isLoading}
       isRefreshing={isFetching}
-      onRefresh={() => void handleRefresh()}
+      onRefresh={handleRefresh}
+      onRowClick={handleRowClick}
+      getRowLabel={(booking) => `Edit booking ${booking.id}`}
     />
   );
 }

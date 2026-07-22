@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/app/_components/ui/table";
+import { cn } from "@/lib/utils";
 import { flexRender, type Table as ReactTable } from "@tanstack/react-table";
 import { RefreshCwIcon, SearchIcon, SearchXIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
@@ -21,6 +22,8 @@ type DataTableProps<TData> = {
   isLoading: boolean;
   isRefreshing?: boolean;
   onRefresh?: () => void;
+  onRowClick?: (row: TData) => void;
+  getRowLabel?: (row: TData) => string;
 };
 
 export function DataTable<TData>({
@@ -28,8 +31,26 @@ export function DataTable<TData>({
   isLoading,
   isRefreshing = false,
   onRefresh,
+  onRowClick,
+  getRowLabel,
 }: DataTableProps<TData>) {
   const idFilter = (table.getColumn("id")?.getFilterValue() as string) ?? "";
+
+  function handleRowClick(row: TData) {
+    if (!onRowClick) return;
+
+    return (event: React.MouseEvent<HTMLTableRowElement>) => {
+      const target = event.target as HTMLElement;
+      if (
+        target.closest(
+          "a, button, input, select, textarea, [role='button'], [role='menuitem']"
+        )
+      )
+        return;
+
+      onRowClick(row);
+    };
+  }
 
   return (
     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
@@ -109,7 +130,14 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="h-16"
+                  tabIndex={onRowClick ? 0 : undefined}
+                  aria-label={getRowLabel?.(row.original)}
+                  className={cn(
+                    "h-16",
+                    onRowClick &&
+                      "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                  )}
+                  onClick={handleRowClick(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
