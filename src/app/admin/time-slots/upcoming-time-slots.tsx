@@ -3,7 +3,7 @@ import { Badge } from "@/app/_components/ui/badge";
 import { type RouterOutputs } from "@/trpc/react";
 import { format, isSameDay, isToday, isTomorrow } from "date-fns";
 import { BookOpenIcon } from "lucide-react";
-import { TimeSlot } from "./time-slot";
+import { EditableTimeSlot } from "./editable-time-slot";
 
 type UpcomingTimeSlot =
   RouterOutputs["timeSlot"]["admin"]["getAllUpcoming"][number];
@@ -77,7 +77,7 @@ export default function UpcomingTimeSlots({
 
           <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
             {slots.map((slot) => (
-              <TimeSlot key={slot.id} timeSlot={slot} />
+              <EditableTimeSlot key={slot.id} timeSlot={slot} />
             ))}
           </div>
         </section>

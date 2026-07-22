@@ -1,38 +1,36 @@
-import { format } from "date-fns";
-import { ClockIcon, MapPinIcon, UserIcon, VideoIcon } from "lucide-react";
-import Link from "next/link";
-
 import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
 import { Badge } from "@/app/_components/ui/badge";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { formatDuration } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { type RouterOutputs } from "@/trpc/react";
+import type { RouterOutputs } from "@/trpc/react";
+import { format } from "date-fns";
+import { ClockIcon, MapPinIcon, UserIcon, VideoIcon } from "lucide-react";
 
-type AdminTimeSlot = RouterOutputs["timeSlot"]["admin"]["getByDate"][number];
-type TimeSlot = Omit<AdminTimeSlot, "bookings"> & {
+type AdminTimeSlot =
+  RouterOutputs["timeSlot"]["admin"]["getAllUpcoming"][number];
+type TimeSlotData = Omit<AdminTimeSlot, "bookings"> & {
   bookings?: AdminTimeSlot["bookings"];
 };
 
 type TimeSlotProps = {
-  timeSlot: TimeSlot;
+  timeSlot: TimeSlotData;
   className?: string;
 };
 
 export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
   const isOnline = timeSlot.presence === "ONLINE";
   const booking = timeSlot.bookings;
-  const bookingId = booking?.id;
-  const hasBooking = Boolean(bookingId);
+  const hasBooking = Boolean(booking);
   const isCancelled = booking?.status === "CANCELLED";
   const bookedByName = booking?.bookedBy.name;
 
-  const card = (
+  return (
     <Card
       className={cn(
-        "shadow-none transition-[border-color,background-color,box-shadow] hover:bg-muted/30",
+        "shadow-none",
         hasBooking
-          ? "cursor-pointer border-foreground/20 bg-card shadow-sm hover:border-foreground/30 hover:shadow-md"
+          ? "border-foreground/20 bg-card shadow-sm"
           : "border-dashed bg-muted/5",
         isCancelled && "bg-muted/20",
         className
@@ -93,17 +91,5 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
         </div>
       </CardContent>
     </Card>
-  );
-
-  if (!bookingId) return card;
-
-  return (
-    <Link
-      href={`/admin/bookings?bookingId=${bookingId}`}
-      aria-label={`View booking for ${bookedByName ?? "this time slot"}`}
-      className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-    >
-      {card}
-    </Link>
   );
 }

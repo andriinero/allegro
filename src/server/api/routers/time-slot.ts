@@ -1,4 +1,5 @@
 import { LessonPresence } from "@prisma/client";
+import { updateTimeSlotSchema } from "@/schemas/time-slot";
 import { TRPCError } from "@trpc/server";
 import { addDays, startOfDay } from "date-fns";
 import { z } from "zod";
@@ -112,6 +113,45 @@ export const timeSlotRouter = createTRPCRouter({
           });
 
         return await ctx.db.lessonTimeSlot.create({
+          data: {
+            startTime: input.startTime,
+            endTime: input.endTime,
+            presence: input.presence,
+          },
+        });
+      }),
+
+    updateById: adminProcedure
+      .input(updateTimeSlotSchema)
+      .mutation(async ({ ctx, input }) => {
+        const timeSlot = await ctx.db.lessonTimeSlot.findUnique({
+          where: { id: input.id },
+          select: { id: true },
+        });
+        if (!timeSlot) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Time slot not found",
+          });
+        }
+
+        const overlapping = await ctx.db.lessonTimeSlot.findFirst({
+          where: {
+            id: { not: input.id },
+            startTime: { lt: input.endTime },
+            endTime: { gt: input.startTime },
+          },
+          select: { id: true },
+        });
+        if (overlapping) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "This time slot overlaps with an existing one",
+          });
+        }
+
+        return await ctx.db.lessonTimeSlot.update({
+          where: { id: input.id },
           data: {
             startTime: input.startTime,
             endTime: input.endTime,

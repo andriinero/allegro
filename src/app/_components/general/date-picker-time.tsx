@@ -2,7 +2,7 @@
 
 import { format, set, startOfDay } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
@@ -43,6 +43,10 @@ export function DatePickerTime({
   const [time, setTime] = useState(
     date ? format(date, "HH:mm:ss") : DEFAULT_TIME
   );
+
+  useEffect(() => {
+    setTime(date ? format(date, "HH:mm:ss") : DEFAULT_TIME);
+  }, [date]);
 
   return (
     <FieldGroup className={cn("max-w-none gap-3 sm:flex-row", className)}>
