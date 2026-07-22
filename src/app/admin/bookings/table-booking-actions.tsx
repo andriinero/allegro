@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { useBookingsDialogContext } from "@/hooks/use-bookings-dialog-context";
+import { formatUUID } from "@/lib/utils";
 import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
@@ -51,7 +52,7 @@ export default function TableBookingActions({ row }: TableBookingActionsProps) {
 
           {lessonId && (
             <DropdownMenuItem asChild>
-              <Link href={`/admin/lessons?lessonId=${lessonId}`}>
+              <Link href={`/admin/lessons?lessonId=${formatUUID(lessonId)}`}>
                 Go to Lesson
               </Link>
             </DropdownMenuItem>

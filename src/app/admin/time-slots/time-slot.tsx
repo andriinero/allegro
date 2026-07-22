@@ -31,15 +31,21 @@ export function TimeSlot({ timeSlot, className }: TimeSlotProps) {
     <Card
       className={cn(
         "shadow-none transition-[border-color,background-color,box-shadow] hover:bg-muted/30",
-        hasBooking &&
-          "cursor-pointer hover:border-foreground/20 hover:shadow-sm",
+        hasBooking
+          ? "cursor-pointer border-foreground/20 bg-card shadow-sm hover:border-foreground/30 hover:shadow-md"
+          : "border-dashed bg-muted/5",
         isCancelled && "bg-muted/20",
         className
       )}
     >
       <CardContent className="flex items-center justify-between gap-3 p-4">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40">
+          <div
+            className={cn(
+              "flex size-10 shrink-0 flex-col items-center justify-center rounded-md border bg-muted/40",
+              hasBooking && "bg-background shadow-sm"
+            )}
+          >
             <span className="text-sm font-semibold tabular-nums leading-none">
               {format(timeSlot.startTime, "d")}
             </span>
