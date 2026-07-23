@@ -6,7 +6,6 @@ export default function MetricsSkeleton() {
       <Skeleton className="col-span-1 h-[126px] rounded-xl shadow" />
       <Skeleton className="col-span-1 h-[126px] rounded-xl shadow" />
       <Skeleton className="col-span-1 h-[126px] rounded-xl shadow" />
-      <Skeleton className="col-span-1 h-[126px] rounded-xl shadow" />
     </>
   );
 }
