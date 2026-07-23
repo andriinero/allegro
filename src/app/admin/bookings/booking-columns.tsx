@@ -10,26 +10,14 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/app/_components/ui/avatar";
-import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
-import { LessonPresence, type BookingStatus } from "@prisma/client";
+import type { BookingStatus } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
-import {
-  ChevronsUpDownIcon,
-  LaptopIcon,
-  MapPinHouseIcon,
-  UserRoundIcon,
-  type LucideIcon,
-} from "lucide-react";
+import { ChevronsUpDownIcon, UserRoundIcon } from "lucide-react";
 import TableBookingActions from "./table-booking-actions";
 
 export type BookingRow = RouterOutputs["booking"]["admin"]["getAll"][number];
-
-const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
-  OFFLINE: MapPinHouseIcon,
-  ONLINE: LaptopIcon,
-};
 
 export const bookingColumns: ColumnDef<BookingRow>[] = [
   {
@@ -95,6 +83,7 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
         <TimeSlotSchedule
           startTime={timeSlot.startTime}
           endTime={timeSlot.endTime}
+          presence={timeSlot.presence}
         />
       );
     },
@@ -112,36 +101,6 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
       const createdAt = formatWeekdayDayMonthTime(row.getValue("createdAt"));
 
       return <p className="min-w-36 text-muted-foreground">{createdAt}</p>;
-    },
-  },
-  {
-    id: "presence",
-    accessorFn: (row) => row.timeSlot?.presence ?? null,
-    header: ({ column }) => {
-      return (
-        <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-          Presence
-        </HeaderButton>
-      );
-    },
-    cell: ({ row }) => {
-      const lessonPresence = row.original.timeSlot?.presence;
-
-      return (
-        <div className="min-w-24">
-          {lessonPresence ? (
-            <Badge variant="outline" className="gap-1.5 font-medium capitalize">
-              {(() => {
-                const Icon = lessonPresenceIconMap[lessonPresence];
-                return <Icon className="size-3.5 text-muted-foreground" />;
-              })()}
-              {lessonPresence.toLowerCase()}
-            </Badge>
-          ) : (
-            <span className="text-muted-foreground">N/A</span>
-          )}
-        </div>
-      );
     },
   },
   {

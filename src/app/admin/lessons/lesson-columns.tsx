@@ -8,15 +8,12 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/app/_components/ui/avatar";
-import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import { type RouterOutputs } from "@/trpc/react";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
   ExternalLinkIcon,
-  LaptopIcon,
-  MapPinHouseIcon,
   UserRoundIcon,
 } from "lucide-react";
 import TableLessonActions from "./table-lesson-actions";
@@ -92,6 +89,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
         <TimeSlotSchedule
           startTime={timeSlot.startTime}
           endTime={timeSlot.endTime}
+          presence={timeSlot.presence}
         />
       );
     },
@@ -116,31 +114,6 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
           Join lesson
           <ExternalLinkIcon className="size-3.5" aria-hidden="true" />
         </a>
-      );
-    },
-  },
-  {
-    id: "presence",
-    accessorFn: (lesson) => lesson.booking?.timeSlot?.presence ?? null,
-    header: ({ column }) => (
-      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-        Presence
-      </HeaderButton>
-    ),
-    cell: ({ row }) => {
-      const presence = row.original.booking?.timeSlot?.presence;
-
-      if (!presence) {
-        return <span className="text-muted-foreground">N/A</span>;
-      }
-
-      const Icon = presence === "ONLINE" ? LaptopIcon : MapPinHouseIcon;
-
-      return (
-        <Badge variant="outline" className="gap-1.5 font-medium capitalize">
-          <Icon className="size-3.5 text-muted-foreground" aria-hidden="true" />
-          {presence.toLowerCase()}
-        </Badge>
       );
     },
   },

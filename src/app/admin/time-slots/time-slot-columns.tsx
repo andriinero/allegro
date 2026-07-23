@@ -12,12 +12,7 @@ import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import type { RouterOutputs } from "@/trpc/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import {
-  ChevronsUpDownIcon,
-  CircleDashedIcon,
-  LaptopIcon,
-  MapPinHouseIcon,
-} from "lucide-react";
+import { ChevronsUpDownIcon, CircleDashedIcon } from "lucide-react";
 import TableTimeSlotActions from "./table-time-slot-actions";
 
 export type TimeSlotRow = RouterOutputs["timeSlot"]["admin"]["getAll"][number];
@@ -83,6 +78,7 @@ export const timeSlotColumns: ColumnDef<TimeSlotRow>[] = [
       <TimeSlotSchedule
         startTime={row.original.startTime}
         endTime={row.original.endTime}
+        presence={row.original.presence}
       />
     ),
   },
@@ -97,25 +93,6 @@ export const timeSlotColumns: ColumnDef<TimeSlotRow>[] = [
       return (
         <Badge variant={isPast ? "secondary" : "outline"}>
           {isPast ? "Past" : "Upcoming"}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "presence",
-    header: ({ column }) => (
-      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
-        Presence
-      </HeaderButton>
-    ),
-    cell: ({ row }) => {
-      const presence = row.original.presence;
-      const Icon = presence === "ONLINE" ? LaptopIcon : MapPinHouseIcon;
-
-      return (
-        <Badge variant="outline" className="gap-1.5 font-medium capitalize">
-          <Icon className="size-3.5 text-muted-foreground" />
-          {presence.toLowerCase()}
         </Badge>
       );
     },

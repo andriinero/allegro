@@ -1,13 +1,16 @@
+import type { LessonPresence } from "@prisma/client";
 import { differenceInMinutes, format } from "date-fns";
 
 type TimeSlotScheduleProps = {
   startTime: Date;
   endTime: Date;
+  presence?: LessonPresence;
 };
 
 export default function TimeSlotSchedule({
   startTime,
   endTime,
+  presence,
 }: TimeSlotScheduleProps) {
   const duration = Math.max(differenceInMinutes(endTime, startTime), 0);
 
@@ -16,6 +19,7 @@ export default function TimeSlotSchedule({
       <p className="font-medium">{format(startTime, "EEE, d MMM")}</p>
       <p className="text-xs text-muted-foreground">
         {format(startTime, "HH:mm")}–{format(endTime, "HH:mm")} · {duration} min
+        {presence && ` · ${presence.toLowerCase()}`}
       </p>
     </div>
   );
