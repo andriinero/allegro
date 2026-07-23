@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import PanelHeading from "../(overview)/panel-heading";
+import PanelWrapper from "../(overview)/panel-wrapper";
 
 const guides = [
   {
@@ -39,7 +40,7 @@ const guides = [
 
 export default function Page() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
+    <PanelWrapper>
       <PanelHeading
         title="Support"
         description="Find the right admin area or report a problem"
@@ -90,6 +91,6 @@ export default function Page() {
           </Button>
         </CardHeader>
       </Card>
-    </div>
+    </PanelWrapper>
   );
 }

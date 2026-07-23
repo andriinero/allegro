@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import PanelHeading from "../(overview)/panel-heading";
+import PanelWrapper from "../(overview)/panel-wrapper";
 import { CreateTimeSlotsForm } from "../time-slots/create-time-slots-form";
 import TimeSlotDialogs from "../time-slots/time-slot-dialogs";
 import UpcomingTimeSlots from "../time-slots/upcoming-time-slots";
@@ -47,7 +48,7 @@ export default function Page() {
   return (
     <TimeSlotsDialogContextProvider>
       <TimeSlotDialogs />
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+      <PanelWrapper>
         <PanelHeading
           title="Schedule"
           description="Create availability and keep track of upcoming bookings"
@@ -136,7 +137,7 @@ export default function Page() {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </PanelWrapper>
     </TimeSlotsDialogContextProvider>
   );
 }

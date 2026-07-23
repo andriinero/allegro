@@ -13,6 +13,7 @@ import {
   MessageSquareTextIcon,
 } from "lucide-react";
 import PanelHeading from "../(overview)/panel-heading";
+import PanelWrapper from "../(overview)/panel-wrapper";
 
 const feedbackOptions = [
   {
@@ -37,7 +38,7 @@ const feedbackOptions = [
 
 export default function Page() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
+    <PanelWrapper>
       <PanelHeading
         title="Feedback"
         description="Help shape a clearer and more useful admin dashboard"
@@ -76,6 +77,6 @@ export default function Page() {
           </CardDescription>
         </CardHeader>
       </Card>
-    </div>
+    </PanelWrapper>
   );
 }
