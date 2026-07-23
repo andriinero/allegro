@@ -9,7 +9,6 @@ import {
   AvatarImage,
 } from "@/app/_components/ui/avatar";
 import { Badge } from "@/app/_components/ui/badge";
-import { formatWeekdayDayMonthTime } from "@/lib/date";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import type { RouterOutputs } from "@/trpc/react";
 import type { ColumnDef } from "@tanstack/react-table";
