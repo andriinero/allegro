@@ -59,7 +59,11 @@ export default function CreateLessonDrawer({
   const utils = api.useUtils();
   const createLessonMutation = api.lesson.admin.create.useMutation({
     onSuccess: async () => {
-      await utils.booking.admin.getAll.invalidate();
+      await Promise.all([
+        utils.booking.admin.getAll.invalidate(),
+        utils.timeSlot.admin.getAll.invalidate(),
+        utils.timeSlot.admin.getAllUpcoming.invalidate(),
+      ]);
       toast.success("The lesson has been created");
     },
     onError: (error) => {

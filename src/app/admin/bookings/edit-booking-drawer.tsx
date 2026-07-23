@@ -66,6 +66,7 @@ export default function EditBookingDrawer({
       await Promise.all([
         apiUtils.booking.admin.getAll.invalidate(),
         apiUtils.lesson.admin.getAll.invalidate(),
+        apiUtils.timeSlot.admin.getAll.invalidate(),
         apiUtils.timeSlot.admin.getAllUpcoming.invalidate(),
       ]);
       toast.success("Booking has been updated");

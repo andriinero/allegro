@@ -46,7 +46,10 @@ export function CreateTimeSlotsForm() {
     api.timeSlot.admin.createForDate.useMutation({
       onSuccess: async () => {
         toast.success("Time slot has been created");
-        await apiUtils.timeSlot.admin.getAllUpcoming.invalidate();
+        await Promise.all([
+          apiUtils.timeSlot.admin.getAll.invalidate(),
+          apiUtils.timeSlot.admin.getAllUpcoming.invalidate(),
+        ]);
         form.reset();
       },
       onError: (error) => {

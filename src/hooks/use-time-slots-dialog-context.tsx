@@ -12,8 +12,7 @@ import {
 } from "react";
 
 type TimeSlotsDialogType = "edit";
-export type TimeSlotRow =
-  RouterOutputs["timeSlot"]["admin"]["getAllUpcoming"][number];
+export type TimeSlotRow = RouterOutputs["timeSlot"]["admin"]["getAll"][number];
 
 type TimeSlotsDialogContextType = {
   open: TimeSlotsDialogType | null;

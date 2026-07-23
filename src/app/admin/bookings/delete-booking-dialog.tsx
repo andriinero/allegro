@@ -29,7 +29,11 @@ export default function DeleteBookingDialog({
     api.booking.admin.deleteById.useMutation({
       onSuccess: async () => {
         toast.success("Booking deleted successfully");
-        await utils.booking.admin.getAll.invalidate();
+        await Promise.all([
+          utils.booking.admin.getAll.invalidate(),
+          utils.timeSlot.admin.getAll.invalidate(),
+          utils.timeSlot.admin.getAllUpcoming.invalidate(),
+        ]);
       },
       onError: () => {
         toast.error("Failed to delete booking");

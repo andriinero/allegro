@@ -8,7 +8,7 @@ import {
 } from "@/app/_components/ui/card";
 import {
   BookOpenIcon,
-  ClockIcon,
+  CalendarDaysIcon,
   ExternalLinkIcon,
   LifeBuoyIcon,
   SquarePlusIcon,
@@ -18,10 +18,10 @@ import PanelHeading from "../(overview)/panel-heading";
 
 const guides = [
   {
-    title: "Manage availability",
+    title: "Manage schedule",
     description: "Create, review, and update the tutor's lesson time slots",
-    href: "/admin/time-slots",
-    icon: ClockIcon,
+    href: "/admin/schedule",
+    icon: CalendarDaysIcon,
   },
   {
     title: "Manage bookings",

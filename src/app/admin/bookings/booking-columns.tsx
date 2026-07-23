@@ -34,7 +34,7 @@ const lessonPresenceIconMap: Record<LessonPresence, LucideIcon> = {
 export const bookingColumns: ColumnDef<BookingRow>[] = [
   {
     accessorKey: "id",
-    header: "Booking",
+    header: "ID",
     cell: ({ row }) => {
       const id = getCellValueWithFallback(row.getValue("id"));
 

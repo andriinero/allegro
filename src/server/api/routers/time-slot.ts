@@ -29,7 +29,11 @@ export const timeSlotRouter = createTRPCRouter({
       return await ctx.db.lessonTimeSlot.findMany({
         orderBy: { startTime: "asc" },
         include: {
-          bookings: { include: { bookedBy: { select: { name: true } } } },
+          bookings: {
+            include: {
+              bookedBy: { select: { name: true, image: true } },
+            },
+          },
         },
       });
     }),
@@ -42,7 +46,7 @@ export const timeSlotRouter = createTRPCRouter({
         include: {
           bookings: {
             include: {
-              bookedBy: { select: { name: true } },
+              bookedBy: { select: { name: true, image: true } },
             },
           },
         },

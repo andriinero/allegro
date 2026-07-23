@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Bot,
+  CalendarDays,
   Clock,
   LayoutDashboard,
   LifeBuoy,
@@ -30,9 +31,9 @@ export const tabs = {
       icon: LayoutDashboard,
     },
     {
-      name: "Time Slots",
-      url: "/admin/time-slots",
-      icon: Clock,
+      name: "Schedule",
+      url: "/admin/schedule",
+      icon: CalendarDays,
     },
     {
       name: "Bookings",
@@ -44,11 +45,11 @@ export const tabs = {
       url: "/admin/lessons",
       icon: BookOpen,
     },
-    // {
-    //   name: "Chats",
-    //   url: "/admin/chats",
-    //   icon: MessageSquare,
-    // },
+    {
+      name: "Time Slots",
+      url: "/admin/time-slots",
+      icon: Clock,
+    },
   ],
   navMain: [
     {

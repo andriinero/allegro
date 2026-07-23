@@ -45,6 +45,7 @@ export default function EditTimeSlotDrawer({
   const updateTimeSlot = api.timeSlot.admin.updateById.useMutation({
     onSuccess: async () => {
       await Promise.all([
+        apiUtils.timeSlot.admin.getAll.invalidate(),
         apiUtils.timeSlot.admin.getAllUpcoming.invalidate(),
         apiUtils.booking.admin.getAll.invalidate(),
         apiUtils.lesson.admin.getAll.invalidate(),

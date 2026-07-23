@@ -26,7 +26,7 @@ type LessonRow = RouterOutputs["lesson"]["admin"]["getAll"][number];
 export const lessonColumns: ColumnDef<LessonRow>[] = [
   {
     accessorKey: "id",
-    header: "Lesson",
+    header: "ID",
     cell: ({ row }) => {
       const id = getCellValueWithFallback(row.getValue("id"));
 
@@ -50,8 +50,8 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
       const name = studentName ?? "Unknown student";
 
       return (
-        <div className="flex min-w-40 items-center gap-3">
-          <Avatar className="size-8">
+        <div className="min-w-30 flex items-center gap-3">
+          <Avatar className="size-7">
             <AvatarImage src={image ?? ""} alt={`${name}'s profile picture`} />
             <AvatarFallback className="bg-primary/10 text-primary">
               <UserRoundIcon className="size-4" aria-hidden="true" />
@@ -122,7 +122,11 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
   {
     id: "presence",
     accessorFn: (lesson) => lesson.booking?.timeSlot?.presence ?? null,
-    header: "Presence",
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Presence
+      </HeaderButton>
+    ),
     cell: ({ row }) => {
       const presence = row.original.booking?.timeSlot?.presence;
 
