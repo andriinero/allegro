@@ -81,6 +81,7 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
 
       return (
         <TimeSlotSchedule
+          id={timeSlot.id}
           startTime={timeSlot.startTime}
           endTime={timeSlot.endTime}
           presence={timeSlot.presence}

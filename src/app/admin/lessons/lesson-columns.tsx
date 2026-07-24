@@ -87,6 +87,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
 
       return (
         <TimeSlotSchedule
+          id={timeSlot.id}
           startTime={timeSlot.startTime}
           endTime={timeSlot.endTime}
           presence={timeSlot.presence}

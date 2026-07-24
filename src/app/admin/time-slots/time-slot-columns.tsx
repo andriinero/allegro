@@ -76,6 +76,7 @@ export const timeSlotColumns: ColumnDef<TimeSlotRow>[] = [
     ),
     cell: ({ row }) => (
       <TimeSlotSchedule
+        id={row.original.id}
         startTime={row.original.startTime}
         endTime={row.original.endTime}
         presence={row.original.presence}

@@ -12,18 +12,23 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { timeSlotColumns, type TimeSlotRow } from "./time-slot-columns";
 
 export default function TimeSlotsDataTable() {
+  const searchParams = useSearchParams();
+  const timeSlotId = searchParams.get("timeSlotId");
   const { setCurrentRow, setOpen } = useTimeSlotsDialogContext();
   const { data, isLoading, isFetching, refetch } =
     api.timeSlot.admin.getAll.useQuery();
   const [sorting, setSorting] = useState<SortingState>([
     { id: "startTime", desc: true },
   ]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() =>
+    timeSlotId ? [{ id: "id", value: timeSlotId }] : []
+  );
 
   const table = useReactTable({
     data: data ?? [],
