@@ -1,4 +1,4 @@
-import { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type EmptyStateProps = {
   icon: LucideIcon;
@@ -13,7 +13,7 @@ export default function EmptyState({
 }: EmptyStateProps) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-2 p-4">
-      <Icon className="size-6 text-muted-foreground" />
+      <Icon className="size-6 text-muted-foreground" aria-hidden="true" />
 
       <div className="flex flex-col items-center gap-1">
         <h5 className="text-sm font-semibold">{title}</h5>

@@ -48,8 +48,8 @@ export default function CompletedLessonsCard() {
         ) : (
           <EmptyState
             icon={BookOpenIcon}
-            title="No completed lessons for this month"
-            description="You haven't taught any students this month yet."
+            title="No completed lessons this month"
+            description="Completed lessons will appear here once you finish teaching"
           />
         )}
       </CardContent>
