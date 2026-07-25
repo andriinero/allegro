@@ -87,7 +87,11 @@ export const timeSlotColumns: ColumnDef<TimeSlotRow>[] = [
     id: "period",
     accessorFn: (timeSlot) =>
       timeSlot.endTime < new Date() ? "PAST" : "UPCOMING",
-    header: "Period",
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Period
+      </HeaderButton>
+    ),
     cell: ({ row }) => {
       const isPast = row.original.endTime < new Date();
 
