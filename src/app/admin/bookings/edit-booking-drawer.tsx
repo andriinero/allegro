@@ -27,7 +27,6 @@ import {
 import { updateBookingSchema } from "@/schemas/booking";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BookingStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -37,7 +36,10 @@ import type { BookingRow } from "./booking-columns";
 
 const CLEAR_TIME_SLOT_VALUE = "clear-time-slot";
 
-const updateBookingFormSchema = updateBookingSchema.omit({ id: true });
+const updateBookingFormSchema = updateBookingSchema.omit({
+  id: true,
+  status: true,
+});
 type UpdateBookingForm = z.infer<typeof updateBookingFormSchema>;
 
 type EditBookingDrawerProps = {
@@ -82,7 +84,6 @@ export default function EditBookingDrawer({
   useEffect(() => {
     if (currentRow)
       form.reset({
-        status: currentRow.status,
         timeSlotId: currentRow.timeSlotId,
       });
   }, [form, currentRow]);
@@ -92,7 +93,6 @@ export default function EditBookingDrawer({
 
     updateBookingMutation.mutate({
       id: currentRow.id,
-      status: data.status ?? currentRow.status,
       timeSlotId: data.timeSlotId,
     });
   }
@@ -119,34 +119,6 @@ export default function EditBookingDrawer({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex-1 space-y-5"
           >
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Status</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select booking status" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.values(BookingStatus).map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {s.toLowerCase()}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                  <FormDescription>
-                    Current status of the booking
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="timeSlotId"

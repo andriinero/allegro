@@ -43,7 +43,7 @@ export function DataTable<TData>({
       const target = event.target as HTMLElement;
       if (
         target.closest(
-          "a, button, input, select, textarea, [role='button'], [role='menuitem']"
+          "a, button, input, select, textarea, [role='button'], [role^='menuitem']"
         )
       )
         return;
