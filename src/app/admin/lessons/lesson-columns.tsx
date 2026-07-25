@@ -1,6 +1,7 @@
 "use client";
 
 import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
+import EmptyTableValue from "@/app/_components/table/empty-table-value";
 import HeaderButton from "@/app/_components/table/header-button";
 import TimeSlotSchedule from "@/app/_components/table/time-slot-schedule";
 import {
@@ -14,6 +15,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import {
   ChevronsUpDownIcon,
   ExternalLinkIcon,
+  LinkIcon,
   UserRoundIcon,
 } from "lucide-react";
 import TableLessonActions from "./table-lesson-actions";
@@ -102,7 +104,7 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
       const lessonLink = row.original.lessonLink;
 
       if (!lessonLink) {
-        return <span className="text-muted-foreground">—</span>;
+        return <EmptyTableValue icon={LinkIcon}>No link</EmptyTableValue>;
       }
 
       return (

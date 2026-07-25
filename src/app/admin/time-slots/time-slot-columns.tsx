@@ -1,6 +1,7 @@
 "use client";
 
 import BookingStatusBadge from "@/app/_components/general/booking-status-badge";
+import EmptyTableValue from "@/app/_components/table/empty-table-value";
 import HeaderButton from "@/app/_components/table/header-button";
 import TimeSlotSchedule from "@/app/_components/table/time-slot-schedule";
 import {
@@ -12,7 +13,11 @@ import { Badge } from "@/app/_components/ui/badge";
 import { formatUUID, getCellValueWithFallback } from "@/lib/utils";
 import type { RouterOutputs } from "@/trpc/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ChevronsUpDownIcon, CircleDashedIcon } from "lucide-react";
+import {
+  ChevronsUpDownIcon,
+  CircleDashedIcon,
+  UserRoundIcon,
+} from "lucide-react";
 import TableTimeSlotActions from "./table-time-slot-actions";
 
 export type TimeSlotRow = RouterOutputs["timeSlot"]["admin"]["getAll"][number];
@@ -43,7 +48,9 @@ export const timeSlotColumns: ColumnDef<TimeSlotRow>[] = [
       const booking = row.original.bookings;
 
       if (!booking) {
-        return <span className="text-muted-foreground">—</span>;
+        return (
+          <EmptyTableValue icon={UserRoundIcon}>Unassigned</EmptyTableValue>
+        );
       }
 
       const studentName = booking.bookedBy.name ?? "Unknown student";
