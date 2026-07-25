@@ -99,7 +99,11 @@ export const lessonColumns: ColumnDef<LessonRow>[] = [
   },
   {
     accessorKey: "lessonLink",
-    header: "Lesson link",
+    header: ({ column }) => (
+      <HeaderButton column={column} icon={ChevronsUpDownIcon}>
+        Lesson link
+      </HeaderButton>
+    ),
     cell: ({ row }) => {
       const lessonLink = row.original.lessonLink;
 
