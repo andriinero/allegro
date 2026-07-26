@@ -1,9 +1,6 @@
 import type { Pagination } from "@/schemas/pagination";
 import type { PrismaClient } from "@prisma/client";
-import {
-  formatCurrentMonthDateRange,
-  formatPreviousMonthDateRange,
-} from "./date";
+import { addMonths, startOfMonth, subMonths } from "date-fns";
 
 export const getDateRangeWhereClause = (
   fieldName: string,
@@ -24,10 +21,9 @@ export const calculateMetrics = async <T extends keyof PrismaClient>(
   db: PrismaClient,
   where?: object
 ) => {
-  const { dateStart: currStart, dateEnd: currEnd } =
-    formatCurrentMonthDateRange();
-  const { dateStart: prevStart, dateEnd: prevEnd } =
-    formatPreviousMonthDateRange();
+  const currentMonthStart = startOfMonth(new Date());
+  const nextMonthStart = addMonths(currentMonthStart, 1);
+  const previousMonthStart = subMonths(currentMonthStart, 1);
   const modelAccess = db[model] as {
     count: (args?: { where: unknown }) => Promise<number>;
   };
@@ -36,13 +32,19 @@ export const calculateMetrics = async <T extends keyof PrismaClient>(
     modelAccess.count({ where }),
     modelAccess.count({
       where: {
-        ...getDateRangeWhereClause("createdAt", currStart, currEnd),
+        createdAt: {
+          gte: currentMonthStart,
+          lt: nextMonthStart,
+        },
         ...where,
       },
     }),
     modelAccess.count({
       where: {
-        ...getDateRangeWhereClause("createdAt", prevStart, prevEnd),
+        createdAt: {
+          gte: previousMonthStart,
+          lt: currentMonthStart,
+        },
         ...where,
       },
     }),

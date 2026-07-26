@@ -25,7 +25,7 @@ export default function MetricCard({
   const increase =
     previousMonth !== undefined && currentMonth !== undefined
       ? getPercentageIncrease(previousMonth, currentMonth)
-      : "+0%";
+      : "0%";
 
   return (
     <Card className="col-span-1 flex flex-col">
@@ -37,7 +37,7 @@ export default function MetricCard({
       </CardHeader>
 
       <CardContent>
-        <div className="text-2xl font-bold">{value ? `${value}` : "-"}</div>
+        <div className="text-2xl font-bold">{value ?? "-"}</div>
         <p className="text-xs text-muted-foreground">
           {increase} from the last month
         </p>
